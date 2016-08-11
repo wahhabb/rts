@@ -37,7 +37,7 @@ SET time_zone = "+00:00";
 -- Dumping data for table `publisher`
 --
 
-INSERT INTO `tmp_publisher` (`gcd_id`, `name`, `slug`) VALUES
+INSERT INTO `comics_publisher` (`gcd_id`, `name`, `slug`) VALUES
 (709, 'Image', ''),
 (78, 'Marvel', ''),
 (54, 'DC', ''),
