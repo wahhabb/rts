@@ -1,0 +1,6 @@
+{% extends parent_template|default:"base.html" %}
+{% load staticfiles %}
+{% static '/static/' %}
+{% block head %}
+        <link rel="stylesheet" type="text/css" media="all" href="{% static 'theme.css' %}" />
+{% endblock %}

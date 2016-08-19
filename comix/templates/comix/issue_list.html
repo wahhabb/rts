@@ -1,0 +1,91 @@
+{% extends parent_template|default:"comix/base_comix.html" %}
+{% block title %}
+{{ block.super }} - Comic Detail
+{% endblock %}
+{% block content %}
+    <section id="list" class="columns">
+        <div class="column col-3">
+            <h2>Search goes here</h2>
+        </div>
+        <div class="column col-9">
+            <div class="columns">
+
+        {% for issue in issues %}
+            <div class="card column col-4">
+                <div class="card-header">
+                    <h5 class="card-header">{{ issue.gcd_series_id.name }}</h5>
+                    <!--<h6 class="card-meta"><span>Publisher:</span> {{ issue.gcd_series_id.gcd_publisher_id }}</h6>-->
+                    <div class="card-image">
+                        <a href="{% url 'issue_detail' issue.pk %}">
+                            <img src="/static/thumbnails/{{ issue.cover_image }}" class="img-responsive centered">
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                   {% if issue.volume > 0 %}
+                        <p><span>Volume #</span> {{ issue.volume }}</p>
+                    {% endif %}
+                    <p><span>Issue #</span> {{ issue.number }}</p>
+                    <p><span>Date:</span> {{ issue.publication_date }}</p>
+                    <p><span>Grade:</span> {{ issue.grade }}</p>
+                    {% if issue.grade_notes > "" %}
+                        <p><span>Grade Notes:</span> {{ issue.grade_notes.name }}</p>
+                    {% endif %}
+                    {% if issue.genre_id > 0 %}
+                        <p><span>Genre:</span> {{ issue.genre_id.name }}</p>
+                    {% endif %}
+                    {% if issue.gcd_notes > "" %}
+                        <p><span>Issue Notes:</span> {{ issue.gcd_notes }}</p>
+                    {% endif %}
+                    {% if issue.notes > "" %}
+                        <p><span>RTS Notes:</span> {{ issue.notes }}</p>
+                    {% endif %}
+                    <p>Price: <span class="price">${{ issue.price }}</span></p>
+                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                    <a href="{% url 'issue_detail' issue.pk %}" class="btn btn-primary">Details</a>
+                </div>
+            {% if forloop.counter0 == 2 or forloop.counter0 == 5%}
+                </div></div>
+                <div class="columns">
+            {% else %}
+                </div>
+            {% endif %}
+        {% empty %}
+            <h4>Sorry, no items found that match your request.</h4>
+        {% endfor %}
+        </div>
+        </div>
+
+   <!--
+    indicia_date = models.CharField(max_length=255)
+    inserts = models.CharField(max_length=255)
+    si = models.CharField(max_length=255)
+    added_date = models.DateTimeField()
+    tags = models.ManyToManyField(Tag)
+    quantity = models.IntegerField()
+    status = models.CharField(max_length=63)
+    sold_date = models.DateTimeField(null=True)
+    -->
+
+    </section>
+    {% if is_paginated %}
+        <div class="center-text">
+        <ul class="pagination">
+            {% if issues.has_previous %}
+            <li>
+                <a href="?page={{ issues.previous_page_number }}">Previous</a>
+            </li>
+            {% endif %}
+             <li>
+                Page {{ issues.number }} of {{ paginator.num_pages }}
+            </li>
+            {% if issues.has_next %}
+            <li>
+                <a href="?page={{ issues.next_page_number }}">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+        </div>
+    {% endif %}
+
+{% endblock %}

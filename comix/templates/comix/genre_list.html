@@ -1,0 +1,14 @@
+{% extends parent_template|default:"comix/base_comix.html" %}
+{% block title %}
+{{ block.super }} - Genre List
+{% endblock %}
+{% block content %}
+<h2>Genre List</h2>
+    <section>
+        <ul>
+            {% for genre in object_list %}
+            <li>{{ genre.genre }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

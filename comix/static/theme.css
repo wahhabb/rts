@@ -1,0 +1,57 @@
+/* Theme.less */
+body {
+  background: #dfefff;
+  /* see if working */
+  margin: 0;
+}
+header,
+footer {
+  background: #acd5ff;
+  padding: 20px 30px;
+}
+header p {
+  font-size: 3em;
+}
+section {
+  padding: 20px 30px;
+}
+.smaller {
+  font-size: 80%;
+}
+#single h1 {
+  font-size: 1.6em;
+  font-weight: bold;
+}
+#single span {
+  color: #888;
+}
+#single .price {
+  font-size: 1.4em;
+  color: #60afff;
+}
+#single img {
+  -webkit-box-shadow: 3px 3px 5px 0px rgba(25, 25, 25, 0.5);
+  -moz-box-shadow: 3px 3px 5px 0px rgba(25, 25, 25, 0.5);
+  box-shadow: 3px 3px 5px 0px rgba(25, 25, 25, 0.5);
+}
+#list img {
+  -webkit-box-shadow: 2px 2px 4px 0px rgba(25, 25, 25, 0.5);
+  -moz-box-shadow: 2px 2px 4px 0px rgba(25, 25, 25, 0.5);
+  box-shadow: 2px 2px 4px 0px rgba(25, 25, 25, 0.5);
+}
+#list p {
+  margin: 0;
+}
+h5.card-header {
+  margin: 0;
+}
+#list .card {
+  border: 0.3rem solid #c5e2ff;
+  border-radius: 1rem;
+}
+.pagination li {
+  display: inline-block;
+}
+.center-text {
+  text-align: center;
+}
