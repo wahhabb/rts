@@ -2,11 +2,10 @@
 {% block title %}
 {{ block.super }} - Comic Detail
 {% endblock %}
-{% block content %}
+{% block sectionhead %}
     <section id="single" class="columns">
-        <div class="column col-3">
-            <h2>Search goes here</h2>
-        </div>
+{% endblock %}
+{% block subcontent %}
         <div class="column col-4">
             <img src="/static/bigimages/{{ issue.cover_image }}" class="img-responsive rounded">
             {% if issue.image_scanned == False %}
@@ -16,7 +15,7 @@
             </div>
             {% endif %}
         </div>
-        <div class="column col-4">
+        <div class="column col-4 notes">
             <h1>{{ issue.gcd_series_id.name }}</h1>
             <p><span>Publisher:</span> {{ series.gcd_publisher_id }}</p>
             {% if issue.volume > 0 %}

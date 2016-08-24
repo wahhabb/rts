@@ -2,5 +2,49 @@
 {% load staticfiles %}
 {% static '/static/' %}
 {% block head %}
-        <link rel="stylesheet" type="text/css" media="all" href="{% static 'theme.css' %}" />
+        <script>
+            function genreChosen($slug) {
+                // Send to list for genre
+                window.location = "{% url 'issue_list' %}?category=" + $slug;
+            }
+            function dosearch() {
+                title_field = document.getElementById('title_search');
+                title_search = title_field.value;
+                title_field.className = 'form-input input-inline';
+                if (title_search.length) {
+                    window.location = '?search=' + title_search
+                } else {
+                title_field.className = 'form-input input-inline error';
+                }
+            }
+        </script>
+{% endblock %}
+{% block content %}
+    {% block sectionhead %}
+        <section id="list" class="columns">
+    {% endblock %}
+        <div id="search-bar" class="column col-3">
+            <h3>Search for Comics</h3>
+            <a href="{% url 'issue_list' %}" class="btn3"><span>Show All</span></a>
+            <a href="/publishers/" class="btn3"><span>Search by Publisher</span></a>
+            <a id="title_search_btn" href="#" class="btn3"><span>Search by Title</span></a>
+            <div id="search_block">
+                <input id="title_search" type="text" class="form-input input-inline" placeholder="Enter title...">
+                <a href="javascript:dosearch()" class="btn">Go</a>
+            </div>
+            <a id="category_search_btn" href="#" class="btn3"><span>Search by Category</span></a>
+            <div id="category_block">
+                <select id="genres" onchange="genreChosen(value);">
+                    <option value="0">Please choose a category...</option>
+                    {% for genre in genres %}
+                    <option value="{{ genre.slug }}">{{ genre.genre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <a href="#" class="btn3"><span>Search by Tag</span></a>
+        </div>
+
+    {% block subcontent %}
+        Default goes here
+    {% endblock %}
 {% endblock %}

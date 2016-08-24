@@ -1,13 +1,26 @@
 {% extends parent_template|default:"comix/base_comix.html" %}
 {% block title %}
-{{ block.super }} - Comic Detail
+{{ block.super }} - Comic List
 {% endblock %}
-{% block content %}
+{% block sectionhead %}
     <section id="list" class="columns">
-        <div class="column col-3">
-            <h2>Search goes here</h2>
-        </div>
+{% endblock %}
+{% block subcontent %}
         <div class="column col-9">
+        {% if genre_text != None %}
+            <h3>Category: {{ genre_text }}</h3>
+        {% elif publisher_name != None %}
+            <h3>Publisher: {{ publisher_name }}</h3>
+        {% endif %}
+        <form id="sortorder" action="">
+            <span>Sort Order: &nbsp;</span>
+            <input type="radio" {% if sort_order == 'price-down' or sort_order == None %}  checked {% endif %}
+                   onclick="sortby('price-down')" name="sort" value="-price" id="price-down"> Price High to Low &nbsp;
+            <input type="radio" {% if sort_order == 'price-up' %}  checked {% endif %}
+                   onclick="sortby('price-up')" name="sort" value="price" id="price-up"> Price Low to High &nbsp;
+            <input type="radio" {% if sort_order == 'alpha' %}  checked {% endif %}
+                   onclick="sortby('alpha')" name="sort" value="alpha" id="alpha"> Alphabetically &nbsp;
+        </form>
             <div class="columns">
 
         {% for issue in issues %}
@@ -16,7 +29,7 @@
                     <h5 class="card-header">{{ issue.gcd_series_id.name }}</h5>
                     <!--<h6 class="card-meta"><span>Publisher:</span> {{ issue.gcd_series_id.gcd_publisher_id }}</h6>-->
                     <div class="card-image">
-                        <a href="{% url 'issue_detail' issue.pk %}">
+                        <a href="{{ issue.get_absolute_url }}">
                             <img src="/static/thumbnails/{{ issue.cover_image }}" class="img-responsive centered">
                         </a>
                     </div>
@@ -42,7 +55,7 @@
                     {% endif %}
                     <p>Price: <span class="price">${{ issue.price }}</span></p>
                     <a href="#" class="btn btn-primary">Add to Cart</a>
-                    <a href="{% url 'issue_detail' issue.pk %}" class="btn btn-primary">Details</a>
+                    <a href="{{ issue.get_absolute_url }}" class="btn btn-primary">Details</a>
                 </div>
             {% if forloop.counter0 == 2 or forloop.counter0 == 5%}
                 </div></div>
@@ -73,7 +86,7 @@
         <ul class="pagination">
             {% if issues.has_previous %}
             <li>
-                <a href="?page={{ issues.previous_page_number }}">Previous</a>
+                <a href="?page={{ issues.previous_page_number }}{{ query_string }}">Previous</a>
             </li>
             {% endif %}
              <li>
@@ -81,11 +94,43 @@
             </li>
             {% if issues.has_next %}
             <li>
-                <a href="?page={{ issues.next_page_number }}">Next</a>
+                <a href="?page={{ issues.next_page_number }}{{ query_string }}">Next</a>
             </li>
+                <li>
+                Go to page: <input type="number" id="gotopage">
+                    <a onclick="window.location = '?page=' + getElementById('gotopage').value + '{{ query_string }}';return 0;" class="btn btn-sm">Go</a>
+                </li>
             {% endif %}
         </ul>
         </div>
     {% endif %}
+<script>
+    $(document).ready( function() {
+        $('#title_search_btn').click(function () {
+            $('#category_block').slideUp();
+            $('#search_block').slideDown("slow");
+            return false;
+        })
+        $('#category_search_btn').click(function () {
+            $('#category_block').slideDown("slow");
+            $('#search_block').slideUp();
+            return false;
+        })
+    });
+    var prev_order = "price-down";
+    function sortby(order) {
+        if (order !== prev_order) {
+            var qs = "{{ query_string|safe }}";
+            if (qs.search(/(.+)&sort=.+(&*.*)/) > -1)
+            {
+                window.location = '?page=1' + qs.replace(/(.+)&sort=[^&]+(.*)/, '$1&sort=' + order);
+            //    window.location = '?page=1' + qs.replace(/(.+)&sort=[^&]+(.*)/, '$1&sort=price-down');
+            } else {
+                window.location = '?page=1' + qs + '&sort=' + order;
+            }
 
+        }
+    }
+
+</script>
 {% endblock %}

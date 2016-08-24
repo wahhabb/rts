@@ -1,5 +1,7 @@
 /* Theme.less */
 @back-color: #dfefff;
+@accent-color: yellow;
+@vert-spacing: 2.5rem;
 
 body {
   background: @back-color; /* see if working */
@@ -9,8 +11,19 @@ header, footer {
   background: darken(@back-color, 10%);
   padding: 20px 30px;
 }
-header p {
-  font-size: 3em;
+header {
+  padding: 0 30px;
+}
+.navbar .navbar-brand {
+  font-family: 'Baloo Paaji', cursive;
+  font-size: 4.5rem;
+  color:@accent-color;
+  text-shadow: 1px 2px 1px darken(@back-color, 50%);
+}
+.navbar-section span {
+  position: absolute;
+  top: 8rem;
+  color: #4452c0; /* spectre border color */
 }
 section {
   padding:20px 30px;
@@ -18,11 +31,17 @@ section {
 .smaller {
   font-size: 80%;
 }
-#single h1 {
+.size2em {
+  font-size: 2em;
+}
+.size3em {
+  font-size: 3em;
+}
+#single .notes h1 {
   font-size:1.6em;
   font-weight:bold;
 }
-#single span {
+#single .notes span {
   color: #888;
 }
 #single .price {
@@ -49,9 +68,97 @@ h5.card-header {
   border: 0.3rem solid darken(@back-color, 5%);
   border-radius: 1rem;
 }
+#gotopage {
+  width: 3rem;
+}
 .pagination li {
   display: inline-block;
 }
 .center-text {
   text-align: center;
+}
+/* Button design from Mandy Brown */
+.btn3 {
+  display: inline-block;
+  width:90%;
+  text-align: center;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow:
+    0 8px 0 darken(@back-color,40%),
+    0 15px 20px rgba(0,0,0,.35);
+  -moz-box-shadow:
+    0 8px 0 darken(@back-color,40%),
+    0 15px 20px rgba(0,0,0,.35);
+  box-shadow:
+    0 8px 0 darken(@back-color,40%),
+    0 15px 20px rgba(0,0,0,.35);
+  background: darken(@back-color,15%);
+  background: -webkit-linear-gradient(top, darken(@back-color,20%) 0%,  darken(@back-color,15%) 100%);
+  background: -moz-linear-gradient(darken(@back-color,20%), darken(@back-color,15%));
+  background: linear-gradient(to bottom, darken(@back-color,20%) 0%, darken(@back-color,15%) 100%);
+  -webkit-transition: -webkit-box-shadow .2s ease-in-out;
+  -moz-transition: -moz-box-shadow .2s ease-in-out;
+  -o-transition: -o-box-shadow .2s ease-in-out;
+  transition: box-shadow .2s ease-in-out;
+  margin-bottom: @vert-spacing;
+}
+
+.btn3 span {
+  display: inline-block;
+  padding: 10px 20px;
+  font-family: 'Baloo Paaji', cursive;
+  font-size: 150%;
+  color: @accent-color;
+  line-height: 1;
+  text-shadow: 0 -1px 1px rgba(19,65,88,.8);
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15);
+  -moz-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15);
+  box-shadow: inset 0 -1px 1px rgba(255,255,255,.15);
+  -webkit-transition: -webkit-transform .2s ease-in-out;
+  -moz-transition: -moz-transform .2s ease-in-out;
+  -o-transition: -o-transform .2s ease-in-out;
+  transition: transform .2s ease-in-out;
+}
+
+.btn3:active {
+  -webkit-box-shadow:
+    0 8px 0 darken(@back-color,30%),
+    0 12px 10px rgba(0,0,0,.3);
+  -moz-box-shadow:
+    0 8px 0 darken(@back-color,30%),
+    0 12px 10px rgba(0,0,0,.3);
+  box-shadow:
+    0 8px 0 darken(@back-color,30%),
+    0 12px 10px rgba(0,0,0,.3);
+}
+
+.btn3:active span {
+  -webkit-transform: translate(0, 4px);
+  -moz-transform: translate(0, 4px);
+  -o-transform: translate(0, 4px);
+  transform: translate(0, 4px);
+}
+#genres  {
+  margin-bottom: @vert-spacing;
+}
+#pub-search {
+  margin-bottom: @vert-spacing;
+  width: 90%;
+}
+#search-bar a {
+  margin-bottom: @vert-spacing;
+}
+#title_search {
+  vertical-align: top;
+}
+#category_block, #search_block {
+  display: none;
+}
+.error {
+  border: 2px solid red;
 }

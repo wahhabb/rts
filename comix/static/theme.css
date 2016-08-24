@@ -9,8 +9,20 @@ footer {
   background: #acd5ff;
   padding: 20px 30px;
 }
-header p {
-  font-size: 3em;
+header {
+  padding: 0 30px;
+}
+.navbar .navbar-brand {
+  font-family: 'Baloo Paaji', cursive;
+  font-size: 4.5rem;
+  color: yellow;
+  text-shadow: 1px 2px 1px #006fdf;
+}
+.navbar-section span {
+  position: absolute;
+  top: 8rem;
+  color: #4452c0;
+  /* spectre border color */
 }
 section {
   padding: 20px 30px;
@@ -18,11 +30,17 @@ section {
 .smaller {
   font-size: 80%;
 }
-#single h1 {
+.size2em {
+  font-size: 2em;
+}
+.size3em {
+  font-size: 3em;
+}
+#single .notes h1 {
   font-size: 1.6em;
   font-weight: bold;
 }
-#single span {
+#single .notes span {
   color: #888;
 }
 #single .price {
@@ -49,9 +67,83 @@ h5.card-header {
   border: 0.3rem solid #c5e2ff;
   border-radius: 1rem;
 }
+#gotopage {
+  width: 3rem;
+}
 .pagination li {
   display: inline-block;
 }
 .center-text {
   text-align: center;
+}
+/* Button design from Mandy Brown */
+.btn3 {
+  display: inline-block;
+  width: 90%;
+  text-align: center;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow: 0 8px 0 #1389ff, 0 15px 20px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0 8px 0 #1389ff, 0 15px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 0 #1389ff, 0 15px 20px rgba(0, 0, 0, 0.35);
+  background: #93c9ff;
+  background: -webkit-linear-gradient(top, #79bcff 0%, #93c9ff 100%);
+  background: -moz-linear-gradient(#79bcff, #93c9ff);
+  background: linear-gradient(to bottom, #79bcff 0%, #93c9ff 100%);
+  -webkit-transition: -webkit-box-shadow 0.2s ease-in-out;
+  -moz-transition: -moz-box-shadow 0.2s ease-in-out;
+  -o-transition: -o-box-shadow 0.2s ease-in-out;
+  transition: box-shadow 0.2s ease-in-out;
+  margin-bottom: 2.5rem;
+}
+.btn3 span {
+  display: inline-block;
+  padding: 10px 20px;
+  font-family: 'Baloo Paaji', cursive;
+  font-size: 150%;
+  color: yellow;
+  line-height: 1;
+  text-shadow: 0 -1px 1px rgba(19, 65, 88, 0.8);
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.15);
+  -moz-box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.15);
+  -webkit-transition: -webkit-transform 0.2s ease-in-out;
+  -moz-transition: -moz-transform 0.2s ease-in-out;
+  -o-transition: -o-transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out;
+}
+.btn3:active {
+  -webkit-box-shadow: 0 8px 0 #46a2ff, 0 12px 10px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 8px 0 #46a2ff, 0 12px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 0 #46a2ff, 0 12px 10px rgba(0, 0, 0, 0.3);
+}
+.btn3:active span {
+  -webkit-transform: translate(0, 4px);
+  -moz-transform: translate(0, 4px);
+  -o-transform: translate(0, 4px);
+  transform: translate(0, 4px);
+}
+#genres {
+  margin-bottom: 2.5rem;
+}
+#pub-search {
+  margin-bottom: 2.5rem;
+  width: 90%;
+}
+#search-bar a {
+  margin-bottom: 2.5rem;
+}
+#title_search {
+  vertical-align: top;
+}
+#category_block,
+#search_block {
+  display: none;
+}
+.error {
+  border: 2px solid red;
 }
