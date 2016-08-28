@@ -27,6 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Site and SEO Information
+SITE_NAME = 'RTS Comics'
+META_KEYWORDS = 'Comics, Comix, Comics Books, Buy Comics'
+META_DESCRIPTION = 'Comic collectors helping comic collectors since 1986. Your best source for comics.'
+
 
 # Application definition
 

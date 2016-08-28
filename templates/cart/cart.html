@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ block.super }} - Shopping Cart
+{% endblock %}
+{% block content %}
+<section>
+    <h1>Shopping Cart</h1>
+    Cart item count: {{ cart_item_count }}
+</section>
+{% endblock %}
