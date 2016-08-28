@@ -24,6 +24,10 @@ header {
   color: #4452c0;
   /* spectre border color */
 }
+.navbar p {
+  display: inline-block;
+  padding: 0 1em;
+}
 section {
   padding: 20px 30px;
 }
@@ -146,4 +150,11 @@ h5.card-header {
 }
 .error {
   border: 2px solid red;
+}
+#create_account label {
+  display: inline-block;
+  width: 120px;
+}
+#create_account input {
+  margin-right: 20px;
 }

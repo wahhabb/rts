@@ -1,19 +1,19 @@
 from django.shortcuts import render
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, HttpResponseRedirect
 from django.views.generic.list import ListView, View
 from django.views.generic.detail import DetailView
 from django.template import loader, Template, Context
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from registration.backends.simple.views import RegistrationView
 import urllib.parse as urlparse
 
 from comix.models import Genre, Issue, Series, Publisher
 
 # Create your views here.
+####### Comix Related ######
+
 def homepage(request):
-    issues = Issue.objects.all()
-    template = loader.get_template('comix/issue_list.html')
-    context = Context({'issue': issues,} )
-    return HttpResponse(template.render(context))
+    return HttpResponseRedirect('/issues/')
 
 
 class PublisherList(View):
@@ -108,3 +108,6 @@ def issue_detail(request, cat_id):
                        'series': issue.gcd_series_id,
                        'genres': genres,})
     return HttpResponse(template.render(context))
+
+######  Registration Related #######
+

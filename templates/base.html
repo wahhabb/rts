@@ -33,10 +33,14 @@
         <br><span>Collectors helping collectors since 1986</span>
     </section>
     <section class="navbar-section">
-        <input type="text" class="form-input input-inline" placeholder="search" />
         <a href="#" class="btn">Cart <img src="{% static '059-cart.svg' %}" class="icon"></a>
-        <a href="#" class="btn">Login</a>
-        <a href="#" class="btn btn-primary">Signup</a>
+        {% if user.is_anonymous %}
+            <a href="{%  url 'login' %}" class="btn">Login</a>
+            <a href="{% url 'registration_register' %}" class="btn btn-primary">Signup</a>
+        {% else %}
+            <p>Welcome, {{ user.username }}</p>
+            <a href="{%  url 'logout' %}" class="btn">Log Out</a>
+       {% endif %}
     </section>
         </div>
 </header>

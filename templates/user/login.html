@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ block.super }} - Login
+{% endblock %}
+
+
+{% block content %}
+    <section class="columns">
+    <div class="column col-1"></div>
+    <div class="col-5 column">
+        <h1>Login</h1>
+        {% include "user/login_form.html" %}
+    </div>
+    <div class="column col-3">
+        <h5>Don't have an Account?</h5>
+        <p><a href="{% url 'registration_register' %}">
+          Register New Account</a></p>
+        <h5>Forgot your password?</h5>
+        <p><a href="{% url 'pw_reset_start' %}">
+          Get a password reset</a></p>
+    </div>
+    </section>
+    <script>
+        $('button[type=submit]').addClass('btn btn-primary');
+    </script>
+{% endblock %}

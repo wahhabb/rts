@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+    <section id="create_account">
+        <h1>Create Account</h1>
+        <form method="post" action=".">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <input type="submit" value="Submit" />
+        </form>
+    </section>
+    <script>
+        $('input[type=submit]').addClass('btn btn-primary');
+    </script>
+
+{% endblock %}

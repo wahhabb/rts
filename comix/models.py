@@ -43,7 +43,7 @@ class Tag(models.Model):
 
 class Issue(models.Model):
     gcd_id = models.IntegerField()
-    catalog_id = models.CharField(max_length=255, blank=True)
+    catalog_id = models.CharField(max_length=255, blank=True, unique=True)
     gcd_series_id = models.ForeignKey(Series, verbose_name="Title")
     volume = models.CharField(max_length=255, blank=True)
     number = models.IntegerField(verbose_name='Issue No.')
