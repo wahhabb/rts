@@ -2,10 +2,24 @@
 @back-color: #dfefff;
 @accent-color: yellow;
 @vert-spacing: 2.5rem;
+@spectre-border-color: #4452C0;
 
-body {
-  background: @back-color; /* see if working */
+html, body {
+  height: 100%;
+  background: @back-color;
   margin:0;
+}
+#wrapper {
+  min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -100px;
+}
+#wrapper:after {
+  content: "";
+  display: block;
+}
+.site-footer, #wrapper:after {
+  height: 100px;  /* magic number! Height of footer */
 }
 header, footer {
   background: darken(@back-color, 10%);
@@ -23,11 +37,14 @@ header {
 .navbar-section span {
   position: absolute;
   top: 8rem;
-  color: #4452c0; /* spectre border color */
+  color: @spectre-border-color;
 }
 .navbar p {
   display: inline-block;
   padding: 0 1em;
+}
+section.navbar-section {
+  padding-bottom: 0;
 }
 section {
   padding:20px 30px;
@@ -40,6 +57,21 @@ section {
 }
 .size3em {
   font-size: 3em;
+}
+.align-right {
+  text-align: right;
+}
+#shopping_cart td {
+  padding: 0.4em;
+  border: 1px solid lightblue;
+}
+.btn.delete {
+  width: 60px;
+  background: url("/static/icon-trash.svg") no-repeat center center;
+  background-size: 20px;
+}
+.btn.delete:hover {
+  background-color: darken(@back-color,10%);
 }
 #single .notes h1 {
   font-size:1.6em;
@@ -72,14 +104,31 @@ h5.card-header {
   border: 0.3rem solid darken(@back-color, 5%);
   border-radius: 1rem;
 }
+#id_email {
+  width: 210px;
+}
+#messages {
+  max-width: 320px;
+  padding: 1em 1.5em 0.8em;
+  color: yellow;
+  font-size: 120%;
+  background: @spectre-border-color;
+  text-shadow: darkblue 1px 2px 2px;
+  border: ridge 7px yellow;
+  border-radius: 2rem;
+  margin: 1em auto 0;
+}
 #gotopage {
-  width: 3rem;
+  width: 5rem;
 }
 .pagination li {
   display: inline-block;
 }
 .center-text {
   text-align: center;
+}
+.btn {
+  margin: 0.4em 3px;
 }
 /* Button design from Mandy Brown */
 .btn3 {
@@ -149,6 +198,7 @@ h5.card-header {
 }
 #genres  {
   margin-bottom: @vert-spacing;
+  max-width: 90%;
 }
 #pub-search {
   margin-bottom: @vert-spacing;
@@ -160,7 +210,7 @@ h5.card-header {
 #title_search {
   vertical-align: top;
 }
-#category_block, #search_block {
+#category_block, #search_block, #tag_block {
   display: none;
 }
 .error {
@@ -172,4 +222,11 @@ h5.card-header {
 }
 #create_account input {
   margin-right: 20px;
+}
+#get_catalog .col-10, #about .col-10, #contact .col-10 {
+  background-color: rgba(255,255,255,0.9);
+  padding: 20px 40px;
+}
+#photojournals img.float-left {
+  margin-right: 24px;
 }

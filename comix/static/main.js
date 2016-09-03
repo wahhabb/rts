@@ -1,8 +1,58 @@
 /**
  * Created by wahhab on 8/28/16.
  */
-$(function() {
+function add_to_cart(catalog_id) {
+    console.log("In addToCart");
 
+    $.ajax({
+        url: "/cart/add/",
+        type: "POST",
+        data: {"catalog_id": catalog_id },
+
+        success: function(json) {
+            console.log(json);
+            console.log("success");
+        },
+        error: function(xhr, errmsg, err) {
+            $('#results').html('Oops! We have encountered an error: ' + errmsg).show();
+            console.log(xhr.status  + ": " + xhr.responseText);
+        }
+    });
+    return 0;
+}
+var prev_order = "price-down";
+function sortby(order) {
+    if (order !== prev_order) {
+        var qs = "{{ query_string|safe }}";
+        if (qs.search(/(.+)&sort=.+(&*.*)/) > -1) {
+            window.location = '?page=1' + qs.replace(/(.+)&sort=[^&]+(.*)/, '$1&sort=' + order);
+            //    window.location = '?page=1' + qs.replace(/(.+)&sort=[^&]+(.*)/, '$1&sort=price-down');
+        } else {
+            window.location = '?page=1' + qs + '&sort=' + order;
+        }
+
+    }
+}
+
+$(function() {
+    $('#title_search_btn').click(function () {
+        $('#category_block').slideUp();
+        $('#tag_block').slideUp();
+        $('#search_block').slideDown("slow");
+        return false;
+    });
+    $('#category_search_btn').click(function () {
+        $('#category_block').slideDown("slow");
+        $('#search_block').slideUp();
+        $('#tag_block').slideUp();
+        return false;
+    });
+    $('#tag_search_btn').click(function () {
+        $('#category_block').slideUp();
+        $('#search_block').slideUp();
+        $('#tag_block').slideDown("slow");
+        return false;
+    });
 
     // This function gets cookie with a given name
     function getCookie(name) {

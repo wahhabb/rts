@@ -41,7 +41,12 @@
                     {% endfor %}
                 </select>
             </div>
-            <a href="#" class="btn3"><span>Search by Tag</span></a>
+            <a id="tag_search_btn" href="#" class="btn3"><span>Search by Tag</span></a>
+            <div id="tag_block">
+                {% for tag in tags %}
+                <span><a href="?tag={{ tag.slug }}">{{ tag.name }}</a> </span>
+                {% endfor %}
+            </div>
         </div>
 
     {% block subcontent %}

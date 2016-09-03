@@ -1,0 +1,41 @@
+{% load catalog_filters %}
+
+    <tr>
+        <td>
+            <img src="/static/thumbnails/{{ item.product.cover_image }}">
+        </td>
+        <td>
+            <a href="{{ item.get_absolute_url }}" class="cart">
+                {{ item.product.gcd_series_id.name }}
+            </a>
+        </td>
+        <td>
+        {% if item.volume > 0 %}
+            <span>Volume #</span> {{ item.product.volume }}
+        {% endif %}
+        {{ item.product.number }}
+        </td>
+        <td class="center-text">
+            {% if item.product.quantity > 1 %}
+            <form method="post" action="." class="cart">
+                <input type="text" name="quantity" value="{{ item.quantity }}" id="quantity" size="2" class="quantity" maxlength="5" />
+                <br>
+                <input type="hidden" name="item_id" value="{{ item.id }}" />
+        <input type="submit" name="submit" value="Update" class="btn btn-primary"/>
+            </form><br>
+            <p>{{ item.product.quantity }} available</p>
+            {% else %}
+            1
+            {% endif %}
+
+        </td>
+        <td>{{ item.price|currency }}</td>
+        <td class="align-right">{{ item.total|currency }}</td>
+        <td>
+            <form method="post" action="." class="cart">
+                <input type="hidden" name="item_id" value="{{ item.id }}" />
+                <input type="submit" name="submit" value="" class="btn delete"/>
+            <br>Remove
+            </form>
+        </td>
+    </tr>

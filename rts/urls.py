@@ -19,29 +19,14 @@ from django.contrib.auth import views as auth_views
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.forms import AuthenticationForm
 
-
 from comix.views import homepage
 from comix.views import GenreListView, issue_detail, IssueList, PublisherList
-
+from contact import urls as contact_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r'^$', homepage),
-
-    url(r'^genres/$', GenreListView.as_view(),
-        name='genre_list'),
-
-    url(r'^issue/(?P<cat_id>.+)/$', issue_detail,
-        name='issue_detail'),
-
-    url(r'^issues/$',
-        IssueList.as_view(),
-        name='issue_list'),
-
-    url(r'^publishers/$',
-        PublisherList.as_view(),
-        name='publisher_list'),
+    url(r'^', include('comix.urls')),
 
     url(r'^login/$', auth_views.login, {'template_name': 'user/login.html'}, name='login'),
 
@@ -86,6 +71,8 @@ urlpatterns = [
         name='pw_reset_complete'),
 
     url(r'^accounts/', include('registration.backends.simple.urls')),
+
+    url(r'^contact/', include(contact_urls,)),
 
     url(r'^cart/', include('cart.urls')),
 

@@ -54,7 +54,7 @@
                         <p><span>RTS Notes:</span> {{ issue.notes }}</p>
                     {% endif %}
                     <p>Price: <span class="price">${{ issue.price }}</span></p>
-                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                    <a href="#/" class="btn btn-primary" onclick="add_to_cart('{{ issue.catalog_id }}')">Add to Cart</a>
                     <a href="{{ issue.get_absolute_url }}" class="btn btn-primary">Details</a>
                 </div>
             {% if forloop.counter0 == 2 or forloop.counter0 == 5%}
@@ -104,33 +104,4 @@
         </ul>
         </div>
     {% endif %}
-<script>
-    $(document).ready( function() {
-        $('#title_search_btn').click(function () {
-            $('#category_block').slideUp();
-            $('#search_block').slideDown("slow");
-            return false;
-        })
-        $('#category_search_btn').click(function () {
-            $('#category_block').slideDown("slow");
-            $('#search_block').slideUp();
-            return false;
-        })
-    });
-    var prev_order = "price-down";
-    function sortby(order) {
-        if (order !== prev_order) {
-            var qs = "{{ query_string|safe }}";
-            if (qs.search(/(.+)&sort=.+(&*.*)/) > -1)
-            {
-                window.location = '?page=1' + qs.replace(/(.+)&sort=[^&]+(.*)/, '$1&sort=' + order);
-            //    window.location = '?page=1' + qs.replace(/(.+)&sort=[^&]+(.*)/, '$1&sort=price-down');
-            } else {
-                window.location = '?page=1' + qs + '&sort=' + order;
-            }
-
-        }
-    }
-
-</script>
 {% endblock %}

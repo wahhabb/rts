@@ -1,13 +1,10 @@
 from django.shortcuts import render
 from django.http.response import HttpResponse, HttpResponseRedirect
 from django.views.generic.list import ListView, View
-from django.views.generic.detail import DetailView
-from django.template import loader, Template, Context
+from django.template import loader, Context
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from registration.backends.simple.views import RegistrationView
-import urllib.parse as urlparse
-
-from comix.models import Genre, Issue, Series, Publisher
+from comix.models import Genre, Issue, Publisher, Tag
+from cart.cart import get_cart_items
 
 # Create your views here.
 ####### Comix Related ######
@@ -22,8 +19,11 @@ class PublisherList(View):
     def get(self, request):
         publishers = Publisher.objects.all().order_by('name')
         col_count = (publishers.count() + 3 ) // 4
+        cart_issues = get_cart_items(request)
+        cart_item_count = cart_issues.count()
         context = {'publishers': publishers,
-                   'col_breaks': [col_count, 2*col_count, 3*col_count]
+                   'col_breaks': [col_count, 2*col_count, 3*col_count],
+                   'cart_item_count': cart_item_count,
                    }
         return render(
             request, self.template_name, context
@@ -41,8 +41,16 @@ class IssueList(View):
         publisher_slug = self.request.GET.get('publisher')
         sort_order = self.request.GET.get('sort')
         search_text = self.request.GET.get('search')
+        tag_slug = self.request.GET.get('tag')
         issues = Issue.objects.all()
+        tags = Tag.objects.all()
         query_string = ""
+        cart_issues = get_cart_items(request)
+        cart_item_count = cart_issues.count()
+
+        if tag_slug != None:
+            tag = Tag.objects.get(slug=tag_slug)
+            issues = tag.issue_set.all()
         if genre_slug != None:
             genre = Genre.objects.get(slug=genre_slug)
             genre_text = genre.genre
@@ -87,6 +95,8 @@ class IssueList(View):
                    'query_string': query_string,
                    'publisher_name': publisher_text,
                    'sort_order': sort_order,
+                   'tags': tags,
+                   'cart_item_count': cart_item_count,
                    }
         return render(
             request, self.template_name, context
@@ -101,13 +111,43 @@ class GenreListView(ListView):
 
 def issue_detail(request, cat_id):
     issue = Issue.objects.get(pk=cat_id)
-    #   series = Series.objects.get(id=issue.gcd_series_id)
+    tags = Tag.objects.all()
     template = loader.get_template('comix/issue_detail.html')
     genres = Genre.objects.all().order_by('slug')
+    cart_issues = get_cart_items(request)
+    cart_item_count = cart_issues.count()
     context = Context({'issue': issue,
                        'series': issue.gcd_series_id,
-                       'genres': genres,})
+                       'genres': genres,
+                       'tags': tags,
+                       'cart_item_count': cart_item_count,
+                       })
     return HttpResponse(template.render(context))
 
-######  Registration Related #######
+######  Static Pages #######
+
+class StaticPageMixin:
+    template_name = ''
+
+    def get(self, request):
+        cart_issues = get_cart_items(request)
+        cart_item_count = cart_issues.count()
+        return render(
+            request, self.template_name,
+            {'cart_item_count': cart_item_count,}
+        )
+
+
+class AboutPage(StaticPageMixin, View):
+    template_name = 'comix/about.html'
+
+
+class GetCatalogPage(StaticPageMixin, View):
+    template_name = 'comix/get_catalog.html'
+
+
+class PhotoJournalPage(StaticPageMixin, View):
+    template_name = 'comix/photojournals.html'
+
+
 

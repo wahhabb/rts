@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}
+{{ block.super }} - Contact Us
+{% endblock %}
+{% block content %}
+    <section id="contact" class="columns">
+        <div class="col-1 column">
+        </div>
+        <div class="col-10 column">
+        <h1>Contact Us</h1>
+        <form method="post" action="{% url 'contact' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+        </form>
+            </div>
+        <div class="col-1 column">
+        </div>
+    </section>
+    <script>
+        $('input[type=submit]').addClass('btn btn-primary');
+        $('#id_email').before('<br>').val("{{ user_email }}")
+        $('#id_text').before('<br>');
+        $('#wrapper').css('background-image', "url('/static/comix/bg.jpg')");
+    </script>
+
+{% endblock %}

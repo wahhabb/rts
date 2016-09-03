@@ -40,8 +40,8 @@
             <p>Price: <span class="price">${{ issue.price }}</span></p>
             <p>Catalog # {{ issue.catalog_id }}</p>
             <hr>
-                <a href="#" class="btn btn-primary" onclick="add_to_cart()">Add to Cart</a>
-                <a href="#" class="btn btn-primary" onclick="history.go(-1)">Go Back</a>
+                <a href="#/" class="btn btn-primary" onclick="add_to_cart('{{ issue.catalog_id }}')">Add to Cart</a>
+                <a href="#/" class="btn btn-primary" onclick="history.go(-1)">Go Back</a>
             <div id="results"></div>
 
         </div>
@@ -57,39 +57,4 @@
     sold_date = models.DateTimeField(null=True)
     -->
     </section>
-    <script src="/static/main.js"></script>
-    <script>
-    function add_to_cart() {
-        console.log("In addToCart");
-        $.ajax({
-            url: "/cart/add/",
-            type: "POST",
-            data: {catalog_id: "{{ issue.catalog_id }}" },
-
-            success: function(json) {
-                alert("success");
-            },
-            error: function(xhr, errmsg, err) {
-                $('#results').html('Oops! We have encountered an error: ' + errmsg).show();
-                console.log(xhr.status  + ": " + xhr.responseText);
-            }
-        });
-    }
-    $('#post_to_cart').on('submit', function (event) {
-        console.log("In addToCart");
-        $.ajax({
-            url: "/cart/add/",
-            type: "POST",
-            data: {catalog_id: "{{ issue.catalog_id }}" },
-
-            success: function(json) {
-                alert("success");
-            },
-            error: function(xhr, errmsg, err) {
-                $('#results').html('Oops! We have encountered an error: ' + errmsg).show();
-                console.log(xhr.status  + ": " + xhr.responseText);
-            }
-        });
-    });
-    </script>
 {% endblock %}

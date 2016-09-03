@@ -1,0 +1,124 @@
+{% extends parent_template|default:"base.html" %}
+{% block title %}
+{{ block.super }} - About Us
+{% endblock %}
+{% block content %}
+    <section id="photojournals" class="columns">
+        <div class="col-1 column">
+        </div>
+        <div class="col-10 column">
+        <h1>Photo-Journals</h1>
+            <h3>We can't recommend these books enough!</h3>
+            <p>A must have for every comic collector!! This awesome resource to comic book collecting contains
+                thousands of full color cover pictures in each volume. These books are also commonly refered to as
+                Gerber's Photo Journal Guide to Comic Books. These huge books are an absolutely indispensible source
+                of hours of enjoyment and they are a great resource for research.</p>
+
+         <p>These books are MASSIVE! These are high quality coffee table sized books: they measure approximately 10
+             inches wide by 14 inches tall!
+         </p>
+
+         <h4>Volumes 1 & 2: The Golden Age of Comics</h4>
+
+         <img src="/static/comix/PJ1&2C.jpg" class="float-left">
+            <p>They weigh nearly SIX pounds each! Each volume has over 400 high quality full color pages! There are
+                over 21,000 pictures of covers in EACH Volume! Every genre is represented: Super-Heroes, Science
+                Fiction, Horror, Romance, Funny Animal, Crime, Jungle, Good Girl, etc. Furthermore, each volume
+                includes indicia information, artist information, relative scarcity data, articles, and MUCH MUCH
+                more! These books are meant to be enjoyed for hours on end and are meant to be used as a reference.
+                These AWESOME books are indispensible!</p>
+
+        <p>Regularly $160.00 per set.</p>
+
+        <p>Special: $119.95</p>
+
+        <p>Save over $40.00!!</p>
+        <p>These books are Brand new, unread, and still shrink wrapped!*</p>
+
+        <p><a href="#" class="btn btn-primary" onclick="add_to_cart('9999999')">Add to Cart</a></p>
+
+        <h5 class="center-text">30 Day Money Back Guarantee on ALL Purchases!</h5>
+
+        <h4>Volumes 3 & 4: Marvel Comics. From the Silver Age to the Modern Age</h4>
+
+         <img src="/static/comix/PJ3&4.jpg" class="float-left">
+
+            <p>All your favorite Marvel Comics are here! Amazing Spider-Man, The Avengers, Captain America, The
+                Fantastic Four, Ghost Rider, The Incredible Hulk, Strange Tales, Tales of Suspense, Tales to Astonish,
+                The Uncanny X-Men, and HUNDREDS MORE!! There's an introduction by Stan Lee too along with first
+                appearance information, artist information and MUCH more!</p>
+
+        <p>Regularly $59.90 per set.</p>
+
+        <p>Special: $53.95</p>
+
+        <p>These books are brand new, and unread!*</p>
+
+        <p><a href="#" class="btn btn-primary" onclick="add_to_cart('9999999')">Add to Cart</a>
+        </p>
+        <h4>Super Special! Buy ALL Four Volumes and Save
+        </h4>
+        <div class="columns">
+            <div class="column col-6">
+                <img src="/static/comix/PJ1&2C.jpg" class="float-left">
+                <img src="/static/comix/PJ3&4.jpg" class="float-left">
+            </div>
+            <div class="column col-6">
+                <p>Volumes 1-4</p>
+                <p>Regularly $219.90</p>
+                <p>Special: ONLY&nbsp;$164.95!</p>
+                <p>Save over $50.00</p>
+                <p>All copies are NEW and UNREAD!!*</p>
+                <p><a href="#" class="btn btn-primary" onclick="add_to_cart('9999999')">Add to Cart</a></p>
+            </div>
+        </div>
+        <h4>All Volumes are also available individually!
+        </h4>
+            <img src="/static/comix/PJVol1.jpg" class="float-left">
+            <h5>Volume 1</h5>
+            <p>Regularly $80.00.</p>
+            <p>Special: Only $65.95!</p>
+            <p>Brand new, unread, and still shrink wrapped!*</p>
+            <p><a href="#" class="btn btn-primary" onclick="add_to_cart('9999999')">Add to Cart</a></p>
+
+            <div class="clearfix"></div>
+            <p>&nbsp;</p>
+            <img src="/static/comix/PJVol2.jpg" class="float-left">
+            <h5>Volume 2</h5>
+            <p>Regularly $80.00.</p>
+            <p>Special: Only $65.95!</p>
+            <p>Brand new, unread, and still shrink wrapped!*</p>
+            <p><a href="#" class="btn btn-primary" onclick="add_to_cart('9999999')">Add to Cart</a></p>
+
+            <div class="clearfix"></div>
+            <p>&nbsp;</p>
+            <img src="/static/comix/PJVol3.jpg" class="float-left">
+            <h5>Volume 3</h5>
+            <p>Regularly $29.95.</p>
+            <p>Special: Only $27.95!</p>
+            <p>These books are Brand New, and Unread!*</p>
+            <p><a href="#" class="btn btn-primary" onclick="add_to_cart('9999999')">Add to Cart</a>
+            </p>
+
+            <div class="clearfix"></div>
+            <p>&nbsp;</p>
+           <img src="/static/comix/PJVol4.jpg" class="float-left">
+            <h5>Volume 4</h5>
+            <p>Regularly $29.95.</p>
+            <p>Special: Only $27.95!</p>
+            <p>These books are Brand New, and Unread!*</p>
+            <p><a href="#" class="btn btn-primary" onclick="add_to_cart('9999999')">Add to Cart</a></p>
+            <div class="clearfix"></div>
+            <p>&nbsp;</p>
+            <p>*Note: While All volumes are NEW and Unread, there may be some minor cosmetic damage. Volumes 3 and 4
+                in particular may have some minor flaws as the clear plastic coating on the dustjackets may be
+                delaminating resulting in bubbles and / or ripples. However, these books are over 15 years old and
+                we will send you the best copies we have. All copies of Volumes 1 and 2 are still in their original
+                shrink-wrap and all copies of volumes 3 and 4 have NEVER been opened!</p>
+        </div>
+        <div class="col-1 column">
+        </div>
+
+    </section>
+
+{% endblock %}

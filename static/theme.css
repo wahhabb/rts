@@ -1,8 +1,23 @@
 /* Theme.less */
+html,
 body {
+  height: 100%;
   background: #dfefff;
-  /* see if working */
   margin: 0;
+}
+#wrapper {
+  min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -100px;
+}
+#wrapper:after {
+  content: "";
+  display: block;
+}
+.site-footer,
+#wrapper:after {
+  height: 100px;
+  /* magic number! Height of footer */
 }
 header,
 footer {
@@ -22,11 +37,13 @@ header {
   position: absolute;
   top: 8rem;
   color: #4452c0;
-  /* spectre border color */
 }
 .navbar p {
   display: inline-block;
   padding: 0 1em;
+}
+section.navbar-section {
+  padding-bottom: 0;
 }
 section {
   padding: 20px 30px;
@@ -39,6 +56,21 @@ section {
 }
 .size3em {
   font-size: 3em;
+}
+.align-right {
+  text-align: right;
+}
+#shopping_cart td {
+  padding: 0.4em;
+  border: 1px solid lightblue;
+}
+.btn.delete {
+  width: 60px;
+  background: url("/static/icon-trash.svg") no-repeat center center;
+  background-size: 20px;
+}
+.btn.delete:hover {
+  background-color: #acd5ff;
 }
 #single .notes h1 {
   font-size: 1.6em;
@@ -71,14 +103,31 @@ h5.card-header {
   border: 0.3rem solid #c5e2ff;
   border-radius: 1rem;
 }
+#id_email {
+  width: 210px;
+}
+#messages {
+  max-width: 320px;
+  padding: 1em 1.5em 0.8em;
+  color: yellow;
+  font-size: 120%;
+  background: #4452c0;
+  text-shadow: darkblue 1px 2px 2px;
+  border: ridge 7px yellow;
+  border-radius: 2rem;
+  margin: 1em auto 0;
+}
 #gotopage {
-  width: 3rem;
+  width: 5rem;
 }
 .pagination li {
   display: inline-block;
 }
 .center-text {
   text-align: center;
+}
+.btn {
+  margin: 0.4em 3px;
 }
 /* Button design from Mandy Brown */
 .btn3 {
@@ -133,6 +182,7 @@ h5.card-header {
 }
 #genres {
   margin-bottom: 2.5rem;
+  max-width: 90%;
 }
 #pub-search {
   margin-bottom: 2.5rem;
@@ -145,7 +195,8 @@ h5.card-header {
   vertical-align: top;
 }
 #category_block,
-#search_block {
+#search_block,
+#tag_block {
   display: none;
 }
 .error {
@@ -157,4 +208,13 @@ h5.card-header {
 }
 #create_account input {
   margin-right: 20px;
+}
+#get_catalog .col-10,
+#about .col-10,
+#contact .col-10 {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px 40px;
+}
+#photojournals img.float-left {
+  margin-right: 24px;
 }

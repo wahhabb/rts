@@ -1,5 +1,7 @@
 from django.db import models
 from comix.models import Issue, Series
+from django.contrib.auth.models import User
+
 
 
 class CartItem(models.Model):
@@ -32,3 +34,27 @@ class CartItem(models.Model):
         """ called when a POST request comes in for a Product instance already in the shopping cart """
         self.quantity = self.quantity + int(quantity)
         self.save()
+
+class BaseOrderInfo(models.Model):
+
+    class Meta:
+        abstract = True
+
+    # contact info
+    email = models.EmailField()
+    phone = models.CharField(max_length=20)
+
+    # shipping information
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    address1 = models.CharField(max_length=100)
+    address2 = models.CharField(max_length=100)
+    city = models.CharField(max_length=40)
+    state = models.CharField(max_length=2)
+    zip = models.CharField(max_length=32)
+
+class UserProfile(BaseOrderInfo):
+    user = models.OneToOneField(User)
+
+    def __str__(self):
+        return 'User Profile for: ' + self.user.username

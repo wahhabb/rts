@@ -1,0 +1,34 @@
+{% extends parent_template|default:"base.html" %}
+{% block title %}
+{{ block.super }} - About Us
+{% endblock %}
+{% block content %}
+    <section id="get_catalog" class="columns">
+        <div class="col-1 column">
+        </div>
+        <div class="col-10 column">
+        <h1>Get Our Catalog</h1>
+            <p>Want a hard copy of our catalog mailed to you?</p>
+
+         <h4>Order one today!</h4>
+
+         <p>Within the U.S, The catalog is $5.00 USD and you'll get a coupon for $5.00 to use on your first order!
+         </p>
+
+         <p><a href="#" class="btn btn-primary" onclick="add_to_cart('9999999')">Add to Cart</a></p>
+            <p>&nbsp;</p>
+         <p>Outsie the U.S, The catalog is $9.00 USD and you'll get a coupon for $9.00 to use on your first order!
+         </p>
+
+         <p><a href="#" class="btn btn-primary" onclick="add_to_cart('9999998')">Add to Cart</a></p>
+
+        </div>
+        <div class="col-1 column">
+        </div>
+
+    </section>
+    <script>
+        $('#wrapper').css('background-image', "url('/static/comix/bg.jpg')");
+    </script>
+
+{% endblock %}
