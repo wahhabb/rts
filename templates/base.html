@@ -31,12 +31,12 @@
                 </a>
                 -->
                 <a href="/" class="navbar-brand">RTS Comics<sup>&reg;</sup></a> <!-- ToDo: fix hardcoded link -->
-                <br><span>Collectors helping collectors since 1986</span>
+                <br><span id="tagline">Collectors helping collectors since 1986</span>
             </section>
             <section class="navbar-section">
                 <a href="{% url 'show_cart' %}" class="btn">
                     Cart <img src="{% static 'icon-cart.svg' %}" class="icon">
-                    {% if cart_count > 0 %}
+                    {% if cart_item_count > 0 %}
                     <span id="cart-count">{{ cart_item_count }}</span>
                     {% endif %}
                 </a>

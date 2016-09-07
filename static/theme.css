@@ -33,7 +33,7 @@ header {
   color: yellow;
   text-shadow: 1px 2px 1px #006fdf;
 }
-.navbar-section span {
+#tagline {
   position: absolute;
   top: 8rem;
   color: #4452c0;
@@ -44,6 +44,12 @@ header {
 }
 section.navbar-section {
   padding-bottom: 0;
+}
+p a:link {
+  text-decoration: none;
+}
+p a:hover {
+  background-color: rgba(255, 255, 0, 0.5);
 }
 section {
   padding: 20px 30px;
@@ -63,6 +69,13 @@ section {
 #shopping_cart td {
   padding: 0.4em;
   border: 1px solid lightblue;
+}
+.errorlist {
+  color: red;
+  margin-bottom: 0;
+}
+.errorlist li {
+  list-style-type: none;
 }
 .btn.delete {
   width: 60px;
@@ -119,6 +132,17 @@ h5.card-header {
 }
 #gotopage {
   width: 5rem;
+}
+#checkout th {
+  vertical-align: bottom;
+}
+fieldset.checkout {
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+fieldset.checkout legend {
+  margin-left: 1.3em;
+  font-size: 1.5rem;
 }
 .pagination li {
   display: inline-block;
@@ -199,6 +223,24 @@ h5.card-header {
 #tag_block {
   display: none;
 }
+#already_in_cart {
+  text-align: center;
+  color: #1389ff;
+  padding: 40px;
+  line-height: 2em;
+  background-color: yellow;
+  border-radius: 2em;
+  font-family: 'Baloo Paaji', cursive;
+  font-size: 150%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -42px 0 0 -71px;
+  z-index: 1000;
+  border: ridge 0.4em #79bcff;
+  box-shadow: 3px 4px 7px #006fdf;
+  display: none;
+}
 .error {
   border: 2px solid red;
 }
@@ -211,7 +253,8 @@ h5.card-header {
 }
 #get_catalog .col-10,
 #about .col-10,
-#contact .col-10 {
+#contact .col-10,
+#place_order .col-10 {
   background-color: rgba(255, 255, 255, 0.9);
   padding: 20px 40px;
 }

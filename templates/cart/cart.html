@@ -4,7 +4,10 @@
 {{ block.super }} - Shopping Cart
 {% endblock %}
 {% block content %}
-<section xmlns="http://www.w3.org/1999/html">
+<section  class="columns" id="shopping_cart">
+    <div class="col-1 column">
+    </div>
+    <div class="col-10 column">
     <h1>Shopping Cart</h1>
 
 	<table summary="Your Shopping Cart" id="shopping_cart">
@@ -31,14 +34,12 @@
 			{% if cart_items %}
 			<tr>
 				<th class="align-right" colspan="6">
-                <form method="POST" action=".">
-                    {% csrf_token %}
-                    <input type="hidden" name="submit" value="Checkout" />
-                    <!-- input type="image" name="Google Checkout" alt="Fast checkout through Google"
-                    src="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id={{ merchant_id }}
-                    &w=180&h=46&style=white&variant=text&loc=en_US"  height="46" width="180" /-->
                 <a href="{% url 'issue_list' %}" class="btn">Shop More</a>
-                <input type="submit" value="Check Out" alt="Checkout" class="btn btn-primary"/>
+                {% if has_profile %}
+                    <a href="{% url 'profile_update' %}" class="btn btn-primary">Check Out</a>
+                {% else %}
+                    <a href="{% url 'profile_create' %}" class="btn btn-primary">Check Out</a>
+                {% endif %}
                 </form>
 				</th>
 			</tr>
@@ -65,5 +66,8 @@
     {% if not cart_item_count == 0 %}
     {% endif %}
 
+    </div>
+    <div class="col-1 column">
+    </div>
 </section>
 {% endblock %}

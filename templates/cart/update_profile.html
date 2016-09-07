@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% load checkout_tags %}
+
+{% block title %}
+{{ block.super }} - Check Out
+{% endblock %}
+{% block content %}
+<section id="checkout" class="columns">
+    <div class="col-1 column">
+    </div>
+    <div class="col-10 column">
+    <h1>Shipping Information</h1>
+    <p>Please verify your shipping information.</p>
+    {% if error_message %}
+    <ul class="errorlist">
+        <li>{{ error_message }}</li>
+    </ul>
+    {% endif %}
+
+    <form action="." method="post">
+            {% csrf_token %}
+        <fieldset class="checkout">
+            <legend>Contact Information</legend>
+            <table>
+                {% form_table_row form.email %}
+                {% form_table_row form.phone %}
+            </table>
+        </fieldset>
+
+        <fieldset class="checkout">
+            <legend>Shipping Information</legend>
+            <table>
+                {% form_table_row form.first_name %}
+                {% form_table_row form.last_name %}
+                {% form_table_row form.address1 %}
+                {% form_table_row form.address2 %}
+                {% form_table_row form.city %}
+                {% form_table_row form.state %}
+                {% form_table_row form.zip %}
+            </table>
+        </fieldset>
+        <table>
+            <tr>
+                <th colspan="2"><input type="submit" value="Continue" class="btn btn-primary"></th>
+            </tr>
+        </table>
+        <p>You will have an opportunity to review your order before paying.</p>
+    </form>
+    </div>
+    <div class="col-1 column">
+    </div>
+    </section>
+{% endblock %}
+

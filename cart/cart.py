@@ -98,6 +98,7 @@ def remove_old_cart_items():
     3. delete those CartItem instances
 
     """
+#   ToDo: Trigger this
     print
     "Removing old carts"
     remove_before = datetime.now() + timedelta(days=-settings.SESSION_COOKIE_DAYS)

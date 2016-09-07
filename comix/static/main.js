@@ -12,6 +12,10 @@ function add_to_cart(catalog_id) {
         success: function(json) {
             console.log(json);
             console.log("success");
+            $('#cart-count').html(json.cart_count);
+            if (json.not_added) {
+                $('#already_in_cart').show(400).delay(1400).hide(400)
+            }
         },
         error: function(xhr, errmsg, err) {
             $('#results').html('Oops! We have encountered an error: ' + errmsg).show();

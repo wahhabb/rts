@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load catalog_filters %}
+{% load checkout_tags %}
+
+{% block title %}
+{{ block.super }} - Place Order
+{% endblock %}
+
+{% block content %}
+<section  class="columns" id="place_order">
+    <div class="col-1 column">
+    </div>
+    <div class="col-10 column">
+    <h1>Place Order</h1>
+
+        <div class="columns">
+        <div class="column col-6">
+            <h5>Contact Information:</h5>
+            <p>Email: {% form_table_row profile.email %}</p>
+            <p>Telephone: {% form_table_row profile.phone %}</p>
+        </div>
+
+        <div class="column col-6">
+            <h5>Shipping Information:</h5>
+            <p>{% form_table_row profile.first_name %}
+                {% form_table_row profile.last_name %}</p>
+             <p>{% form_table_row profile.address1 %}</p>
+            {% if profile.address2 %}
+                <p>{% form_table_row profile.address2 %}</p>
+            {% endif %}
+            <p>   {% form_table_row profile.city %}
+                {% form_table_row profile.state %},
+                {% form_table_row profile.zip %}</p>
+        </div>
+        </div>
+
+    <h5>Order:</h5>
+	<table summary="Your Order" id="order_items">
+		<thead>
+			<tr>
+				<th scope="col">Title</th>
+                <th scope="col">Issue #</th>
+				<th scope="col">Quantity</th>
+				<th scope="col">Unit Price</th>
+				<th scope="col" class="right">Total</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<th class="align-right" colspan="5">
+					Cart Subtotal:
+				</th>
+				<th class="align-right">
+					{{ cart_subtotal|currency }}
+				</th>
+			</tr>
+			<tr>
+          <form action="{{ paypal_url }}" method="post" id="registerForm" >
+		  <input type="hidden" name="cmd" value="_cart">
+		  <input type="hidden" name="upload" value="1">
+		  <input type="hidden" name="business" value="{{ PAYPAL_EMAIL }}">
+
+		  <input type="hidden" name="first_name" value="{{ profile.first_name }}">
+		  <input type="hidden" name="last_name" value="{{ profile.last_name }}">
+		  <input type="hidden" name="address1" value="{{ profile.address1 }}">
+		  <input type="hidden" name="address2" value="{{ profile.address2 }}">
+		  <input type="hidden" name="city" value="{{ profile.city }}">
+		  <input type="hidden" name="state" value="{{ profile.state }}">
+		  <input type="hidden" name="zip" value="{{ profile.zip }}">
+		  <input type="hidden" name="country" value="US">
+{#		  <input type="hidden" name="night_phone_c" value="{{ profile.phone }}">#}
+		  <input type="hidden" name="email" value="{{ profile.email }}">
+
+		  <input type="hidden" name="tax_cart" value="0">
+{#		  <input type="hidden" name="discount_amount_cart" value="0">#}
+		  <input type="hidden" name="shipping_1" value="0.00">
+{#          ToDo: Fix this!#}
+{#		  <input type="hidden" name="return" value="<?=getURL('77', 'MainPages', 'order-completed.php')?>">#}
+{#		  <input type="hidden" name="cancel_return" value="{% url 'show_cart' %}">#}
+		  <input type="hidden" name="currency_code" value="USD">
+{#		  <input type="hidden" name="notify_url" value="<?=HOST_URL?>/ipn.php">#}
+		  <input type="hidden" name="custom" value="{{ profile.user.id }}">
+          {% for item in cart_items %}
+              <input type="hidden" name="item_name_{{ forloop.counter }}"
+                     value="{{ item.product.gcd_series_id.name }}">
+              <input type="hidden" name="amount_{{ forloop.counter }}" value="{{ item.price }}">
+              <input type="hidden" name="quantity_{{ forloop.counter }}" value="{{ item.quantity }}">
+
+              <input type="hidden" name="on0_{{ forloop.counter }}" value="Catalog No.">
+              <input type="hidden" name="os0_{{ forloop.counter }}" value="{{ item.product.catalog_id }}">
+              <input type="hidden" name="on1_{{ forloop.counter }}" value="Grade">
+              <input type="hidden" name="os1_{{ forloop.counter }}" value="{{ item.product.grade }}">
+              <input type="hidden" name="on2_{{ forloop.counter }}" value="Issue No.">
+              <input type="hidden" name="os2_{{ forloop.counter }}" value="{% if item.product.volume > 0 %}
+                            Volume {{ item.product.volume }} #
+                        {% endif %}{{ item.product.number }}">
+           {% endfor %}				<th class="align-right" colspan="4">
+                <a href="#" onClick="document.getElementById('registerForm').submit(); return false;"
+                   class="btn-primary btn">Continue
+                </a>
+                </form>
+				</th>
+			</tr>
+		</tfoot>
+		<tbody>
+			{% for item in cart_items %}
+                {% include 'cart/order_item.html' %}
+			{% endfor %}
+		</tbody>
+	</table>
+
+
+    </div>
+    <div class="col-1 column">
+    </div>
+</section>
+    <script>
+        $('#wrapper').css('background-image', "url('/static/comix/bg.jpg')");
+    </script>
+{% endblock %}

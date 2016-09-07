@@ -1,7 +1,7 @@
 from django.db import models
 from comix.models import Issue, Series
 from django.contrib.auth.models import User
-
+from localflavor.us.models import USStateField
 
 
 class CartItem(models.Model):
@@ -48,9 +48,9 @@ class BaseOrderInfo(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     address1 = models.CharField(max_length=100)
-    address2 = models.CharField(max_length=100)
+    address2 = models.CharField(max_length=100, blank=True)
     city = models.CharField(max_length=40)
-    state = models.CharField(max_length=2)
+    state = USStateField()
     zip = models.CharField(max_length=32)
 
 class UserProfile(BaseOrderInfo):
@@ -58,3 +58,17 @@ class UserProfile(BaseOrderInfo):
 
     def __str__(self):
         return 'User Profile for: ' + self.user.username
+
+
+class Order(BaseOrderInfo):
+    user = models.OneToOneField(User, null=True)
+    cart_id = models.CharField(max_length=50)
+    date_placed = models.DateTimeField(auto_now_add=True)
+    date_shipped = models.DateTimeField(null=True)
+    shipping_charge = models.DecimalField(max_digits=7, decimal_places=2)
+    order_total = models.DecimalField(max_digits=7, decimal_places=2)
+
+
+class OrderItem(CartItem):
+    order_id = models.ForeignKey(Order, unique=False)
+    sale_price = models.DecimalField(max_digits=7, decimal_places=2)

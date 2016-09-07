@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'registration',
     'cart',
     'contact',
+    'localflavor',
 ]
 
 MIDDLEWARE = [
@@ -148,3 +149,10 @@ MANAGERS = (
 )
 
 AUTH_PROFILE_MODULE = 'cart.userprofile'
+
+if DEBUG:
+    PAYPAL_URL = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
+else:
+    PAYPAL_URL = 'https://www.paypal.com/cgi-bin/webscr'
+
+PAYPAL_EMAIL = 'rtsunlimited@earthlink.net'
