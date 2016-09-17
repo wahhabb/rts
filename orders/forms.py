@@ -1,6 +1,6 @@
 from django import forms
 from localflavor.us.forms import USPhoneNumberField, USStateSelect
-from cart.models import UserProfile
+from orders.models import UserProfile
 import re
 
 

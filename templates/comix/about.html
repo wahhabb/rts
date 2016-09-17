@@ -3,6 +3,7 @@
 {{ block.super }} - About Us
 {% endblock %}
 {% block content %}
+    {% load static %}
     <section id="about" class="columns">
         <div class="col-1 column">
         </div>
@@ -42,7 +43,7 @@
 
     </section>
     <script>
-        $('#wrapper').css('background-image', "url('/static/comix/bg.jpg')");
+        $('#wrapper').css('background-image', "url('{% static 'comix/bg.jpg'  %}')");
     </script>
 
 {% endblock %}

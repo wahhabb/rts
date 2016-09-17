@@ -5,16 +5,16 @@ function add_to_cart(catalog_id) {
     console.log("In addToCart");
 
     $.ajax({
-        url: "/cart/add/",
+        url: "/order/add/",
         type: "POST",
         data: {"catalog_id": catalog_id },
 
         success: function(json) {
             console.log(json);
             console.log("success");
-            $('#cart-count').html(json.cart_count);
-            if (json.not_added) {
-                $('#already_in_cart').show(400).delay(1400).hide(400)
+            $('#cart-count').html(json['cart_count']);
+            if (json['not_added']) {
+                $('#already_in_cart').show(400).delay(1400).hide(200);
             }
         },
         error: function(xhr, errmsg, err) {

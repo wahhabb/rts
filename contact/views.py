@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
 from django.contrib.messages import success
+from django.shortcuts import render, redirect
 from django.views.generic import View
+
+from orders.cart import get_cart_items
 from .forms import ContactForm
-from cart.cart import get_cart_items
 
 
 # Create your views here.

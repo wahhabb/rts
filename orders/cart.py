@@ -1,5 +1,5 @@
 from django.shortcuts import  get_object_or_404
-from cart.models import *
+from orders.models import *
 import decimal, random
 
 
@@ -76,6 +76,19 @@ def cart_subtotal(request):
         cart_total += cart_item.product.price * cart_item.quantity
     return cart_total
 
+def shipping_charge(request):
+    # ToDo: Calculate!
+    ship_total = decimal.Decimal('6.75')
+    cart_products = get_cart_items(request)
+    for cart_item in cart_products:
+        ship_total += decimal.Decimal(0.25)
+        if cart_item.product.catalog_id == 6047:    # check for Photo-Journals
+            return decimal.Decimal(16)
+        if cart_item.product.catalog_id in [6045, 6046]:
+            return decimal.Decimal(10)
+        if cart_item.product.catalog_id in [6048, 6049, 6050, 6051]:
+            return decimal.Decimal(7)
+    return ship_total
 
 # returns the total number of items in the user's cart
 def cart_distinct_item_count(request):

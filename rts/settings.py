@@ -31,6 +31,10 @@ ALLOWED_HOSTS = []
 SITE_NAME = 'RTS Comics'
 META_KEYWORDS = 'Comics, Comix, Comics Books, Buy Comics'
 META_DESCRIPTION = 'Comic collectors helping comic collectors since 1986. Your best source for comics.'
+if DEBUG:
+    SITE_URL = 'http://127.0.0.1:8000'
+else:
+    SITE_URL = 'http://rtscomics.com'
 
 
 # Application definition
@@ -44,7 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'comix',
     'registration',
-    'cart',
+    'orders',
     'contact',
     'localflavor',
 ]
@@ -148,7 +152,7 @@ MANAGERS = (
     ('Webmaster', 'wahhab@deepwebworks.com'),
 )
 
-AUTH_PROFILE_MODULE = 'cart.userprofile'
+AUTH_PROFILE_MODULE = 'orders.userprofile'
 
 if DEBUG:
     PAYPAL_URL = 'https://www.sandbox.paypal.com/cgi-bin/webscr'

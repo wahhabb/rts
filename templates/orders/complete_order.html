@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load catalog_filters %}
+{% load checkout_tags %}
+
+{% block title %}
+{{ block.super }} - Place Order
+{% endblock %}
+
+{% block content %}
+<section  class="columns" id="place_order">
+    <div class="col-1 column">
+    </div>
+    <div class="col-10 column">
+    <h1>Thank You!</h1>
+
+    <p>Thank you for your order! We will notify you when we ship to you.
+    </p>
+    <p><a href="{% url 'issue_list' %}" class="btn btn-primary">Shop More</a> </p>
+
+
+    </div>
+    <div class="col-1 column">
+    </div>
+</section>
+    <script>
+        $('#wrapper').css('background-image', "url('/static/comix/bg.jpg')");
+    </script>
+{% endblock %}

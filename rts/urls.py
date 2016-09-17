@@ -74,6 +74,6 @@ urlpatterns = [
 
     url(r'^contact/', include(contact_urls,)),
 
-    url(r'^cart/', include('cart.urls')),
+    url(r'^order/', include('orders.urls')),
 
 ]

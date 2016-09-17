@@ -8,6 +8,7 @@
     <section id="list" class="columns">
 {% endblock %}
 {% block subcontent %}
+    {% load static %}
         <div class="column col-9">
         {% if genre_text != None %}
             <h3>Category: {{ genre_text }}</h3>

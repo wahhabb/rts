@@ -1,0 +1,2 @@
+print('yes')
+class Parent:

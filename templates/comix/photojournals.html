@@ -3,6 +3,7 @@
 {{ block.super }} - About Us
 {% endblock %}
 {% block content %}
+    {% load static %}
     <section id="photojournals" class="columns">
         <div class="col-1 column">
         </div>
@@ -20,7 +21,7 @@
 
          <h4>Volumes 1 & 2: The Golden Age of Comics</h4>
 
-         <img src="/static/comix/PJ1&2C.jpg" class="float-left">
+         <img src="{% static "comix/PJ1&2C.jpg" %}" class="float-left">
             <p>They weigh nearly SIX pounds each! Each volume has over 400 high quality full color pages! There are
                 over 21,000 pictures of covers in EACH Volume! Every genre is represented: Super-Heroes, Science
                 Fiction, Horror, Romance, Funny Animal, Crime, Jungle, Good Girl, etc. Furthermore, each volume
@@ -41,7 +42,7 @@
 
         <h4>Volumes 3 & 4: Marvel Comics. From the Silver Age to the Modern Age</h4>
 
-         <img src="/static/comix/PJ3&4.jpg" class="float-left">
+         <img src="{% static "comix/PJ3&4.jpg" %}" class="float-left">
 
             <p>All your favorite Marvel Comics are here! Amazing Spider-Man, The Avengers, Captain America, The
                 Fantastic Four, Ghost Rider, The Incredible Hulk, Strange Tales, Tales of Suspense, Tales to Astonish,
@@ -60,8 +61,8 @@
         </h4>
         <div class="columns">
             <div class="column col-6">
-                <img src="/static/comix/PJ1&2C.jpg" class="float-left">
-                <img src="/static/comix/PJ3&4.jpg" class="float-left">
+                <img src="{% static "comix/PJ1&2C.jpg" %}" class="float-left">
+                <img src="{% static "comix/PJ3&4.jpg" %}" class="float-left">
             </div>
             <div class="column col-6">
                 <p>Volumes 1-4</p>
@@ -74,7 +75,7 @@
         </div>
         <h4>All Volumes are also available individually!
         </h4>
-            <img src="/static/comix/PJVol1.jpg" class="float-left">
+            <img src="{% static "comix/PJVol1.jpg" %}" class="float-left">
             <h5>Volume 1</h5>
             <p>Regularly $80.00.</p>
             <p>Special: Only $65.95!</p>
@@ -83,7 +84,7 @@
 
             <div class="clearfix"></div>
             <p>&nbsp;</p>
-            <img src="/static/comix/PJVol2.jpg" class="float-left">
+            <img src="{% static "comix/PJVol2.jpg" %}" class="float-left">
             <h5>Volume 2</h5>
             <p>Regularly $80.00.</p>
             <p>Special: Only $65.95!</p>
@@ -92,7 +93,7 @@
 
             <div class="clearfix"></div>
             <p>&nbsp;</p>
-            <img src="/static/comix/PJVol3.jpg" class="float-left">
+            <img src="{% static "comix/PJVol3.jpg" %}" class="float-left">
             <h5>Volume 3</h5>
             <p>Regularly $29.95.</p>
             <p>Special: Only $27.95!</p>
@@ -102,7 +103,7 @@
 
             <div class="clearfix"></div>
             <p>&nbsp;</p>
-           <img src="/static/comix/PJVol4.jpg" class="float-left">
+           <img src="{% static "comix/PJVol4.jpg" %}" class="float-left">
             <h5>Volume 4</h5>
             <p>Regularly $29.95.</p>
             <p>Special: Only $27.95!</p>

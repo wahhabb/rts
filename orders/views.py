@@ -1,19 +1,22 @@
-from django.shortcuts import render, redirect
-from django.views.generic.list import View
-from django.http import JsonResponse
-from cart.cart import *
-from cart.cart import _cart_id
-from django.views.decorators.csrf import csrf_exempt
-from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
-from cart.forms import ProfileForm
 from django.core import serializers
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
+from django.utils.timezone import now
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic.list import View
+
+from orders.cart import *
+from orders.cart import _cart_id
+from orders.forms import ProfileForm
 
 ANONYMOUS_PROFILE = 'anonymous_profile'
+ANONYMOUS_USER = 99999
 
 
 class ShowCart(View):
-    template_name = 'cart/cart.html'
+    template_name = 'orders/cart.html'
 
     def show(self, request):
         cart_issues = get_cart_items(request)
@@ -91,13 +94,12 @@ def add_to_cart(request):
 
 class ProfileCreate(View):
     form_class = ProfileForm
-    template_name = 'cart/add_profile.html'
+    template_name = 'orders/add_profile.html'
 
     def get(self, request):
         return render(request, self.template_name, {'form': self.form_class()})
 
     def post(self, request):
-        print('posting...')
         bound_form = self.form_class(request.POST)
         if bound_form.is_valid():
             if request.user.is_authenticated:
@@ -130,11 +132,14 @@ def get_profile(self, request):
 
 class ProfileUpdate(View):
     form_class = ProfileForm
-    template_name = 'cart/update_profile.html'
+    template_name = 'orders/update_profile.html'
     model = UserProfile
 
     def get(self, request):
-        profile = get_profile(self, request)
+        try:
+            profile = get_profile(self, request)
+        except:
+            return redirect('profile_create')
         context = {
             'form': self.form_class(instance=profile),
             'profile': profile
@@ -161,16 +166,16 @@ class ProfileUpdate(View):
 
 
 class PlaceOrder(View):
-    template_name = 'cart/place_order.html'
+    template_name = 'orders/place_order.html'
 
     def get(self, request):
         cart_issues = get_cart_items(request)
         cart_item_count = cart_issues.count()
         subtotal = cart_subtotal(request)
+        shipping = shipping_charge(request)
         if request.user.is_authenticated:
             try:
                 profile = UserProfile.objects.get(user=request.user)
-                has_profile = True
             except ObjectDoesNotExist:
                 return redirect(ProfileCreate)
         else:
@@ -187,10 +192,55 @@ class PlaceOrder(View):
                            'cart_subtotal': subtotal,
                             'breaks': [3, 7, 11, 15, 19],
                             'profile': profile,
+                            'shipping': shipping,
                             'paypal_url': settings.PAYPAL_URL,
+                            'cart_total': subtotal + shipping,
+                            'site_name': settings.SITE_URL,
                    }
         return render(
             request, self.template_name, context
         )
 
+class CompleteOrder(View):
+    template_name = 'orders/complete_order.html'
 
+    def get(self, request):
+        cart_issues = get_cart_items(request)
+        subtotal = cart_subtotal(request)
+        if request.user.is_authenticated:
+            try:
+                profile = UserProfile.objects.get(user=request.user)
+            except ObjectDoesNotExist:
+                return redirect(ProfileCreate)
+        else:
+            json_profile = request.session.get(ANONYMOUS_PROFILE, '')
+            if json_profile == ' ':
+                return redirect(ProfileCreate)
+            else:
+                # deserialize into new object
+                for obj in serializers.deserialize("json", json_profile):
+                    profile = obj.object
+                    if  not request.user.is_authenticated:
+                        profile.user = User.objects.get(pk=ANONYMOUS_USER)
+        # 1. Create Order record from Profile, 2. Add items to order
+        # 3. Delete cart items 4. Reduce item quantity or Mark items as sold
+        order = Order.create(profile, cart_issues[0].cart_id, shipping_charge(request),
+                             cart_subtotal(request) + shipping_charge(request))
+        order.save()
+        for issue in cart_issues:
+            product = issue.product
+            new_order_item = IssueInOrder.objects.create(
+                order=order, issue=product, quantity=issue.quantity, sale_price = issue.price)
+            new_order_item.save()
+            issue.delete()
+            # get product
+            product.quantity -= new_order_item.quantity
+            if product.quantity <= 0:
+                product.sold_date = now()
+                product.status = 'sold'
+            product.save()
+
+        context = {}
+        return render(
+            request, self.template_name, context
+        )

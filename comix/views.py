@@ -1,10 +1,12 @@
-from django.shortcuts import render
-from django.http.response import HttpResponse, HttpResponseRedirect
-from django.views.generic.list import ListView, View
-from django.template import loader, Context
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http.response import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
+from django.template import loader, Context
+from django.views.generic.list import ListView, View
+
 from comix.models import Genre, Issue, Publisher, Tag
-from cart.cart import get_cart_items
+from orders.cart import get_cart_items
+
 
 # Create your views here.
 ####### Comix Related ######

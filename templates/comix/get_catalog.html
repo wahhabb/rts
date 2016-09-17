@@ -1,8 +1,9 @@
 {% extends parent_template|default:"base.html" %}
 {% block title %}
-{{ block.super }} - About Us
+{{ block.super }} - Get Our Catalog
 {% endblock %}
 {% block content %}
+    {% load static %}
     <section id="get_catalog" class="columns">
         <div class="col-1 column">
         </div>
@@ -28,7 +29,7 @@
 
     </section>
     <script>
-        $('#wrapper').css('background-image', "url('/static/comix/bg.jpg')");
+        $('#wrapper').css('background-image', "url('{% static 'comix/bg.jpg'  %}')");
     </script>
 
 {% endblock %}

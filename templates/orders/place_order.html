@@ -55,6 +55,22 @@
 				</th>
 			</tr>
 			<tr>
+				<th class="align-right" colspan="5">
+					Shipping:
+				</th>
+				<th class="align-right">
+					{{ shipping|currency }}
+				</th>
+			</tr>
+			<tr>
+				<th class="align-right" colspan="5">
+					Total:
+				</th>
+				<th class="align-right">
+					{{ cart_total|currency }}
+				</th>
+			</tr>
+			<tr>
           <form action="{{ paypal_url }}" method="post" id="registerForm" >
 		  <input type="hidden" name="cmd" value="_cart">
 		  <input type="hidden" name="upload" value="1">
@@ -68,15 +84,13 @@
 		  <input type="hidden" name="state" value="{{ profile.state }}">
 		  <input type="hidden" name="zip" value="{{ profile.zip }}">
 		  <input type="hidden" name="country" value="US">
-{#		  <input type="hidden" name="night_phone_c" value="{{ profile.phone }}">#}
+		  <input type="hidden" name="night_phone_c" value="{{ profile.phone }}">
 		  <input type="hidden" name="email" value="{{ profile.email }}">
 
 		  <input type="hidden" name="tax_cart" value="0">
-{#		  <input type="hidden" name="discount_amount_cart" value="0">#}
-		  <input type="hidden" name="shipping_1" value="0.00">
-{#          ToDo: Fix this!#}
-{#		  <input type="hidden" name="return" value="<?=getURL('77', 'MainPages', 'order-completed.php')?>">#}
-{#		  <input type="hidden" name="cancel_return" value="{% url 'show_cart' %}">#}
+		  <input type="hidden" name="shipping_1" value="{{ shipping }}">
+		  <input type="hidden" name="return" value="{{ site_name }}{% url 'complete_order' %}">
+		  <input type="hidden" name="cancel_return" value="{{ site_name }}{% url 'show_cart' %}">
 		  <input type="hidden" name="currency_code" value="USD">
 {#		  <input type="hidden" name="notify_url" value="<?=HOST_URL?>/ipn.php">#}
 		  <input type="hidden" name="custom" value="{{ profile.user.id }}">
@@ -104,7 +118,7 @@
 		</tfoot>
 		<tbody>
 			{% for item in cart_items %}
-                {% include 'cart/order_item.html' %}
+                {% include 'orders/order_item.html' %}
 			{% endfor %}
 		</tbody>
 	</table>

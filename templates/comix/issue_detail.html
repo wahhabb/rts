@@ -6,6 +6,7 @@
     <section id="single" class="columns">
 {% endblock %}
 {% block subcontent %}
+    {% load static %}
         <div class="column col-4">
             <img src="/static/bigimages/{{ issue.cover_image }}" class="img-responsive rounded">
             {% if issue.image_scanned == False %}
