@@ -1,41 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0f780884-a0dd-4e2f-9cf0-458135dfc813" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/orders/complete_order.html" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cart/migrations/0001_initial.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cart/migrations/0002_userprofile.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cart/migrations/0003_auto_20160904_0110.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cart/migrations/0004_auto_20160904_1729.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cart/migrations/x-0005_order_orderitem.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cart/views.py" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cart/cart.py" afterPath="$PROJECT_DIR$/orders/cart.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cart/forms.py" afterPath="$PROJECT_DIR$/orders/forms.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cart/migrations/__init__.py" afterPath="$PROJECT_DIR$/test.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cart/urls.py" afterPath="$PROJECT_DIR$/orders/urls.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/templates/cart/add_profile.html" afterPath="$PROJECT_DIR$/templates/orders/add_profile.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/templates/cart/cart.html" afterPath="$PROJECT_DIR$/templates/orders/cart.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/templates/cart/cart_item.html" afterPath="$PROJECT_DIR$/templates/orders/cart_item.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/templates/cart/form_table_row.html" afterPath="$PROJECT_DIR$/templates/orders/form_table_row.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/templates/cart/order_item.html" afterPath="$PROJECT_DIR$/templates/orders/order_item.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/templates/cart/place_order.html" afterPath="$PROJECT_DIR$/templates/orders/place_order.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/templates/cart/update_profile.html" afterPath="$PROJECT_DIR$/templates/orders/update_profile.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cart/models.py" afterPath="$PROJECT_DIR$/cart/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/comix/static/main.js" afterPath="$PROJECT_DIR$/comix/static/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/comix/templatetags/checkout_tags.py" afterPath="$PROJECT_DIR$/comix/templatetags/checkout_tags.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/comix/views.py" afterPath="$PROJECT_DIR$/comix/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contact/views.py" afterPath="$PROJECT_DIR$/contact/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rts/settings.py" afterPath="$PROJECT_DIR$/rts/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rts/urls.py" afterPath="$PROJECT_DIR$/rts/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/comix/about.html" afterPath="$PROJECT_DIR$/templates/comix/about.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/comix/base_comix.html" afterPath="$PROJECT_DIR$/templates/comix/base_comix.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/comix/get_catalog.html" afterPath="$PROJECT_DIR$/templates/comix/get_catalog.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/comix/issue_detail.html" afterPath="$PROJECT_DIR$/templates/comix/issue_detail.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/comix/issue_list.html" afterPath="$PROJECT_DIR$/templates/comix/issue_list.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/comix/photojournals.html" afterPath="$PROJECT_DIR$/templates/comix/photojournals.html" />
-    </list>
+    <list default="true" id="0f780884-a0dd-4e2f-9cf0-458135dfc813" name="Default" comment="" />
     <ignored path="rts.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -58,12 +24,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rts/settings.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="165">
               <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="wsgi.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/rts/wsgi.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="15" selection-end-column="36" />
+              <folding>
+                <element signature="e#220#229#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -145,8 +123,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="407" />
-    <option name="y" value="23" />
+    <option name="x" value="116" />
+    <option name="y" value="542" />
     <option name="width" value="1029" />
     <option name="height" value="810" />
   </component>
@@ -540,10 +518,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="407" y="23" width="1029" height="810" extended-state="1" />
+    <frame x="116" y="542" width="1029" height="810" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24003887" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24003887" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928476" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -601,7 +579,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cart/admin.py" />
     <entry file="file://$PROJECT_DIR$/contact/apps.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1008,6 +985,16 @@
         <state relative-caret-position="165">
           <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rts/wsgi.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="15" selection-end-column="36" />
+          <folding>
+            <element signature="e#220#229#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
