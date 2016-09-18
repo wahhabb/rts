@@ -24,6 +24,7 @@ SECRET_KEY = '&!ir31+b2wb_!426i%c*k=8%$syh7bc5c_%$!widorzmbd++@b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -34,7 +35,7 @@ META_DESCRIPTION = 'Comic collectors helping comic collectors since 1986. Your b
 if DEBUG:
     SITE_URL = 'http://127.0.0.1:8000'
 else:
-    SITE_URL = 'http://rtscomics.com'
+    SITE_URL = 'http://wahhabb.pythonanywhere.com'
 
 
 # Application definition
@@ -89,17 +90,28 @@ WSGI_APPLICATION = 'rts.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'rts_db',
-        'USER': 'tim',
-        'PASSWORD': 'rtsunl!mited',
-        'HOST': 'localhost',
-        'PORT': '',
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'rts_db',
+            'USER': 'tim',
+            'PASSWORD': 'rtsunl!mited',
+            'HOST': 'localhost',
+            'PORT': '',
+        }
     }
-}
-
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'wahhabb.mysql.pythonanywhere-services.com',
+            'NAME': 'wahhabb$default',
+            'USER': 'wahhabb',
+            'PASSWORD': 'c0ll%ns1',
+            'HOST': 'localhost',
+            'PORT': '',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
