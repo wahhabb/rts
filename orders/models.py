@@ -61,7 +61,7 @@ class UserProfile(BaseOrderInfo):
 
 
 class Order(BaseOrderInfo):
-    user = models.OneToOneField(User, null=True)
+    user = models.ForeignKey(User, null=True)
     cart_id = models.CharField(max_length=50)
     date_placed = models.DateTimeField(auto_now_add=True)
     date_shipped = models.DateTimeField(null=True)

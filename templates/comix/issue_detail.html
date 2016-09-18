@@ -41,7 +41,11 @@
             <p>Price: <span class="price">${{ issue.price }}</span></p>
             <p>Catalog # {{ issue.catalog_id }}</p>
             <hr>
+            {% if issue.status == 'available' %}
                 <a href="#/" class="btn btn-primary" onclick="add_to_cart('{{ issue.catalog_id }}')">Add to Cart</a>
+            {% else %}
+                <p class="sorry">Sorry&mdash;Sold!</p>
+            {% endif %}
                 <a href="#/" class="btn btn-primary" onclick="history.go(-1)">Go Back</a>
             <div id="results"></div>
 

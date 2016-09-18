@@ -44,7 +44,7 @@ class IssueList(View):
         sort_order = self.request.GET.get('sort')
         search_text = self.request.GET.get('search')
         tag_slug = self.request.GET.get('tag')
-        issues = Issue.objects.all()
+        issues = Issue.objects.all().filter(status='available')
         tags = Tag.objects.all()
         query_string = ""
         cart_issues = get_cart_items(request)

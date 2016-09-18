@@ -24,9 +24,8 @@ SECRET_KEY = '&!ir31+b2wb_!426i%c*k=8%$syh7bc5c_%$!widorzmbd++@b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['wahhabb.pythonanywhere.com']
 
 # Site and SEO Information
 SITE_NAME = 'RTS Comics'
@@ -104,11 +103,11 @@ if DEBUG:
 else:
     DATABASES = {
         'default': {
-            'ENGINE': 'wahhabb.mysql.pythonanywhere-services.com',
+            'ENGINE': 'django.db.backends.mysql',
             'NAME': 'wahhabb$default',
             'USER': 'wahhabb',
             'PASSWORD': 'c0ll%ns1',
-            'HOST': 'localhost',
+            'HOST': 'wahhabb.mysql.pythonanywhere-services.com',
             'PORT': '',
         }
     }
@@ -149,8 +148,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+if DEBUG:
+    STATIC_URL = '/static/'
+    STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+else:
+    STATIC_URL = '/static/'
+    STATICFILES_DIRS = (os.path.join(BASE_DIR, "static1"),)
 
 LOGIN_REDIRECT_URL = '/issues/'
 
