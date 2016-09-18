@@ -13,6 +13,8 @@
     <h1>Shipping Information</h1>
     {% if request.user.is_authenticated == False %}
     <p>Log In or Register to bring up or save your shipping information.</p>
+    <p>By creating an account you will be able to shop faster, be up to date on an order's
+        status, and keep track of the orders you have previously made.</p>
     {% endif %}
     {% if error_message %}
     <ul class="errorlist">

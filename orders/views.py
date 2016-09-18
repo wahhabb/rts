@@ -194,6 +194,7 @@ class PlaceOrder(View):
                             'profile': profile,
                             'shipping': shipping,
                             'paypal_url': settings.PAYPAL_URL,
+                            'paypal_email': settings.PAYPAL_EMAIL,
                             'cart_total': subtotal + shipping,
                             'site_name': settings.SITE_URL,
                    }

@@ -74,7 +74,7 @@
           <form action="{{ paypal_url }}" method="post" id="registerForm" >
 		  <input type="hidden" name="cmd" value="_cart">
 		  <input type="hidden" name="upload" value="1">
-		  <input type="hidden" name="business" value="{{ PAYPAL_EMAIL }}">
+		  <input type="hidden" name="business" value="{{ paypal_email }}">
 
 		  <input type="hidden" name="first_name" value="{{ profile.first_name }}">
 		  <input type="hidden" name="last_name" value="{{ profile.last_name }}">
