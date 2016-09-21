@@ -175,3 +175,4 @@ else:
     PAYPAL_URL = 'https://www.paypal.com/cgi-bin/webscr'
 
 PAYPAL_EMAIL = 'rtsunlimited@earthlink.net'
+

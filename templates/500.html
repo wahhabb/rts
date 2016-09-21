@@ -1,0 +1,32 @@
+{% extends parent_template|default:"base.html" %}
+{% block title %}
+{{ block.super }} - Get Our Catalog
+{% endblock %}
+{% block content %}
+    {% load static %}
+    <section id="get_catalog" class="columns">
+        <div class="col-1 column">
+        </div>
+        <div class="col-10 column">
+        <h1>Oops!</h1>
+
+         <h4>500 &ndash; Something Went Wrong :-(</h4>
+
+         <p>We have just updated our site, so it’s probably our problem, now yours.</p>
+
+         <p>You might try <a href="/" class="btn btn-primary">Searching for Comics</a>, but if that doesn’t
+             work, you will need to try again later.</p>
+
+         <p>Thanks for visiting our site!
+         </p>
+            
+        </div>
+        <div class="col-1 column">
+        </div>
+
+    </section>
+    <script>
+        $('#wrapper').css('background-image', "url('{% static 'comix/bg.jpg'  %}')");
+    </script>
+
+{% endblock %}

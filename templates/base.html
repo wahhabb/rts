@@ -40,8 +40,16 @@
                     <span id="cart-count">{{ cart_item_count|default:"" }}</span>
                 </a>
                 {% if user.is_anonymous %}
-                    <a href="{%  url 'login' %}" class="btn">Login</a>
-                    <a href="{% url 'registration_register' %}" class="btn btn-primary">Signup</a>
+                    {% if not 'login' in request.path %}
+                        {% if 'logout' in request.path %}
+                            <a href="{%  url 'login' %}" class="btn">Login</a>
+                        {% else %}
+                            <a href="{%  url 'login' %}?next={{ request.get_full_path|urlencode }}" class="btn">
+                                Login
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                    <a href="{% url 'registration_register' %}?next={{ request.get_full_path|urlencode }}" class="btn">Sign Up</a>
                 {% else %}
                     <p>Welcome, {{ user.username }}</p>
                     <a href="{%  url 'logout' %}" class="btn">Log Out</a>

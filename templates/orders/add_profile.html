@@ -11,10 +11,16 @@
     </div>
     <div class="col-10 column">
     <h1>Shipping Information</h1>
-    {% if request.user.is_authenticated == False %}
-    <p>Log In or Register to bring up or save your shipping information.</p>
-    <p>By creating an account you will be able to shop faster, be up to date on an order's
+    {% if not request.user.is_authenticated %}
+    <p><a href="{%  url 'login' %}?next={% url 'profile_update' %}" class="btn btn-primary">Log In</a>
+    or <a href="{% url 'registration_register' %}?next={{ request.get_full_path|urlencode }}"
+       class="btn btn-primary">Sign Up
+        </a>
+    to bring up or save your shipping information.</p>
+    <p>By creating an account you will be able to shop faster, be up to date on an order’s
         status, and keep track of the orders you have previously made.</p>
+    <p>You may also continue without logging in.</p>
+    <p>&nbsp;</p>
     {% endif %}
     {% if error_message %}
     <ul class="errorlist">

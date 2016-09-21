@@ -152,4 +152,3 @@ class PhotoJournalPage(StaticPageMixin, View):
     template_name = 'comix/photojournals.html'
 
 
-

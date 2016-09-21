@@ -35,9 +35,12 @@ header {
   color: yellow;
   text-shadow: 1px 2px 1px #006fdf;
 }
+.navbar-brand {
+  line-height: 1;
+}
 #tagline {
   position: absolute;
-  top: 8rem;
+  top: 7rem;
   color: #4452c0;
 }
 .navbar p {
@@ -45,7 +48,7 @@ header {
   padding: 0 1em;
 }
 section.navbar-section {
-  padding-bottom: 0;
+  padding-bottom: 0.6em;
 }
 p a:link {
   text-decoration: none;
@@ -55,6 +58,9 @@ p a:hover {
 }
 section {
   padding: 20px 30px;
+}
+section.navbar-section:first-of-type {
+  padding-right: 0;
 }
 .smaller {
   font-size: 80%;
@@ -210,6 +216,10 @@ fieldset.checkout legend {
   -o-transform: translate(0, 4px);
   transform: translate(0, 4px);
 }
+#search-bar h3.btn3 span {
+  font-size: 1.2em;
+  text-decoration: underline;
+}
 #genres {
   margin-bottom: 2.5rem;
   max-width: 90%;
@@ -266,4 +276,26 @@ fieldset.checkout legend {
 }
 #photojournals img.float-left {
   margin-right: 24px;
+}
+@media screen and (max-width: 710px) {
+  section.navbar-section {
+    padding-left: 10px;
+    padding-right: 0;
+  }
+}
+@media screen and (max-width: 624px) {
+  #tagline {
+    display: none;
+  }
+}
+@media screen and (max-width: 600px) {
+  .columns {
+    display: block;
+  }
+  .columns .column {
+    width: 100%;
+  }
+  #search_buttons {
+    display: none;
+  }
 }

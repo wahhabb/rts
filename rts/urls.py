@@ -18,10 +18,24 @@ from django.contrib import  admin
 from django.contrib.auth import views as auth_views
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.forms import AuthenticationForm
+from django.http.response import HttpResponseRedirect
+from registration.backends.simple.views import RegistrationView
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
+import logging
+
 
 from comix.views import homepage
 from comix.views import GenreListView, issue_detail, IssueList, PublisherList
 from contact import urls as contact_urls
+
+# Allow registration to return to page it came from
+@method_decorator(csrf_protect, name="dispatch")
+class MyRegistrationView(RegistrationView):
+    def get_success_url(self, user):
+        success_url = self.request.POST.get('next', '/')
+        return success_url
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -70,6 +84,7 @@ urlpatterns = [
              {'form': AuthenticationForm}},
         name='pw_reset_complete'),
 
+    url('^accounts/register', MyRegistrationView.as_view(), name='registration_register'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
 
     url(r'^contact/', include(contact_urls,)),
@@ -77,3 +92,4 @@ urlpatterns = [
     url(r'^order/', include('orders.urls')),
 
 ]
+

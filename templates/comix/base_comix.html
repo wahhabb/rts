@@ -15,6 +15,24 @@
                 title_field.className = 'form-input input-inline error';
                 }
             }
+            $(function() {
+                $(window).resize();
+            });
+
+            $(window).resize( function() {
+                if ($(window).width() < 601) {
+                    if (!$('#search-bar h3').hasClass('btn3')) {
+                        $('#search_buttons').hide();
+                        $('#search-bar h3').addClass('btn3')
+                            .click(function () {
+                                $('#search_buttons').toggle(400);
+                            });
+                    }
+                } else {
+                    $('#search-bar h3').removeClass('btn3').unbind('click');
+                            $('#search_buttons').show(400);
+                }
+            });
         </script>
 {% endblock %}
 {% block content %}
@@ -22,28 +40,30 @@
         <section id="list" class="columns">
     {% endblock %}
         <div id="search-bar" class="column col-3">
-            <h3>Search for Comics</h3>
-            <a href="{% url 'issue_list' %}" class="btn3"><span>Show All</span></a>
-            <a href="/publishers/" class="btn3"><span>Search by Publisher</span></a>
-            <a id="title_search_btn" href="#" class="btn3"><span>Search by Title</span></a>
-            <div id="search_block">
-                <input id="title_search" type="text" class="form-input input-inline" placeholder="Enter title...">
-                <a href="javascript:dosearch()" class="btn">Go</a>
-            </div>
-            <a id="category_search_btn" href="#" class="btn3"><span>Search by Category</span></a>
-            <div id="category_block">
-                <select id="genres" onchange="genreChosen(value);">
-                    <option value="0">Please choose a category...</option>
-                    {% for genre in genres %}
-                    <option value="{{ genre.slug }}">{{ genre.genre }}</option>
+            <h3><span>Search for Comics</span></h3>
+            <div id="search_buttons">
+                <a href="{% url 'issue_list' %}" class="btn3"><span>Show All</span></a>
+                <a href="/publishers/" class="btn3"><span>Search by Publisher</span></a>
+                <a id="title_search_btn" href="#" class="btn3"><span>Search by Title</span></a>
+                <div id="search_block">
+                    <input id="title_search" type="text" class="form-input input-inline" placeholder="Enter title...">
+                    <a href="javascript:dosearch()" class="btn">Go</a>
+                </div>
+                <a id="category_search_btn" href="#" class="btn3"><span>Search by Category</span></a>
+                <div id="category_block">
+                    <select id="genres" onchange="genreChosen(value);">
+                        <option value="0">Please choose a category...</option>
+                        {% for genre in genres %}
+                        <option value="{{ genre.slug }}">{{ genre.genre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <a id="tag_search_btn" href="#" class="btn3"><span>Search by Tag</span></a>
+                <div id="tag_block">
+                    {% for tag in tags %}
+                    <span><a href="?tag={{ tag.slug }}">{{ tag.name }}</a> </span>
                     {% endfor %}
-                </select>
-            </div>
-            <a id="tag_search_btn" href="#" class="btn3"><span>Search by Tag</span></a>
-            <div id="tag_block">
-                {% for tag in tags %}
-                <span><a href="?tag={{ tag.slug }}">{{ tag.name }}</a> </span>
-                {% endfor %}
+                </div>
             </div>
         </div>
 
