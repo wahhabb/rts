@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f780884-a0dd-4e2f-9cf0-458135dfc813" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/theme.css" afterPath="$PROJECT_DIR$/static/theme.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/theme.less" afterPath="$PROJECT_DIR$/static/theme.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
     </list>
     <ignored path="rts.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -84,8 +82,8 @@
       <file leaf-file-name="theme.less" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/theme.less">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="632">
-              <caret line="323" column="17" selection-start-line="323" selection-start-column="17" selection-end-line="323" selection-end-column="17" />
+            <state relative-caret-position="280">
+              <caret line="50" column="10" selection-start-line="50" selection-start-column="10" selection-end-line="50" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -178,8 +176,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="99" />
-    <option name="y" value="889" />
+    <option name="x" value="1232" />
+    <option name="y" value="821" />
     <option name="width" value="1029" />
     <option name="height" value="810" />
   </component>
@@ -609,7 +607,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="99" y="889" width="1029" height="810" extended-state="0" />
+    <frame x="1232" y="821" width="1029" height="810" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24003887" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1092,8 +1090,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/theme.less">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="632">
-          <caret line="323" column="17" selection-start-line="323" selection-start-column="17" selection-end-line="323" selection-end-column="17" />
+        <state relative-caret-position="280">
+          <caret line="50" column="10" selection-start-line="50" selection-start-column="10" selection-end-line="50" selection-end-column="10" />
           <folding />
         </state>
       </provider>
