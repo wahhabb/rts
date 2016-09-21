@@ -15,6 +15,8 @@ function add_to_cart(catalog_id) {
             $('#cart-count').html(json['cart_count']);
             if (json['not_added']) {
                 $('#already_in_cart').show(400).delay(1400).hide(200);
+            } else {
+                $('#added_to_cart').show(400).delay(1400).hide(200);
             }
         },
         error: function(xhr, errmsg, err) {

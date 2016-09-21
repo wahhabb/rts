@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f780884-a0dd-4e2f-9cf0-458135dfc813" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/comix/static/main.js" afterPath="$PROJECT_DIR$/comix/static/main.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/theme.css" afterPath="$PROJECT_DIR$/static/theme.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/theme.less" afterPath="$PROJECT_DIR$/static/theme.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/comix/issue_list.html" afterPath="$PROJECT_DIR$/templates/comix/issue_list.html" />
     </list>
     <ignored path="rts.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -82,18 +84,28 @@
       <file leaf-file-name="theme.less" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/theme.less">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="50" column="10" selection-start-line="50" selection-start-column="10" selection-end-line="50" selection-end-column="10" />
+            <state relative-caret-position="205">
+              <caret line="264" column="32" selection-start-line="264" selection-start-column="32" selection-end-line="264" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="spectre.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/spectre.css">
+      <file leaf-file-name="issue_list.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/comix/issue_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="1273" column="0" selection-start-line="1265" selection-start-column="0" selection-end-line="1273" selection-end-column="0" />
+            <state relative-caret-position="554">
+              <caret line="110" column="27" selection-start-line="110" selection-start-column="27" selection-end-line="110" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/comix/static/main.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -143,7 +155,6 @@
         <option value="$PROJECT_DIR$/orders/forms.py" />
         <option value="$PROJECT_DIR$/cart/urls.py" />
         <option value="$PROJECT_DIR$/orders/urls.py" />
-        <option value="$PROJECT_DIR$/comix/static/main.js" />
         <option value="$PROJECT_DIR$/comix/templatetags/checkout_tags.py" />
         <option value="$PROJECT_DIR$/templates/cart/cart.html" />
         <option value="$PROJECT_DIR$/templates/cart/place_order.html" />
@@ -162,9 +173,10 @@
         <option value="$PROJECT_DIR$/templates/comix/get_catalog.html" />
         <option value="$PROJECT_DIR$/templates/404.html" />
         <option value="$PROJECT_DIR$/templates/500.html" />
-        <option value="$PROJECT_DIR$/templates/comix/issue_list.html" />
         <option value="$PROJECT_DIR$/templates/comix/base_comix.html" />
         <option value="$PROJECT_DIR$/templates/base.html" />
+        <option value="$PROJECT_DIR$/comix/static/main.js" />
+        <option value="$PROJECT_DIR$/templates/comix/issue_list.html" />
         <option value="$PROJECT_DIR$/static/theme.less" />
       </list>
     </option>
@@ -1046,24 +1058,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/comix/issue_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="88" selection-start-line="24" selection-start-column="88" selection-end-line="24" selection-end-column="88" />
-          <folding>
-            <element signature="e#1167#1173#0#HTML" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/comix/static/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/spectre.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="400">
@@ -1088,10 +1082,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/comix/static/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/comix/issue_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="554">
+          <caret line="110" column="27" selection-start-line="110" selection-start-column="27" selection-end-line="110" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/static/theme.less">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="50" column="10" selection-start-line="50" selection-start-column="10" selection-end-line="50" selection-end-column="10" />
+        <state relative-caret-position="205">
+          <caret line="264" column="32" selection-start-line="264" selection-start-column="32" selection-end-line="264" selection-end-column="32" />
           <folding />
         </state>
       </provider>

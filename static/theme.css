@@ -246,6 +246,7 @@ fieldset.checkout legend {
 #tag_block {
   display: none;
 }
+#added_to_cart,
 #already_in_cart {
   text-align: center;
   color: #1389ff;
@@ -255,7 +256,7 @@ fieldset.checkout legend {
   border-radius: 2em;
   font-family: 'Baloo Paaji', cursive;
   font-size: 150%;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   margin: -42px 0 0 -71px;
