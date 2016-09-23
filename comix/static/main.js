@@ -26,17 +26,13 @@ function add_to_cart(catalog_id) {
     });
     return 0;
 }
-var prev_order = "price-down";
 function sortby(order) {
-    if (order !== prev_order) {
-        var qs = "{{ query_string|safe }}";
-        if (qs.search(/(.+)&sort=.+(&*.*)/) > -1) {
-            window.location = '?page=1' + qs.replace(/(.+)&sort=[^&]+(.*)/, '$1&sort=' + order);
-            //    window.location = '?page=1' + qs.replace(/(.+)&sort=[^&]+(.*)/, '$1&sort=price-down');
-        } else {
-            window.location = '?page=1' + qs + '&sort=' + order;
-        }
-
+    prev_order = order;
+    var qs = "{{ query_string|safe }}";
+    if (qs.search(/(.+)&sort=.+(&*.*)/) > -1) {
+        window.location = '?page=1' + qs.replace(/(.+)&sort=[^&]+(.*)/, '$1&sort=' + order);
+    } else {
+        window.location = '?page=1' + qs + '&sort=' + order;
     }
 }
 

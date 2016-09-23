@@ -53,6 +53,7 @@ class BaseOrderInfo(models.Model):
     state = USStateField()
     zip = models.CharField(max_length=32)
 
+
 class UserProfile(BaseOrderInfo):
     user = models.OneToOneField(User)
 

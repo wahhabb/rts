@@ -17,12 +17,12 @@
         {% endif %}
         <form id="sortorder" action="">
             <span>Sort Order: &nbsp;</span>
-            <input type="radio" {% if sort_order == 'price-down' or sort_order == None %}  checked {% endif %}
+            <input type="radio" {% if sort_order == 'alpha'  or sort_order == None %}  checked {% endif %}
+                   onclick="sortby('alpha')" name="sort" value="alpha" id="alpha">&nbsp;Alphabetically &nbsp;
+            <input type="radio" {% if sort_order == 'price-down'%}  checked {% endif %}
                    onclick="sortby('price-down')" name="sort" value="-price" id="price-down"> Price High to Low &nbsp;
             <input type="radio" {% if sort_order == 'price-up' %}  checked {% endif %}
                    onclick="sortby('price-up')" name="sort" value="price" id="price-up"> Price Low to High &nbsp;
-            <input type="radio" {% if sort_order == 'alpha' %}  checked {% endif %}
-                   onclick="sortby('alpha')" name="sort" value="alpha" id="alpha">&nbsp;Alphabetically &nbsp;
         </form>
             <div class="columns">
 

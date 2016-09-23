@@ -70,13 +70,15 @@ class IssueList(View):
         if search_text != None:
             issues = issues.filter(gcd_series_id__name__icontains=search_text )
             query_string += "&search=" + search_text
+
         if sort_order != None:
             query_string += "&sort=" + sort_order
-        sort_seq = {'price-up': 'price', 'price-down': '-price', None: '-price'}
-        if sort_order == 'alpha':
-            issues = issues.order_by('gcd_series_id__name', 'number')
+        sort_seq = {'price-up': 'price', 'price-down': '-price', None: 'alpha'}
+        if (sort_order == 'alpha') or (sort_order == None):
+            issues = issues.order_by('gcd_series_id__sort_name', 'number')
         else:
             issues = issues.order_by(sort_seq[sort_order])
+
         genres = Genre.objects.all().order_by('slug')
         paginator = Paginator(
             issues, self.paginate_by

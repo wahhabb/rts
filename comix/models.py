@@ -48,6 +48,7 @@ class Issue(models.Model):
     volume = models.CharField(max_length=255, blank=True)
     number = models.IntegerField(verbose_name='Issue No.')
     issue_text = models.CharField(max_length=255, blank=True)
+
     publication_date = models.CharField(max_length=255, blank=True)
     gcd_notes = models.CharField(max_length=255, blank=True)
     notes = models.CharField(max_length=255, blank=True)

@@ -8,7 +8,7 @@
 {% block subcontent %}
     {% load static %}
         <div class="column col-4">
-            <img src="/static/bigimages/{{ issue.cover_image }}" class="img-responsive rounded">
+            <img src="/static/bigImages/{{ issue.cover_image }}" class="img-responsive rounded">
             {% if issue.image_scanned == False %}
             <div class="clearfix smaller">
                 Stock photo from
@@ -39,6 +39,9 @@
             {% endif %}
             <hr>
             <p>Price: <span class="price">${{ issue.price }}</span></p>
+            {% if issue.quantity > 1 %}
+                <p>Quantity Available: {{ issue.quantity }}</p>
+            {% endif %}
             <p>Catalog # {{ issue.catalog_id }}</p>
             <hr>
             {% if issue.status == 'available' %}
