@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 
 
-USE rts_db;
+USE wahhabb$default;
 
 CREATE TABLE IF NOT EXISTS `tmp_sortname` (
   `id` int(11) NOT NULL,
