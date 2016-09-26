@@ -45,7 +45,7 @@ class Issue(models.Model):
     gcd_id = models.IntegerField()
     catalog_id = models.CharField(max_length=255, blank=True, unique=True)
     gcd_series_id = models.ForeignKey(Series, verbose_name="Title")
-    volume = models.CharField(max_length=255, blank=True)
+    volume = models.CharField(max_length=255, blank=True, null=True)
     number = models.IntegerField(verbose_name='Issue No.')
     issue_text = models.CharField(max_length=255, blank=True)
 
@@ -61,7 +61,7 @@ class Issue(models.Model):
     si = models.CharField(max_length=255, blank=True)
     added_date = models.DateTimeField(default=datetime.now)
     genre_id = models.ForeignKey(Genre, blank=True, null=True, verbose_name='Genre')
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True)
     price = models.DecimalField(max_digits=7, decimal_places=2)
     quantity = models.IntegerField()
     status = models.CharField(max_length=63)

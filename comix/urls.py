@@ -30,4 +30,6 @@ urlpatterns = [
 
     url(r'photojournals/$', PhotoJournalPage.as_view(), name='photojournals'),
 
+    url(r'update_session/', update_session, name='update_session')
+
 ]

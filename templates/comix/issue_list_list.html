@@ -1,0 +1,28 @@
+ <table id="issue_details">
+    <thead>
+        <tr>
+            <th scope="col">Issue (click for details)</th>
+            <th scope="col">Date #</th>
+            <th scope="col">Grade</th>
+            <th scope="col">Price</th>
+            <th scope="col" class="right">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for issue in issues %}
+        <tr>
+            <td><a href="{{ issue.get_absolute_url }}">{{ issue.gcd_series_id.name }}
+            {% if issue.volume > 0 %}
+                <span>Volume #</span> {{ issue.volume }}
+            {% endif %}
+            <span>Issue #</span> {{ issue.number }}</a></td>
+            <td>{{ issue.publication_date }}</td>
+            <td>{{ issue.grade }}</td>
+            <td>${{ issue.price }}</td>
+            <td><a href="#/" onclick="add_to_cart('{{ issue.catalog_id }}')">Add to Cart</a></td>
+        </tr>
+        {% empty %}
+            <h4>Sorry, no items found that match your request.</h4>
+        {% endfor %}
+    </tbody>
+</table>

@@ -26,15 +26,6 @@ function add_to_cart(catalog_id) {
     });
     return 0;
 }
-function sortby(order) {
-    prev_order = order;
-    var qs = "{{ query_string|safe }}";
-    if (qs.search(/(.+)&sort=.+(&*.*)/) > -1) {
-        window.location = '?page=1' + qs.replace(/(.+)&sort=[^&]+(.*)/, '$1&sort=' + order);
-    } else {
-        window.location = '?page=1' + qs + '&sort=' + order;
-    }
-}
 
 $(function() {
     $('#title_search_btn').click(function () {

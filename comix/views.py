@@ -6,6 +6,9 @@ from django.views.generic.list import ListView, View
 
 from comix.models import Genre, Issue, Publisher, Tag
 from orders.cart import get_cart_items
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 # Create your views here.
@@ -13,6 +16,14 @@ from orders.cart import get_cart_items
 
 def homepage(request):
     return HttpResponseRedirect('/issues/')
+
+
+def update_session(request):
+    if not request.is_ajax() or not request.method=='POST':
+        return HttpResponseNotAllowed(['POST'])
+
+    request.session['per_page'] = request.POST['count']
+    return HttpResponse(request.POST['count'])
 
 
 class PublisherList(View):
@@ -33,12 +44,12 @@ class PublisherList(View):
 
 
 class IssueList(View):
-    paginate_by = 9
     page_kwarg = 'page'
     genre_kwarg = 'category'
     template_name = 'comix/issue_list.html'
 
     def get(self, request):
+        per_page = request.session.get('per_page', 6)
         genre_slug = self.request.GET.get(self.genre_kwarg)
         publisher_slug = self.request.GET.get('publisher')
         sort_order = self.request.GET.get('sort')
@@ -80,10 +91,10 @@ class IssueList(View):
             issues = issues.order_by(sort_seq[sort_order])
 
         genres = Genre.objects.all().order_by('slug')
-        paginator = Paginator(
-            issues, self.paginate_by
-        )
+
+        paginator = Paginator(issues, per_page)
         page_no = request.GET.get(self.page_kwarg)
+
         try:
             page = paginator.page(page_no)
         except PageNotAnInteger:
@@ -101,6 +112,7 @@ class IssueList(View):
                    'sort_order': sort_order,
                    'tags': tags,
                    'cart_item_count': cart_item_count,
+                   'breaks': [2, 5, 8, 11, 14, 17, 20, 23, 26, 29],
                    }
         return render(
             request, self.template_name, context
@@ -152,5 +164,4 @@ class GetCatalogPage(StaticPageMixin, View):
 
 class PhotoJournalPage(StaticPageMixin, View):
     template_name = 'comix/photojournals.html'
-
 

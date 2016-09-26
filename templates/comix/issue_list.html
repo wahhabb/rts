@@ -15,7 +15,16 @@
         {% elif publisher_name != None %}
             <h3>Publisher: {{ publisher_name }}</h3>
         {% endif %}
-        <form id="sortorder" action="">
+{#        <h3>{{ request.session.per_page }} per page</h3>#}
+            <label for="per_page">Show per page:</label>
+             <select id="per_page" onchange="perPage(value);">
+                <option value="9">9</option>
+                <option value="30" {% if request.session.per_page == '30' %} selected="selected" {% endif %}
+                >30</option>
+                <option value="99"  {% if request.session.per_page == '99' %} selected="selected" {% endif %}
+                >99 (List format)</option>
+            </select>
+       <form id="sortorder" action="">
             <span>Sort Order: &nbsp;</span>
             <input type="radio" {% if sort_order == 'alpha'  or sort_order == None %}  checked {% endif %}
                    onclick="sortby('alpha')" name="sort" value="alpha" id="alpha">&nbsp;Alphabetically &nbsp;
@@ -24,51 +33,11 @@
             <input type="radio" {% if sort_order == 'price-up' %}  checked {% endif %}
                    onclick="sortby('price-up')" name="sort" value="price" id="price-up"> Price Low to High &nbsp;
         </form>
-            <div class="columns">
-
-        {% for issue in issues %}
-            <div class="card column col-4">
-                <div class="card-header">
-                    <h5 class="card-header">{{ issue.gcd_series_id.name }}</h5>
-                    <!--<h6 class="card-meta"><span>Publisher:</span> {{ issue.gcd_series_id.gcd_publisher_id }}</h6>-->
-                    <div class="card-image">
-                        <a href="{{ issue.get_absolute_url }}">
-                            <img src="/static/thumbnails/{{ issue.cover_image }}" class="img-responsive centered">
-                        </a>
-                    </div>
-                </div>
-                <div class="card-body">
-                   {% if issue.volume > 0 %}
-                        <p><span>Volume #</span> {{ issue.volume }}</p>
-                    {% endif %}
-                    <p><span>Issue #</span> {{ issue.number }}</p>
-                    <p><span>Date:</span> {{ issue.publication_date }}</p>
-                    <p><span>Grade:</span> {{ issue.grade }}</p>
-                    {% if issue.grade_notes > "" %}
-                        <p><span>Grade Notes:</span> {{ issue.grade_notes.name }}</p>
-                    {% endif %}
-                    {% if issue.genre_id > 0 %}
-                        <p><span>Genre:</span> {{ issue.genre_id.name }}</p>
-                    {% endif %}
-                    {% if issue.gcd_notes > "" %}
-                        <p><span>Issue Notes:</span> {{ issue.gcd_notes }}</p>
-                    {% endif %}
-                    {% if issue.notes > "" %}
-                        <p><span>RTS Notes:</span> {{ issue.notes }}</p>
-                    {% endif %}
-                    <p>Price: <span class="price">${{ issue.price }}</span></p>
-                    <a href="#/" class="btn btn-primary" onclick="add_to_cart('{{ issue.catalog_id }}')">Add to Cart</a>
-                    <a href="{{ issue.get_absolute_url }}" class="btn btn-primary">Details</a>
-                </div>
-            {% if forloop.counter0 == 2 or forloop.counter0 == 5%}
-                </div></div>
-                <div class="columns">
-            {% else %}
-                </div>
-            {% endif %}
-        {% empty %}
-            <h4>Sorry, no items found that match your request.</h4>
-        {% endfor %}
+        {% if request.session.per_page == '99' %}
+            {% include 'comix/issue_list_list.html' %}
+        {% else %}
+            {% include 'comix/issue_list_items.html' %}
+        {% endif %}
         </div>
         </div>
 
@@ -106,9 +75,33 @@
             {% endif %}
         </ul>
         </div>
+    {% endif %}
 
 {#        Display message if duplicate add to cart of single item    #}
-        <div id="already_in_cart">Already in Cart<br>Not Added</div>
-        <div id="added_to_cart">Added to Cart</div>
-    {% endif %}
+    <div id="already_in_cart">Already in Cart<br>Not Added</div>
+    <div id="added_to_cart">Added to Cart</div>
+
+    <script>
+        function perPage(count) {
+        $.post('/update_session/', {count: count}, function(data) {
+            var qs = "{{ query_string|safe }}";
+            window.location = '?page=1' + qs;
+{#            window.location = '?{% query_transform request page=1 %}';#}
+
+        })
+            .fail(function () {
+                alert('fail');
+            });
+        }
+        function sortby(order) {
+            prev_order = order;
+            var qs = "{{ query_string|safe }}";
+            if (qs.search(/(.+)&sort=.+(&*.*)/) > -1) {
+                window.location = '?page=1' + qs.replace(/(.+)&sort=[^&]+(.*)/, '$1&sort=' + order);
+            } else {
+                window.location = '?page=1' + qs + '&sort=' + order;
+            }
+        }
+
+    </script>
 {% endblock %}

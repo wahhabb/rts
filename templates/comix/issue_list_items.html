@@ -1,0 +1,46 @@
+    <div class="columns">
+
+    {% for issue in issues %}
+        <div class="card column col-4">
+            <div class="card-header">
+                <h5 class="card-header">{{ issue.gcd_series_id.name }}</h5>
+                <h6 class="card-meta"><span>Publisher:</span> {{ issue.gcd_series_id.gcd_publisher_id }}</h6>
+                <div class="card-image">
+                    <a href="{{ issue.get_absolute_url }}">
+                        <img src="/static/thumbnails/{{ issue.cover_image }}" class="img-responsive centered">
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+               {% if issue.volume > 0 %}
+                    <p><span>Volume #</span> {{ issue.volume }}</p>
+                {% endif %}
+                <p><span>Issue #</span> {{ issue.number }}</p>
+                <p><span>Date:</span> {{ issue.publication_date }}</p>
+                <p><span>Grade:</span> {{ issue.grade }}</p>
+                {% if issue.grade_notes > "" %}
+                    <p><span>Grade Notes:</span> {{ issue.grade_notes.name }}</p>
+                {% endif %}
+                {% if issue.genre_id > 0 %}
+                    <p><span>Genre:</span> {{ issue.genre_id.name }}</p>
+                {% endif %}
+                {% if issue.gcd_notes > "" %}
+                    <p><span>Issue Notes:</span> {{ issue.gcd_notes }}</p>
+                {% endif %}
+                {% if issue.notes > "" %}
+                    <p><span>RTS Notes:</span> {{ issue.notes }}</p>
+                {% endif %}
+                <p>Price: <span class="price">${{ issue.price }}</span></p>
+                <a href="#/" class="btn btn-primary" onclick="add_to_cart('{{ issue.catalog_id }}')">Add to Cart</a>
+                <a href="{{ issue.get_absolute_url }}" class="btn btn-primary">Details</a>
+            </div>
+            {% if forloop.counter0 in breaks %}
+                </div></div>
+                <div class="columns">
+            {% else %}
+                </div>
+            {% endif %}
+        {% empty %}
+            <h4>Sorry, no items found that match your request.</h4>
+        {% endfor %}
+

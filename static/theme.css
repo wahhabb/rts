@@ -29,6 +29,9 @@ footer {
 header {
   padding: 0 30px;
 }
+th {
+  text-align: left;
+}
 .navbar .navbar-brand {
   font-family: 'Baloo Paaji', cursive;
   font-size: 4.5rem;
@@ -124,12 +127,24 @@ section.navbar-section:first-of-type {
 #list p {
   margin: 0;
 }
+#issue_details {
+  width: 100%;
+  padding-top: 0.7em;
+}
+#issue_details tr:nth-child(4n+2),
+#issue_details tr:nth-child(4n+3) {
+  background-color: #eef7ff;
+}
 h5.card-header {
   margin: 0;
 }
 #list .card {
   border: 0.3rem solid #c5e2ff;
   border-radius: 1rem;
+}
+.card h6.card-meta {
+  color: #4452c0;
+  text-align: center;
 }
 #id_email {
   width: 210px;
@@ -148,6 +163,9 @@ h5.card-header {
 #gotopage {
   width: 5rem;
 }
+#per_page {
+  margin-bottom: 1em;
+}
 #checkout th {
   vertical-align: bottom;
 }
@@ -162,6 +180,9 @@ fieldset.checkout legend {
 .sorry {
   font-size: 120%;
   font-weight: bold;
+}
+.pagination {
+  padding-top: 0;
 }
 .pagination li {
   display: inline-block;
