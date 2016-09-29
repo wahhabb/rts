@@ -8,6 +8,10 @@ from comix.models import Genre, Issue, Publisher, Tag
 from orders.cart import get_cart_items
 import logging
 
+#   for reading file
+from django.core.files import File
+
+
 logger = logging.getLogger(__name__)
 
 

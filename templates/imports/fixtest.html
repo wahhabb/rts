@@ -1,0 +1,14 @@
+{% extends parent_template|default:"base.html" %}
+{% block title %}
+{{ block.super }} - Fix Test
+{% endblock %}
+{% block content %}
+    <h5>Publisher Fixes</h5>
+    {% for item in pubfix %}
+        <p>
+        {% for subitem in item %}
+            {{ subitem }}
+        {% endfor %}
+        </p>
+    {% endfor %}
+{% endblock %}

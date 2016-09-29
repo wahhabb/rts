@@ -28,6 +28,7 @@ import logging
 from comix.views import homepage
 from comix.views import GenreListView, issue_detail, IssueList, PublisherList
 from contact import urls as contact_urls
+from imports.views import PublisherFixView
 
 # Allow registration to return to page it came from
 @method_decorator(csrf_protect, name="dispatch")
@@ -90,6 +91,8 @@ urlpatterns = [
     url(r'^contact/', include(contact_urls,)),
 
     url(r'^order/', include('orders.urls')),
+
+    url(r'^fixtest/$', PublisherFixView.as_view(), name='publisher_fix'),
 
 ]
 

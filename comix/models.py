@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.urlresolvers import reverse
 from datetime import datetime
+from django.template.defaultfilters import slugify
 
 # Create your models here.
 
@@ -9,6 +10,12 @@ class Publisher(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField()
     issue_ct = models.IntegerField()
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = self.slugify(self.name)
+            super(Publisher, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
@@ -23,6 +30,12 @@ class Series(models.Model):
     color = models.CharField(max_length=255, blank=True)
     gcd_publisher_id = models.ForeignKey(Publisher)
     slug = models.SlugField()
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = self.slugify(self.name)
+            super(Series, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
@@ -30,6 +43,12 @@ class Series(models.Model):
 class Genre(models.Model):
     genre = models.CharField(max_length=255)
     slug = models.SlugField()
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = self.slugify(self.genre)
+            super(Genre, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.genre
 
@@ -37,6 +56,12 @@ class Genre(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=31)
     slug = models.SlugField()
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = self.slugify(self.name)
+            super(Tag, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
@@ -66,7 +91,9 @@ class Issue(models.Model):
     quantity = models.IntegerField()
     status = models.CharField(max_length=63)
     sold_date = models.DateTimeField(null=True, blank=True)
+
     def get_absolute_url(self):
         return reverse('issue_detail', kwargs={'cat_id': self.pk})
+
     def __str__(self):
         return self.catalog_id + ' ' + self.gcd_series_id.name + ' #' + str(self.number)

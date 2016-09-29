@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'registration',
     'orders',
     'contact',
+    'imports',
     'localflavor',
 ]
 
