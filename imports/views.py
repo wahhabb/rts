@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 # Create your views here.
 class PublisherFixView(View):
     template_name = 'imports/fixtest.html'
+    gcd_series_recs = None
 
     def get(self, request):
         wb = load_workbook(filename="data/PubFix.xlsx")
@@ -25,16 +26,20 @@ class PublisherFixView(View):
             fixes[row[0].value] = row[1].value
 
         issues = TblComics.objects.all()
+        # limit for testing
+        issues = issues.filter(status="test")
+
         for tbl_issue in issues:
             # Determine if already in database
             try:
-                c_issue = Issue.objects.get(pk = issue.pk)
+                c_issue = Issue.objects.get(catalog_id = tbl_issue.catalog_no)
                 if tbl_issue.is_active == 'N':
                     c_issue.status = 'N'
                 else:
                     c_issue.status = 'available'
                 c_issue.save()
                 tbl_issue.is_done = 'Y'
+                tbl_issue.status = 'available'
                 tbl_issue.save()
                 continue  # not necessary, just for clarity
 
@@ -58,19 +63,17 @@ class PublisherFixView(View):
                 issue.si = tbl_issue.si
                 issue.added_date = tbl_issue.added_date
                 issue.price = tbl_issue.price
-                issue.quantity = int(tbl_issue.packs) * int(tbl_issue.no_per_pack) + tbl_issue.single_quantity
+                issue.quantity = int('0' + tbl_issue.packs) * int('0' + tbl_issue.no_per_pack) + \
+                    int(tbl_issue.single_quantity)
                 issue.status = tbl_issue.status
                 issue.gcd_id = tbl_issue.gcd_issue_id
-                issue.gcd_series_id = tbl_issue.gcd_series_id
                 if tbl_issue.is_active == 'N':
                     issue.status = 'N'
 
-
-
-                if issue.gcd_series_id == 0:
+                if tbl_issue.gcd_series_id == 0:
                     # Find series from title
-                    gcd_series_recs = GcdSeries.objects.filter(name=tbl_issue.name)
-                    series_ct = len(gcd_series_recs)
+                    self.gcd_series_recs = GcdSeries.objects.filter(name=tbl_issue.name)
+                    series_ct = len(self.gcd_series_recs)
                     if series_ct == 0:
                         # failed to get match on name, drop item
                         items.append((issue.catalog_id, tbl_issue.name, "No match on name"))
@@ -78,7 +81,9 @@ class PublisherFixView(View):
                     elif series_ct > 1:
                         # Need to find publisher
                         if tbl_issue.gcd_publisher_id > 0:
-                            gcd_series = gcd_series_recs.get(publisher_id=tbl_issue.gcd_publisher_id)
+                            gcd_series = self.gcd_series_recs.get(publisher_id=tbl_issue.gcd_publisher_id,
+                                                                  first_issue_id__lte=tbl_issue.issue,
+                                                                  last_issue_id__gte=tbl_issue.issue)
                         else:
                             # look up publisher based on name
                             try:
@@ -100,15 +105,17 @@ class PublisherFixView(View):
 
 
                                 # Now get series based on publisher
-                                gcd_series = gcd_series_recs.get(publisher_id=gcd_publisher.id)
+                                gcd_series = self.gcd_series_recs.get(publisher_id=tbl_issue.gcd_publisher_id,
+                                                                      first_issue_id__lte=tbl_issue.issue,
+                                                                      last_issue_id__gte=tbl_issue.issue)
                                 issue.gcd_series_id = gcd_series.id
                     else:
                         # just one series matches
-                        issue.gcd_series_id = gcd_series_recs[0].id
+                        issue.gcd_series_id = self.gcd_series_recs[0].id
                 else:       # We have series ID
                     # Get or create series record
                     try:
-                        series = Series.objects.get(pk = issue.gcd_series_id)
+                        series = Series.objects.get(pk = tbl_issue.gcd_series_id)
                     except ObjectDoesNotExist:
                         series = Series()
                         series.id = series.gcd_id = issue.gcd_series_id
@@ -123,13 +130,15 @@ class PublisherFixView(View):
                         series.save()
                     # ToDo: Delete genre?
                     # issue.genre_id =
+                issue.gcd_series_id = series
 
                 gcd_issue = GcdIssue.objects.get(pk=tbl_issue.gcd_issue_id)
                 issue.publication_date = gcd_issue.publication_date
                 issue.gcd_notes = gcd_issue.notes
                 # Verify Publisher in database or create new
                 try:
-                    publisher = Publisher.objects.get(pk=gcd_series_recs[0].publisher_id)
+                    self.gcd_series_recs = GcdSeries.objects.filter(name=tbl_issue.name)
+                    publisher = Publisher.objects.get(pk=self.gcd_series_recs[0].publisher_id)
                 except ObjectDoesNotExist:
                     # Need to add publisher. ToDo: Duplicate code from above
                     publisher = Publisher(id=gcd_publisher.id, gcd_id=gcd_publisher.id,
@@ -143,14 +152,35 @@ class PublisherFixView(View):
                     issue.cover_image = '/static/thumbnails/' + str(issue.gcd_id) + '.jpg'
                 if not os.path.isfile(issue.cover_image):
                     self.scrape_image(issue.gcd_id)
+                tbl_issue.is_done = 'Y' # Mark record as completed
+                tbl_issue.status = 'available'
+                tbl_issue.save()
 
-        context = {'pubfix': items,
+        context = {'errors': items,
                    }
         return render(
             request, self.template_name, context
         )
 
     def scrape_image(self, gcd_issue_id):
-        # Get cover from "www.comics.org/issue/" + gcd_issue_id + '/cover/4/'
-        # ToDo: finish scrape
-        return
+        import urllib.request
+        from bs4 import BeautifulSoup
+        import re
+        from PIL import Image
+
+        # Get cover from "http://www.comics.org/issue/" + gcd_issue_id + '/cover/4/'
+        with urllib.request.urlopen('http://www.comics.org/issue/' + str(gcd_issue_id) + '/cover/4/') as response:
+           html = response.read()
+        soup = BeautifulSoup(html)
+        img = soup.find('img', 'cover_img')
+        matches = re.match(r'.+src="(http.+/(\d+.jpg)).+', str(img))
+        filename = matches.group(1)
+        saved_filename = 'comix/static/bigImages/' + matches.group(2)
+        urllib.request.urlretrieve(filename, saved_filename)
+        # Now create thumbnail
+        size = (100, 156)
+        thumb_filename = 'comix/static/thumbnails/' + matches.group(2)
+        im = Image.open(saved_filename)
+        im.thumbnail(size)
+        im.save(thumb_filename, "JPEG")
+

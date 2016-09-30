@@ -3,12 +3,22 @@
 {{ block.super }} - Fix Test
 {% endblock %}
 {% block content %}
-    <h5>Publisher Fixes</h5>
-    {% for item in pubfix %}
-        <p>
-        {% for subitem in item %}
-            {{ subitem }}
+    {% load static %}
+    <section id="imports" class="columns">
+        <div class="col-1 column">
+        </div>
+        <div class="col-10 column">    <h5>Import Porblems</h5>
+        <table>
+    {% for error in errors %}
+        <tr>
+        {% for subitem in error %}
+           <td>{{ subitem }}</td>
         {% endfor %}
-        </p>
+        </tr>
     {% endfor %}
+    </table>
+        </div>
+        <div class="col-1 column">
+        </div>
+    </section>
 {% endblock %}

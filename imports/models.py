@@ -251,7 +251,7 @@ class GcdSeries(models.Model):
     binding = models.CharField(max_length=255)
     publishing_format = models.CharField(max_length=255)
     has_rating = models.IntegerField()
-    publication_type = models.IntegerField(blank=True, null=True)
+    publication_type_id = models.IntegerField(blank=True, null=True)
     is_singleton = models.IntegerField()
 
     class Meta:
