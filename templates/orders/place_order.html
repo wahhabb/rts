@@ -96,7 +96,7 @@
 		  <input type="hidden" name="custom" value="{{ profile.user.id }}">
           {% for item in cart_items %}
               <input type="hidden" name="item_name_{{ forloop.counter }}"
-                     value="{{ item.product.gcd_series_id.name }}">
+                     value="{{ item.product.gcd_series.name }}">
               <input type="hidden" name="amount_{{ forloop.counter }}" value="{{ item.price }}">
               <input type="hidden" name="quantity_{{ forloop.counter }}" value="{{ item.quantity }}">
 

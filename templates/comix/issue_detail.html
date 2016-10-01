@@ -1,6 +1,6 @@
 {% extends parent_template|default:"comix/base_comix.html" %}
 {% block title %}
-{{ block.super }} - {{ issue.gcd_series_id.name }} Issue {{ issue.number }}
+{{ block.super }} - {{ issue.gcd_series.name }} Issue {{ issue.number }}
 {% endblock %}
 {% block sectionhead %}
     <section id="single" class="columns">
@@ -17,8 +17,8 @@
             {% endif %}
         </div>
         <div class="column col-4 notes">
-            <h1>{{ issue.gcd_series_id.name }} Issue {{ issue.number }}</h1>
-            <p><span>Publisher:</span> {{ series.gcd_publisher_id }}</p>
+            <h1>{{ issue.gcd_series.name }} #{{ issue.number }}</h1>
+            <p><span>Publisher:</span> {{ series.gcd_publisher }}</p>
             {% if issue.volume > 0 %}
                 <p><span>Volume #</span> {{ issue.volume }}</p>
             {% endif %}
@@ -26,7 +26,7 @@
             <p><span>Date:</span> {{ issue.publication_date }}</p>
             <p><span>Grade:</span> {{ issue.grade }}</p>
             {% if issue.grade_notes > "" %}
-                <p><span>Grade Notes:</span> {{ issue.grade_notes.name }}</p>
+                <p><span>Grade Notes:</span> {{ issue.grade_notes}}</p>
             {% endif %}
             {% if issue.genre_id > 0 %}
                 <p><span>Genre:</span> {{ issue.genre_id.name }}</p>

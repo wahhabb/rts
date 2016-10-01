@@ -110,6 +110,9 @@ else:
             'PASSWORD': 'c0ll%ns1',
             'HOST': 'wahhabb.mysql.pythonanywhere-services.com',
             'PORT': '',
+        },
+        'options': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
     }
 

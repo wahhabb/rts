@@ -3,8 +3,8 @@
     {% for issue in issues %}
         <div class="card column col-4">
             <div class="card-header">
-                <h5 class="card-header">{{ issue.gcd_series_id.name }}</h5>
-                <h6 class="card-meta"><span>Publisher:</span> {{ issue.gcd_series_id.gcd_publisher_id }}</h6>
+                <h5 class="card-header">{{ issue.gcd_series.name }}</h5>
+                <h6 class="card-meta"><span>Publisher:</span> {{ issue.gcd_series.gcd_publisher }}</h6>
                 <div class="card-image">
                     <a href="{{ issue.get_absolute_url }}">
                         <img src="/static/thumbnails/{{ issue.cover_image }}" class="img-responsive centered">
@@ -21,8 +21,8 @@
                 {% if issue.grade_notes > "" %}
                     <p><span>Grade Notes:</span> {{ issue.grade_notes.name }}</p>
                 {% endif %}
-                {% if issue.genre_id > 0 %}
-                    <p><span>Genre:</span> {{ issue.genre_id.name }}</p>
+                {% if issue.genre %}
+                    <p><span>Genre:</span> {{ issue.genre.name }}</p>
                 {% endif %}
                 {% if issue.gcd_notes > "" %}
                     <p><span>Issue Notes:</span> {{ issue.gcd_notes }}</p>

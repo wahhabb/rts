@@ -16,7 +16,7 @@ admin.site.site_title = "RTS Comics Admin"
 class IssueAdmin(admin.ModelAdmin):
     list_display = ('gcd_id',
         'catalog_id',
-        'gcd_series_id',
+        'gcd_series',
         'volume',
         'number',
         'issue_text',
@@ -31,7 +31,7 @@ class IssueAdmin(admin.ModelAdmin):
         'inserts',
         'si',
         'added_date',
-        'genre_id',
+        'genre',
         'price',
         'quantity',
         'status',

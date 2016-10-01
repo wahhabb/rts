@@ -28,7 +28,7 @@ class Series(models.Model):
     notes = models.CharField(max_length=255, blank=True)
     issue_count = models.IntegerField()
     color = models.CharField(max_length=255, blank=True)
-    gcd_publisher_id = models.ForeignKey(Publisher)
+    gcd_publisher = models.ForeignKey(Publisher)
     slug = models.SlugField()
 
     def save(self, *args, **kwargs):
@@ -69,7 +69,7 @@ class Tag(models.Model):
 class Issue(models.Model):
     gcd_id = models.IntegerField()
     catalog_id = models.CharField(max_length=255, blank=True, unique=True)
-    gcd_series_id = models.ForeignKey(Series, verbose_name="Title")
+    gcd_series = models.ForeignKey(Series, verbose_name="Title")
     volume = models.CharField(max_length=255, blank=True, null=True)
     number = models.IntegerField(verbose_name='Issue No.')
     issue_text = models.CharField(max_length=255, blank=True)
@@ -85,7 +85,7 @@ class Issue(models.Model):
     inserts = models.CharField(max_length=255, blank=True)
     si = models.CharField(max_length=255, blank=True)
     added_date = models.DateTimeField(default=datetime.now)
-    genre_id = models.ForeignKey(Genre, blank=True, null=True, verbose_name='Genre')
+    genre = models.ForeignKey(Genre, blank=True, null=True, verbose_name='Genre')
     tags = models.ManyToManyField(Tag, blank=True)
     price = models.DecimalField(max_digits=7, decimal_places=2)
     quantity = models.IntegerField()
@@ -96,4 +96,4 @@ class Issue(models.Model):
         return reverse('issue_detail', kwargs={'cat_id': self.pk})
 
     def __str__(self):
-        return self.catalog_id + ' ' + self.gcd_series_id.name + ' #' + str(self.number)
+        return self.catalog_id + ' ' + self.gcd_series.name + ' #' + str(self.number)

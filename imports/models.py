@@ -180,6 +180,9 @@ class GcdPublisher(models.Model):
         managed = False
         db_table = 'gcd_publisher'
 
+    def __str__(self):
+        return self.name
+
 
 # class GcdReprint(models.Model):
 #     origin = models.ForeignKey('GcdStory', models.DO_NOTHING)
@@ -258,6 +261,8 @@ class GcdSeries(models.Model):
         managed = False
         db_table = 'gcd_series'
 
+    def __str__(self):
+        return self.name
 
 # class GcdStory(models.Model):
 #     title = models.CharField(max_length=255)
@@ -410,12 +415,3 @@ class TblComics(models.Model):
         managed = False
         db_table = 'tbl_comics'
 
-
-# class TmpCt(models.Model):
-#     id = models.IntegerField(primary_key=True)
-#     count = models.IntegerField(blank=True, null=True)
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'tmp_ct'
-#

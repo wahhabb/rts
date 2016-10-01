@@ -137,7 +137,7 @@ def issue_detail(request, cat_id):
     cart_issues = get_cart_items(request)
     cart_item_count = cart_issues.count()
     context = Context({'issue': issue,
-                       'series': issue.gcd_series_id,
+                       'series': issue.gcd_series,
                        'genres': genres,
                        'tags': tags,
                        'cart_item_count': cart_item_count,

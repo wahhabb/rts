@@ -11,11 +11,11 @@
     <tbody>
     {% for issue in issues %}
         <tr>
-            <td><a href="{{ issue.get_absolute_url }}">{{ issue.gcd_series_id.name }}
+            <td><a href="{{ issue.get_absolute_url }}">{{ issue.gcd_series.name }}
             {% if issue.volume > 0 %}
                 <span>Volume #</span> {{ issue.volume }}
             {% endif %}
-            <span>Issue #</span> {{ issue.number }}</a></td>
+            <span>#</span> {{ issue.number }}</a></td>
             <td>{{ issue.publication_date }}</td>
             <td>{{ issue.grade }}</td>
             <td>${{ issue.price }}</td>
