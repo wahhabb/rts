@@ -415,3 +415,6 @@ class TblComics(models.Model):
         managed = False
         db_table = 'tbl_comics'
 
+    def __str__(self):
+        return self.catalog_no;
+

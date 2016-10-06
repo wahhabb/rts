@@ -1,7 +1,8 @@
 from django.db import models
 from django.core.urlresolvers import reverse
 from datetime import datetime
-from django.template.defaultfilters import slugify
+from django.utils.text import slugify
+
 
 # Create your models here.
 
@@ -12,9 +13,9 @@ class Publisher(models.Model):
     issue_ct = models.IntegerField()
 
     def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = self.slugify(self.name)
-            super(Publisher, self).save(*args, **kwargs)
+        if not self.slug:
+            self.slug = slugify(self.name)[:49]
+        super(Publisher, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -25,16 +26,16 @@ class Series(models.Model):
     name = models.CharField(max_length=255)
     sort_name = models.CharField(max_length=255)
     year_began = models.IntegerField()
-    notes = models.CharField(max_length=255, blank=True)
+    notes = models.TextField(blank=True)
     issue_count = models.IntegerField()
     color = models.CharField(max_length=255, blank=True)
     gcd_publisher = models.ForeignKey(Publisher)
     slug = models.SlugField()
 
     def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = self.slugify(self.name)
-            super(Series, self).save(*args, **kwargs)
+        if not self.slug:
+            self.slug = slugify(self.name)[:49]
+        super(Series, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -45,9 +46,9 @@ class Genre(models.Model):
     slug = models.SlugField()
 
     def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = self.slugify(self.genre)
-            super(Genre, self).save(*args, **kwargs)
+        if not self.slug:
+            self.slug = self.slugify(self.genre)[:49]
+        super(Genre, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.genre
@@ -58,9 +59,9 @@ class Tag(models.Model):
     slug = models.SlugField()
 
     def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = self.slugify(self.name)
-            super(Tag, self).save(*args, **kwargs)
+        if not self.slug:
+            self.slug = slugify(self.name)[:49]
+        super(Tag, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -75,8 +76,8 @@ class Issue(models.Model):
     issue_text = models.CharField(max_length=255, blank=True)
 
     publication_date = models.CharField(max_length=255, blank=True)
-    gcd_notes = models.CharField(max_length=255, blank=True)
-    notes = models.CharField(max_length=255, blank=True)
+    gcd_notes = models.TextField(blank=True)
+    notes = models.TextField(blank=True)
     grade = models.CharField(max_length=255)
     grade_notes = models.CharField(max_length=255, blank=True)
     cover_image = models.CharField(max_length=255)
@@ -97,3 +98,4 @@ class Issue(models.Model):
 
     def __str__(self):
         return self.catalog_id + ' ' + self.gcd_series.name + ' #' + str(self.number)
+
