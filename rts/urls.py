@@ -28,7 +28,7 @@ import logging
 from comix.views import homepage
 from comix.views import GenreListView, issue_detail, IssueList, PublisherList
 from contact import urls as contact_urls
-from imports.views import PublisherFixView
+from imports.views import TblComicsImportView, ImportExcelView
 
 # Allow registration to return to page it came from
 @method_decorator(csrf_protect, name="dispatch")
@@ -92,7 +92,9 @@ urlpatterns = [
 
     url(r'^order/', include('orders.urls')),
 
-    url(r'^fixtest/$', PublisherFixView.as_view(), name='publisher_fix'),
+    url(r'^fixtest/$', TblComicsImportView.as_view(), name='publisher_fix'),
+
+    url(r'^importexcel/$', ImportExcelView.as_view(), name='import_excel')
 
 ]
 
