@@ -1,0 +1,50 @@
+{% extends parent_template|default:"base.html" %}
+{% block title %}
+{{ block.super }} - Resolve Variants
+{% endblock %}
+{% block content %}
+    {% load static %}
+    <section id="imports" class="columns">
+        <div class="col-1 column">
+        </div>
+        <div class="col-10 column">    <h5>Resolve Variants</h5>
+
+        <form method="post" action=".">
+            {% csrf_token %}
+            <input type="text" name="catalog-no" />
+            <input type="submit" class="btn btn-primary" value="Submit" />
+        </form>
+        <h5>{{ title }}</h5>
+
+        {% if error != '' %}
+            <p class="error">{{ error }}</p>
+        {% else %}
+            {% for image in images %}
+            <img src="/static/bigimages/{{ image }}">
+{#            <p>Issue {{ comic.note }}</p>#}
+                <p>&nbsp;</p>
+            {% endfor %}
+            {% if images %}
+                <form id="chooser" method="post" action=".">
+                    {% csrf_token %}
+                    <input type="text" name="usecat" value="{{ cat_id }}">
+                    <input type="text" name="useimg" id="useimg">
+                    <input type="submit" id="choose" class="btn btn-primary" value="Submit" />
+                </form>
+            {% endif %}
+         {% endif %}
+
+
+        </div>
+        <div class="col-1 column">
+        </div>
+    </section>
+    <script>
+    $('img').click(function (e) {
+        $('img').removeClass('redborder');
+        $(this).addClass('redborder');
+        $('#useimg').val($(this).attr('src'));
+        $('#choose').css({top: e.pageY, left: e.pageX, position: 'absolute'}).parent.parent.removeClass('hidden');
+    });
+    </script>
+{% endblock %}

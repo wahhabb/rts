@@ -289,6 +289,9 @@ fieldset.checkout legend {
 .error {
   border: 2px solid red;
 }
+.hidden {
+  display: none;
+}
 #create_account label {
   display: inline-block;
   width: 120px;
@@ -305,6 +308,9 @@ fieldset.checkout legend {
 }
 #photojournals img.float-left {
   margin-right: 24px;
+}
+.redborder {
+  border: groove 5px red;
 }
 @media screen and (max-width: 710px) {
   section.navbar-section {
