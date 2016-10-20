@@ -1,10 +1,9 @@
 from django.shortcuts import render
 from django.views.generic.list import  View
-from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
-import logging
+from django.core.exceptions import ObjectDoesNotExist
 import os.path
-from imports.models import *
-from comix.models import Publisher, Series, Issue
+from comix.models import  Issue
+from django.conf import settings as djangoSettings
 
 
 def scrape_images(gcd_issue_id):
@@ -29,14 +28,20 @@ def scrape_images(gcd_issue_id):
         src_filename = matches.group(1)
         filename = matches.group(2)
         filenames.append(filename)
-        saved_filename = 'comix/static/bigImages/' + filename
+        if djangoSettings.STATIC_ROOT != None:
+            saved_filename =  djangoSettings.STATIC_ROOT + '/bigImages/' + filename
+        else: # debug version
+            saved_filename = 'comix/static/bigImages/' + filename
         if not os.path.isfile(saved_filename):
             print("Scraping image issue", gcd_issue_id)
             urllib.request.urlretrieve(src_filename, saved_filename)
             sleep(1)
             # Now create thumbnail
             size = (100, 156)
-            thumb_filename = 'comix/static/thumbnails/' + filename
+            if djangoSettings.STATIC_ROOT != None:
+                thumb_filename = djangoSettings.STATIC_ROOT + '/thumbnails/' + filename
+            else:
+                thumb_filename = 'comix/static/thumbnails/' + filename
             im = Image.open(saved_filename)
             im.thumbnail(size)
             im.save(thumb_filename, "JPEG")
@@ -70,7 +75,8 @@ class FindVariantView(View):
 
             except ObjectDoesNotExist:
                 error = "Not Found"
-                issue = None
+                issue = cat_id
+
 
             context = {
                 'title': str(issue),

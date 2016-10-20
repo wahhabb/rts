@@ -16,7 +16,7 @@
         </form>
         <h5>{{ title }}</h5>
 
-        {% if error != '' %}
+        {% if error > '' %}
             <p class="error">{{ error }}</p>
         {% else %}
             {% for image in images %}

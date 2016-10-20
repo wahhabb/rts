@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f780884-a0dd-4e2f-9cf0-458135dfc813" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/~$errors.xlsx" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/imports/views_variant.py" afterPath="$PROJECT_DIR$/imports/views_variant.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/imports/variants.html" afterPath="$PROJECT_DIR$/templates/imports/variants.html" />
     </list>
@@ -31,8 +31,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/imports/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="499">
-              <caret line="48" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+            <state relative-caret-position="330">
+              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -43,8 +43,8 @@
       <file leaf-file-name="views_variant.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/imports/views_variant.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="574">
-              <caret line="84" column="12" selection-start-line="84" selection-start-column="12" selection-end-line="84" selection-end-column="12" />
+            <state relative-caret-position="420">
+              <caret line="31" column="59" selection-start-line="31" selection-start-column="59" selection-end-line="31" selection-end-column="59" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -52,13 +52,23 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rts/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="227">
+              <caret line="151" column="8" selection-start-line="151" selection-start-column="2" selection-end-line="151" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="variants.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/imports/variants.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+            <state relative-caret-position="300">
+              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
               <folding>
-                <element signature="e#767#773#1#HTML" expanded="true" />
+                <element signature="e#766#772#1#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -69,16 +79,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1015">
               <caret line="307" column="1" selection-start-line="307" selection-start-column="1" selection-end-line="307" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="about.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/comix/about.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-125">
-              <caret line="4" column="19" selection-start-line="0" selection-start-column="1" selection-end-line="4" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -193,8 +193,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="37" />
-    <option name="y" value="612" />
+    <option name="x" value="1226" />
+    <option name="y" value="483" />
     <option name="width" value="1154" />
     <option name="height" value="806" />
   </component>
@@ -705,7 +705,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="37" y="612" width="1154" height="806" extended-state="0" />
+    <frame x="1226" y="483" width="1154" height="806" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20797227" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -988,14 +988,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rts/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="109" column="33" selection-start-line="109" selection-start-column="25" selection-end-line="109" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/imports/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="455">
@@ -1122,16 +1114,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/imports/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="499">
-          <caret line="48" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/comix/about.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-125">
@@ -1156,20 +1138,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/imports/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/imports/variants.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+        <state relative-caret-position="300">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding>
-            <element signature="e#767#773#1#HTML" expanded="true" />
+            <element signature="e#766#772#1#HTML" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rts/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="151" column="8" selection-start-line="151" selection-start-column="2" selection-end-line="151" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/imports/views_variant.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="574">
-          <caret line="84" column="12" selection-start-line="84" selection-start-column="12" selection-end-line="84" selection-end-column="12" />
+        <state relative-caret-position="420">
+          <caret line="31" column="59" selection-start-line="31" selection-start-column="59" selection-end-line="31" selection-end-column="59" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
