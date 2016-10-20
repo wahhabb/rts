@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f780884-a0dd-4e2f-9cf0-458135dfc813" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/imports/views_variant.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/imports/variants.html" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/imports/views-variant.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rts/urls.py" afterPath="$PROJECT_DIR$/rts/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/theme.css" afterPath="$PROJECT_DIR$/static/theme.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/theme.less" afterPath="$PROJECT_DIR$/static/theme.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test.py" afterPath="$PROJECT_DIR$/test.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/data/~$errors.xlsx" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/imports/views_variant.py" afterPath="$PROJECT_DIR$/imports/views_variant.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/imports/variants.html" afterPath="$PROJECT_DIR$/templates/imports/variants.html" />
     </list>
     <ignored path="rts.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -45,11 +40,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views_variant.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views_variant.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/imports/views_variant.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="499">
-              <caret line="79" column="13" selection-start-line="79" selection-start-column="13" selection-end-line="79" selection-end-column="13" />
+            <state relative-caret-position="574">
+              <caret line="84" column="12" selection-start-line="84" selection-start-column="12" selection-end-line="84" selection-end-column="12" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -57,13 +52,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="variants.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="variants.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/imports/variants.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="33" column="20" selection-start-line="33" selection-start-column="20" selection-end-line="33" selection-end-column="20" />
+            <state relative-caret-position="345">
+              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
               <folding>
-                <element signature="e#813#819#1#HTML" expanded="true" />
+                <element signature="e#767#773#1#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -186,8 +181,8 @@
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/rts/urls.py" />
         <option value="$PROJECT_DIR$/static/theme.less" />
-        <option value="$PROJECT_DIR$/imports/views_variant.py" />
         <option value="$PROJECT_DIR$/templates/imports/variants.html" />
+        <option value="$PROJECT_DIR$/imports/views_variant.py" />
       </list>
     </option>
   </component>
@@ -1161,22 +1156,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/imports/views_variant.py">
+    <entry file="file://$PROJECT_DIR$/templates/imports/variants.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="499">
-          <caret line="79" column="13" selection-start-line="79" selection-start-column="13" selection-end-line="79" selection-end-column="13" />
+        <state relative-caret-position="345">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#767#773#1#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/imports/variants.html">
+    <entry file="file://$PROJECT_DIR$/imports/views_variant.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="33" column="20" selection-start-line="33" selection-start-column="20" selection-end-line="33" selection-end-column="20" />
+        <state relative-caret-position="574">
+          <caret line="84" column="12" selection-start-line="84" selection-start-column="12" selection-end-line="84" selection-end-column="12" />
           <folding>
-            <element signature="e#813#819#1#HTML" expanded="true" />
+            <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
