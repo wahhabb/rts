@@ -29,7 +29,7 @@ from comix.views import homepage
 from comix.views import GenreListView, issue_detail, IssueList, PublisherList
 from contact import urls as contact_urls
 from imports.views import TblComicsImportView, ImportExcelView
-from imports.views_variant import FindVariantView
+from imports.views_variant import FindVariantView, LoadVariantsView
 
 # Allow registration to return to page it came from
 @method_decorator(csrf_protect, name="dispatch")
@@ -98,6 +98,8 @@ urlpatterns = [
     url(r'^importexcel/$', ImportExcelView.as_view(), name='import_excel'),
 
     url(r'^fixvariant/$', FindVariantView.as_view(), name='fix_variant'),
+
+    url(r'^loadvariants/$', LoadVariantsView.as_view(), name='load_variants'),
 
 ]
 

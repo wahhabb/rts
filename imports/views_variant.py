@@ -103,4 +103,29 @@ class FindVariantView(View):
         )
 
 
+class LoadVariantsView(View):
+    template_name = 'imports/variants.html'
+    gcd_series_recs = None
+
+    def get(self, request):
+        images = []
+        error = ''
+        # User clicked so select an image,so update it on record and clear variant field
+        issues = Issue.objects.filter(variants__isnull=False)
+        for issue in issues:
+            images = scrape_images(issue.gcd_id)
+            debug(images)
+            issue.variants += 'scraped,'
+            issue.save()
+            context = {
+                'title': 'Success!',
+                'error': '',
+                'images': [],
+                'cat_id': '',
+            }
+
+
+        return render(
+            request, self.template_name, context
+        )
 
