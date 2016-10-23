@@ -7,7 +7,9 @@
                 <h6 class="card-meta"><span>Publisher:</span> {{ issue.gcd_series.gcd_publisher }}</h6>
                 <div class="card-image">
                     <a href="{{ issue.get_absolute_url }}">
-                        <img src="/static/thumbnails/{{ issue.cover_image }}" class="img-responsive centered">
+                        <img src="/static/thumbnails/{{ issue.cover_image }}"
+                             alt="Cover of {{ issue.gcd_series.name }} #{{ issue.number }}"
+                             class="img-responsive centered">
                     </a>
                 </div>
             </div>

@@ -18,15 +18,10 @@ from django.contrib import  admin
 from django.contrib.auth import views as auth_views
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.forms import AuthenticationForm
-from django.http.response import HttpResponseRedirect
 from registration.backends.simple.views import RegistrationView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
-import logging
 
-
-from comix.views import homepage
-from comix.views import GenreListView, issue_detail, IssueList, PublisherList
 from contact import urls as contact_urls
 from imports.views import TblComicsImportView, ImportExcelView
 from imports.views_variant import FindVariantView, LoadVariantsView

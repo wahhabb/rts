@@ -49,6 +49,7 @@
                     <input id="title_search" type="text" class="form-input input-inline" placeholder="Enter title...">
                     <a href="javascript:dosearch()" class="btn">Go</a>
                 </div>
+            <div class="hidden">
                 <a id="category_search_btn" href="#" class="btn3"><span>Search by Category</span></a>
                 <div id="category_block">
                     <select id="genres" onchange="genreChosen(value);">
@@ -64,6 +65,7 @@
                     <span><a href="?tag={{ tag.slug }}">{{ tag.name }}</a> </span>
                     {% endfor %}
                 </div>
+            </div> <!-- hidden: remove when features are added -->
             </div>
         </div>
 

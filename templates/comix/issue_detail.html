@@ -1,6 +1,8 @@
 {% extends parent_template|default:"comix/base_comix.html" %}
 {% block title %}
-{{ block.super }} - {{ issue.gcd_series.name }} Issue {{ issue.number }}
+    {{ block.super }} - {{ issue.gcd_series.name }} #{{ issue.number }}
+    <meta name=”description” content=”Comics! Details for {{ issue.gcd_series.name }} #{{ issue.number }}.
+          Best selection and prices.”>
 {% endblock %}
 {% block sectionhead %}
     <section id="single" class="columns">
@@ -8,7 +10,7 @@
 {% block subcontent %}
     {% load static %}
         <div class="column col-4">
-            <img src="/static/bigImages/{{ issue.cover_image }}" class="img-responsive rounded">
+            <img src="/static/bigImages/{{ issue.cover_image }}" alt="Cover of {{ issue.gcd_series.name }} #{{ issue.number }}" class="img-responsive rounded">
             {% if issue.image_scanned == False %}
             <div class="clearfix smaller">
                 Stock photo from
@@ -45,7 +47,7 @@
             <p>Catalog # {{ issue.catalog_id }}</p>
             <hr>
             {% if issue.status == 'available' %}
-                <a href="#/" class="btn btn-primary" onclick="add_to_cart('{{ issue.catalog_id }}')">Add to Cart</a>
+                <a href="#/" class="btn btn-primary"  onclick="add_to_cart('{{ issue.catalog_id }}')">Add to Cart</a>
             {% else %}
                 <p class="sorry">Sorry&mdash;Sold!</p>
             {% endif %}

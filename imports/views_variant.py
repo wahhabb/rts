@@ -103,6 +103,8 @@ class FindVariantView(View):
         )
 
 
+# Variant images must be loaded on a test machine, pushed to github, pulled to the production machine, and then
+# collectstatic run.
 class LoadVariantsView(View):
     template_name = 'imports/variants.html'
     gcd_series_recs = None
