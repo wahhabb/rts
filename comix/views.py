@@ -5,7 +5,7 @@ from django.template import loader, Context
 from django.views.generic.list import ListView, View
 from django.db.models import Q
 from django.http import JsonResponse
-import re
+import re, string
 
 
 from comix.models import Genre, Issue, Publisher, Tag, Series
@@ -175,6 +175,8 @@ class GetCatalogPage(StaticPageMixin, View):
 class PhotoJournalPage(StaticPageMixin, View):
     template_name = 'comix/photojournals.html'
 
+#   Dropdown for search shows titles, publishers, notes, gcd_notes, tags, genres
+#   ToDo: Add Categories
 class SearchAutocompleteView(View):
     def get(self, request):
         if request.is_ajax():
@@ -182,18 +184,27 @@ class SearchAutocompleteView(View):
             foundset = set()
             publishers = Publisher.objects.filter(name__icontains=q)
             for publisher in publishers:
-                foundset.add(publisher.name)
+                foundset.add(string.capwords(publisher.name))
             titles = Series.objects.filter(name__icontains=q)
             results = []
             for title in titles:
-                foundset.add(title.name)
-            notes = Issue.objects.filter(notes__icontains=q)
+                foundset.add(string.capwords(title.name))
+            tags = Tag.objects.filter(name__icontains=q)
+            for tag in tags:
+                foundset.add(string.capwords(tag.name))
+            genres = Genre.objects.filter(genre__icontains=q)
+            for genre in genres:
+                foundset.add(string.capwords(genre.genre))
             if len(q) > 4:
+                notes = Issue.objects.filter(notes__icontains=q)
                 for note in notes:
                     res = re.search(r'(' + q + r'.*?)(?:\W|$)', note.notes, re.I).group(1)   # extend to end of word
-                    foundset.add(res)
+                    foundset.add(string.capwords(res))
+                notes = Issue.objects.filter(gcd_notes__icontains=q)
+                for note in notes:
+                    res = re.search(r'(' + q + r'.*?)(?:\W|$)', note.gcd_notes, re.I).group(1)   # extend to end of word
+                    foundset.add(string.capwords(res))
             results = sorted(foundset, key=len)
-
         else:
             results='fail'
         return JsonResponse(results, safe=False)
