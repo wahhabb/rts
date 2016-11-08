@@ -3,13 +3,14 @@ from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.template import loader, Context
 from django.views.generic.list import ListView, View
+from django.db.models import Q
+from django.http import JsonResponse
+import re
 
-from comix.models import Genre, Issue, Publisher, Tag
+
+from comix.models import Genre, Issue, Publisher, Tag, Series
 from orders.cart import get_cart_items
 import logging
-
-#   for reading file
-from django.core.files import File
 
 
 logger = logging.getLogger(__name__)
@@ -59,7 +60,8 @@ class IssueList(View):
         sort_order = self.request.GET.get('sort')
         search_text = self.request.GET.get('search')
         tag_slug = self.request.GET.get('tag')
-        issues = Issue.objects.all().filter(status='available',variants__isnull=True)
+        issues = Issue.objects.all().filter(status='available')
+        issues = issues.filter(Q(variants__isnull=True) | Q(variants='V')) # V means has variants but selected
         tags = Tag.objects.all()
         query_string = ""
         cart_issues = get_cart_items(request)
@@ -82,8 +84,12 @@ class IssueList(View):
             issues = issues.filter(gcd_series_id__gcd_publisher_id=publisher.id)
         else:
             publisher_text = None
+
         if search_text != None:
-            issues = issues.filter(gcd_series_id__name__icontains=search_text )
+            issues = issues.filter(Q(gcd_series_id__name__icontains=search_text) |
+                                    Q(tags__name__icontains=search_text) |
+                                   Q(gcd_series__gcd_publisher__name__icontains=search_text) |
+                                   Q(notes__icontains=search_text))
             query_string += "&search=" + search_text
 
         if sort_order != None:
@@ -169,3 +175,25 @@ class GetCatalogPage(StaticPageMixin, View):
 class PhotoJournalPage(StaticPageMixin, View):
     template_name = 'comix/photojournals.html'
 
+class SearchAutocompleteView(View):
+    def get(self, request):
+        if request.is_ajax():
+            q = request.GET.get('term', '').lower()
+            foundset = set()
+            publishers = Publisher.objects.filter(name__icontains=q)
+            for publisher in publishers:
+                foundset.add(publisher.name)
+            titles = Series.objects.filter(name__icontains=q)
+            results = []
+            for title in titles:
+                foundset.add(title.name)
+            notes = Issue.objects.filter(notes__icontains=q)
+            if len(q) > 4:
+                for note in notes:
+                    res = re.search(r'(' + q + r'.*?)(?:\W|$)', note.notes, re.I).group(1)   # extend to end of word
+                    foundset.add(res)
+            results = sorted(foundset, key=len)
+
+        else:
+            results='fail'
+        return JsonResponse(results, safe=False)

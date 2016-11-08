@@ -30,6 +30,7 @@ urlpatterns = [
 
     url(r'photojournals/$', PhotoJournalPage.as_view(), name='photojournals'),
 
-    url(r'update_session/', update_session, name='update_session')
+    url(r'update_session/', update_session, name='update_session'),
 
+    url(r'^get-titles/$', SearchAutocompleteView.as_view(), name='test_get_titles'),
 ]

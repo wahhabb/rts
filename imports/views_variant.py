@@ -117,7 +117,7 @@ class LoadVariantsView(View):
         for issue in issues:
             images = scrape_images(issue.gcd_id)
             debug(images)
-            issue.variants += 'scraped,'
+            issue.variants = 'V'
             issue.save()
             context = {
                 'title': 'Success!',

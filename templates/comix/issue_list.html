@@ -9,7 +9,7 @@
 {% endblock %}
 {% block subcontent %}
     {% load static %}
-        <div class="column col-9">
+        <div class="column col-9 issue">
         {% if genre_text != None %}
             <h3>Category: {{ genre_text }}</h3>
         {% elif publisher_name != None %}
@@ -81,7 +81,19 @@
     <div id="already_in_cart">Already in Cart<br>Not Added</div>
     <div id="added_to_cart">Added to Cart</div>
 
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script>
+        $(function() {
+            $('#search_block').show();
+            $("#title_search").autocomplete({
+                source: "/get-titles/",
+                minLength: 2
+            });
+            $('.ui-widget').click(function () {
+                setTimeout(dosearch, 200);
+            });
+        });
         function perPage(count) {
         $.post('/update_session/', {count: count}, function(data) {
             var qs = "{{ query_string|safe }}";

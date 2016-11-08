@@ -88,7 +88,7 @@ urlpatterns = [
 
     url(r'^order/', include('orders.urls')),
 
-    url(r'^fixtest/$', TblComicsImportView.as_view(), name='publisher_fix'),
+    # url(r'^fixtest/$', TblComicsImportView.as_view(), name='publisher_fix'),
 
     url(r'^importexcel/$', ImportExcelView.as_view(), name='import_excel'),
 

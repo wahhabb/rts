@@ -35,6 +35,10 @@
                 <a href="/" class="navbar-brand">RTS Comics<sup>&reg;</sup></a> <!-- ToDo: fix hardcoded link -->
                 <br><span id="tagline">Collectors helping collectors since 1986</span>
             </section>
+            <section class="navbar-section" id="search_block">
+                <input id="title_search" type="text" class="form-input input-inline" placeholder="Enter search...">
+                <a href="javascript:dosearch()" class="btn">Go</a>
+            </section>
             <section class="navbar-section">
                 <a href="{% url 'show_cart' %}" class="btn">
                     Cart <img src="{% static 'icon-cart.svg' %}" class="icon">

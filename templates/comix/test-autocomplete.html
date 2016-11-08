@@ -1,0 +1,32 @@
+{% extends parent_template|default:"base.html" %}
+{% block title %}
+{{ block.super }} - Title Search
+{% endblock %}
+{% block content %}
+    {% load static %}
+    <section id="about" class="columns">
+        <div class="col-1 column">
+        </div>
+        <div class="col-10 column">
+        <h1>Title Search</h1>
+            <div class="ui-widget">
+                <label for="titles">Enter title:</label>
+                <input id="titles">
+            </div>
+        <div class="col-1 column">
+        </div>
+
+    </section>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+    $(function() {
+        $('#wrapper').css('background-image', "url('{% static 'comix/bg.jpg'  %}')");
+        $("#titles").autocomplete({
+            source: "/get-titles/",
+            minLength: 3,
+        });
+    });
+    </script>
+
+{% endblock %}
