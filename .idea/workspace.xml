@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f780884-a0dd-4e2f-9cf0-458135dfc813" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/robots.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/sitemap.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/errors.xlsx" afterPath="$PROJECT_DIR$/data/errors.xlsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rts/urls.py" afterPath="$PROJECT_DIR$/rts/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rts/settings.py" afterPath="$PROJECT_DIR$/rts/settings.py" />
     </list>
     <ignored path="rts.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -42,16 +38,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="robots.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/robots.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="25" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rts/urls.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -60,36 +46,6 @@
               <folding>
                 <element signature="e#637#678#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sitemap.txt" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/templates/sitemap.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102300">
-              <caret line="6820" column="12" selection-start-line="6820" selection-start-column="12" selection-end-line="6820" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="place_order.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/orders/place_order.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1173">
-              <caret line="98" column="54" selection-start-line="98" selection-start-column="54" selection-end-line="98" selection-end-column="54" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/orders/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2250">
-              <caret line="18" column="30" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -104,11 +60,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/rts/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="166" column="16" selection-start-line="166" selection-start-column="16" selection-end-line="166" selection-end-column="16" />
+            <state relative-caret-position="227">
+              <caret line="27" column="35" selection-start-line="27" selection-start-column="35" selection-end-line="27" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -169,7 +125,6 @@
         <option value="$PROJECT_DIR$/templates/comix/about.html" />
         <option value="$PROJECT_DIR$/templates/import/fixtest.html" />
         <option value="$PROJECT_DIR$/import/views.py" />
-        <option value="$PROJECT_DIR$/rts/settings.py" />
         <option value="$PROJECT_DIR$/templates/imports/fixtest.html" />
         <option value="$PROJECT_DIR$/comix/migrations/0012_auto_20161001_1514.py" />
         <option value="$PROJECT_DIR$/comix/migrations/0013_auto_20161001_1822.py" />
@@ -205,6 +160,7 @@
         <option value="$PROJECT_DIR$/templates/robots.txt" />
         <option value="$PROJECT_DIR$/rts/urls.py" />
         <option value="$PROJECT_DIR$/templates/sitemap.txt" />
+        <option value="$PROJECT_DIR$/rts/settings.py" />
       </list>
     </option>
   </component>
@@ -1184,10 +1140,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rts/settings.py">
+    <entry file="file://$PROJECT_DIR$/templates/sitemap.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="166" column="16" selection-start-line="166" selection-start-column="16" selection-end-line="166" selection-end-column="16" />
+        <state relative-caret-position="60">
+          <caret line="4" column="37" selection-start-line="4" selection-start-column="37" selection-end-line="4" selection-end-column="37" />
           <folding />
         </state>
       </provider>
@@ -1202,10 +1158,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/sitemap.txt">
+    <entry file="file://$PROJECT_DIR$/rts/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102300">
-          <caret line="6820" column="12" selection-start-line="6820" selection-start-column="12" selection-end-line="6820" selection-end-column="12" />
+        <state relative-caret-position="227">
+          <caret line="27" column="35" selection-start-line="27" selection-start-column="35" selection-end-line="27" selection-end-column="35" />
           <folding />
         </state>
       </provider>

@@ -25,7 +25,7 @@ SECRET_KEY = '&!ir31+b2wb_!426i%c*k=8%$syh7bc5c_%$!widorzmbd++@b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['wahhabb.pythonanywhere.com']
+ALLOWED_HOSTS = ['www.rtscomics.com']
 
 # Site and SEO Information
 SITE_NAME = 'RTS Comics'
