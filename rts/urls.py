@@ -21,6 +21,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from registration.backends.simple.views import RegistrationView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
+from django.views.generic import TemplateView
 
 from contact import urls as contact_urls
 from imports.views import TblComicsImportView, ImportExcelView
@@ -95,6 +96,9 @@ urlpatterns = [
     url(r'^fixvariant/$', FindVariantView.as_view(), name='fix_variant'),
 
     url(r'^loadvariants/$', LoadVariantsView.as_view(), name='load_variants'),
+
+    url(r'^robots.txt$', TemplateView.as_view(template_name="robots.txt", content_type="text/plain"), name="robots_file"),
+    url(r'^sitemap.txt$', TemplateView.as_view(template_name='sitemap.txt', content_type='text/plain'), name="sitemap"),
 
 ]
 

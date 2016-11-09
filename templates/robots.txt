@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /get-titles/
+Disallow: /update_session/
+Disallow: /thanks/
+Disallow: /place/
+Disallow: /add/
+Disallow: /loadvariants/
+Disallow: /get-titles/
+Disallow: /update_session/
+
