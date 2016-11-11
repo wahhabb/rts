@@ -35,7 +35,7 @@ if DEBUG:
     SITE_URL = 'http://127.0.0.1:8000'
 else:
     SITE_URL = 'http://wahhabb.pythonanywhere.com'
-
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 # Application definition
 
@@ -180,3 +180,44 @@ else:
 
 PAYPAL_EMAIL = 'rtsunlimited@earthlink.net'
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'standard': {
+            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt' : "%d/%b/%Y %H:%M:%S"
+        },
+    },
+    'handlers': {
+        'default': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': SITE_ROOT + "/../data/logfile",
+            'maxBytes': 50000,
+            'backupCount': 2,
+            'formatter': 'standard',
+        },
+        'console':{
+            'level':'INFO',
+            'class':'logging.StreamHandler',
+            'formatter': 'standard'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers':['console'],
+            'propagate': True,
+            'level':'WARN',
+        },
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'comix': {
+            'handlers': ['default'],
+            'level': 'DEBUG',
+        },
+    }
+}

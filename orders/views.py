@@ -6,6 +6,8 @@ from django.shortcuts import render, redirect
 from django.utils.timezone import now
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.list import View
+from django.core.mail import EmailMultiAlternatives
+from email.mime.image import MIMEImage
 
 from orders.cart import *
 from orders.cart import _cart_id
@@ -186,6 +188,32 @@ class PlaceOrder(View):
                 # deserialize into new object
                 for obj in serializers.deserialize("json", json_profile):
                     profile = obj.object
+        subject = 'RTSComics: Order being placed'
+        from_email = 'info@rtscomics.com'
+        to_list = ['info@rtscomics.com']
+        text_content = 'Use an email program that reads HTML!'
+        msg = EmailMultiAlternatives(subject, text_content, from_email, to_list)
+        html_content = '<!DOCTYPE html><body><h3>Ordered By</h3><p>' + profile.first_name + \
+                       ' ' + profile.last_name + '</p>'
+        html_content += '<h4>Address:</h4><p>' + profile.address1 + '<br>' + profile.address2 + '</p>'
+        html_content += '<p>' + profile.city + ', ' + profile.state + ' ' + profile.zip + '</p>'
+        html_content += '<h3>Order Items:</h3>'
+
+        for item in cart_issues:
+            html_content += '<p>' + str(item.product) + '<br>Qty: ' + str(item.quantity) + \
+                            ' Unit Price: ' + str(item.price) + '</p>'
+            f = 'comix/static/bigImages/' + item.product.cover_image
+            fp = open(f, 'rb')
+            msg_img = MIMEImage(fp.read())
+            fp.close()
+            msg_img.add_header('Content-ID', '<{}>'.format(item.product.cover_image))
+            msg.attach(msg_img)
+            html_content += '<p><img src="cid:' + \
+                            item.product.cover_image + '" /></p>'
+        html_content += '</body>'
+        msg.attach_alternative(html_content, "text/html")
+        msg.mixed_subtype = 'related'
+        msg.send(fail_silently=False)
 
         context = {'cart_item_count': cart_item_count,
                            'cart_items': cart_issues,
@@ -207,7 +235,11 @@ class CompleteOrder(View):
 
     def get(self, request):
         cart_issues = get_cart_items(request)
-        subtotal = cart_subtotal(request)
+        if len(cart_issues) == 0:   # Don't process if no order to process
+            return render(
+                request, self.template_name, {}
+            )
+
         if request.user.is_authenticated:
             try:
                 profile = UserProfile.objects.get(user=request.user)
@@ -241,7 +273,33 @@ class CompleteOrder(View):
                 product.status = 'sold'
             product.save()
 
-        context = {}
+        subject = 'RTSComics: Order was saved'
+        from_email = 'info@rtscomics.com'
+        to_list = ['info@rtscomics.com']
+        text_content = 'Use an email program that reads HTML!'
+        msg = EmailMultiAlternatives(subject, text_content, from_email, to_list)
+        html_content = '<!DOCTYPE html><body><h3>Ordered By</h3><p>' + profile.first_name + \
+                       ' ' + profile.last_name + '</p>'
+        html_content += '<h4>Address:</h4><p>' + profile.address1 + '<br>' + profile.address2 + '</p>'
+        html_content += '<p>' + profile.city + ', ' + profile.state + ' ' + profile.zip + '</p>'
+        html_content += '<h3>Order Items:</h3>'
+
+        for item in cart_issues:
+            html_content += '<p>' + str(item.product) + '<br>Qty: ' + str(item.quantity) + \
+                            ' Unit Price: ' + str(item.price) + '</p>'
+            f = 'comix/static/bigImages/' + item.product.cover_image
+            fp = open(f, 'rb')
+            msg_img = MIMEImage(fp.read())
+            fp.close()
+            msg_img.add_header('Content-ID', '<{}>'.format(item.product.cover_image))
+            msg.attach(msg_img)
+            html_content += '<p><img src="cid:' + \
+                            item.product.cover_image + '" /></p>'
+        html_content += '</body>'
+        msg.attach_alternative(html_content, "text/html")
+        msg.mixed_subtype = 'related'
+        msg.send(fail_silently=False)
+
         return render(
-            request, self.template_name, context
+            request, self.template_name, {}
         )

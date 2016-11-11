@@ -13,7 +13,7 @@ from orders.cart import get_cart_items
 import logging
 
 
-logger = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
 
 
 # Create your views here.
@@ -91,6 +91,7 @@ class IssueList(View):
                                    Q(gcd_series__gcd_publisher__name__icontains=search_text) |
                                    Q(notes__icontains=search_text))
             query_string += "&search=" + search_text
+            log.debug("Search: " + search_text)
 
         if sort_order != None:
             query_string += "&sort=" + sort_order

@@ -32,5 +32,5 @@ urlpatterns = [
 
     url(r'update_session/', update_session, name='update_session'),
 
-    url(r'^get-titles/$', SearchAutocompleteView.as_view(), name='test_get_titles'),
+    url(r'^get-titles/$', SearchAutocompleteView.as_view(), name='get_titles'),
 ]
