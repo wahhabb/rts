@@ -5,6 +5,7 @@
             <th scope="col">Date #</th>
             <th scope="col">Grade</th>
             <th scope="col">Price</th>
+            <th scope="col"></th>
             <th scope="col" class="right">Action</th>
         </tr>
     </thead>
@@ -19,6 +20,7 @@
             <td>{{ issue.publication_date }}</td>
             <td>{{ issue.grade }}</td>
             <td>${{ issue.price }}</td>
+            <td><a href="#/" onclick="add_to_wish_list('{{ issue.pk }}')">Add to Wish List</a></td>
             <td><a href="#/" onclick="add_to_cart('{{ issue.catalog_id }}')">Add to Cart</a></td>
         </tr>
         {% empty %}

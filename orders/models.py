@@ -97,3 +97,12 @@ class IssueInOrder(models.Model):
     sale_price = models.DecimalField(max_digits=7, decimal_places=2)
     quantity = models.PositiveIntegerField()
     issue = models.ForeignKey(Issue)
+
+
+class WishList(models.Model):
+    issue = models.ForeignKey(Issue)
+    user = models.ForeignKey(User)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return 'Wish list item for: ' + self.user.username + ' ' + str(self.issue)

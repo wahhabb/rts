@@ -56,6 +56,40 @@ class ShowCart(View):
             update_cart(request)
         return self.show(request)
 
+class ShowWishList(View):
+    tempate_name = 'orders/wish_list.html'
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            wish_list_items = WishList.objects.filter(user=request.user)
+            context = {'wish_list_items': wish_list_items,
+                       'needs_login': False}
+            return render(request, self.tempate_name, context)
+        else:
+            return render(request, self.tempate_name, {'needs_login': True})
+
+    def post(self, request):
+        # if request.POST['remove'] == 'remove':
+        issue = int(request.POST['item_id'])
+        wish_list_item = WishList.objects.filter(issue__id=issue)
+        print('got', len(wish_list_item), issue)
+        wish_list_item.delete()
+        if 'add_to_cart' in request.POST:
+            p = get_object_or_404(Issue, pk=issue)
+            cart_issues = get_cart_items(request)
+            issue_in_cart = False
+            for cart_issue in cart_issues:
+                if cart_issue.product.catalog_id == issue:
+                    issue_in_cart = True
+                    # ToDo: Notify user that item is already in cart?
+            if not issue_in_cart:
+                ci = CartItem()
+                ci.product = p
+                ci.quantity = 1
+                ci.cart_id = _cart_id(request)
+                ci.save()
+        return self.get(request)
+
 
 # Add to Cart is AJAX call from main.js
 @csrf_exempt
@@ -90,6 +124,33 @@ def add_to_cart(request):
         response_data['cart_count'] = cart_distinct_item_count(request)
         response_data['not_added'] = not_added
 
+        return JsonResponse(response_data)
+    else:
+        return JsonResponse({"nothing to see": "this shouldn't happen"})
+
+# Wish List is AJAX call from main.js
+@csrf_exempt
+def wish_list_add(request):
+    """ function that takes a POST request and adds a product instance to the current customer's wish list """
+    if request.method == 'POST':
+        postdata = request.POST.copy()
+        issue_id = postdata.get('issue_id')
+        user = request.user
+        response_data = {}
+        response_data['not_added'] = True
+        if request.user.is_authenticated:
+            p = get_object_or_404(Issue, id=issue_id)
+            wish_item = WishList()
+            wish_item.user = user
+            wish_item.issue_id = issue_id
+            wish_item.save()
+
+            response_data['result'] = 'Add to wish list successful!'
+            response_data['issue_id'] = issue_id
+            response_data['product'] = str(p)
+            response_data['not_added'] = False
+        else:
+            response_data['result'] = 'User not logged in'
         return JsonResponse(response_data)
     else:
         return JsonResponse({"nothing to see": "this shouldn't happen"})

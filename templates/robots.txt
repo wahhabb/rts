@@ -6,5 +6,5 @@ Disallow: /place/
 Disallow: /add/
 Disallow: /loadvariants/
 Disallow: /get-titles/
-Disallow: /update_session/
+
 

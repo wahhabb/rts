@@ -24,7 +24,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.generic import TemplateView
 
 from contact import urls as contact_urls
-from imports.views import TblComicsImportView, ImportExcelView
+from imports.views import ImportExcelView
 from imports.views_variant import FindVariantView, LoadVariantsView
 
 # Allow registration to return to page it came from

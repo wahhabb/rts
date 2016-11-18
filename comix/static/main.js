@@ -10,13 +10,11 @@ function add_to_cart(catalog_id) {
         data: {"catalog_id": catalog_id },
 
         success: function(json) {
-            console.log(json);
-            console.log("success");
             $('#cart-count').html(json['cart_count']);
             if (json['not_added']) {
                 $('#already_in_cart').show(400).delay(1400).hide(200);
             } else {
-                $('#added_to_cart').show(400).delay(1400).hide(200);
+                $('#added_to_cart').html('Added to Cart').show(400).delay(1400).hide(200);
             }
         },
         error: function(xhr, errmsg, err) {
@@ -25,6 +23,24 @@ function add_to_cart(catalog_id) {
         }
     });
     return 0;
+}
+
+function add_to_wish_list(issue_id) {
+    $.ajax({
+        url: "/order/to_wish_list/",
+        type: "POST",
+        data: {"issue_id": issue_id},
+
+        success: function(json) {
+            console.log(json);
+            console.log("success--wish_list_add");
+            if (json['not_added']) {
+                alert('Please log in or sign up to save to wish list')
+            } else {
+                $('#added_to_cart').html('Added to Wish List').show(400).delay(1400).hide(200);
+            }
+        }
+    });
 }
 
 $(function() {
