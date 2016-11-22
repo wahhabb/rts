@@ -3,7 +3,9 @@
 {{ block.super }} - Publisher List
 {% endblock %}
 {% block content %}
-    <h1>Click on a Publisher</h1>
+    <section class="columns" id="title">
+        <h1>Click on a Publisher</h1>
+    </section>
     <section id="list" class="columns">
         <div class="col-3 column">
         {% for publisher in publishers %}

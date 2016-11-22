@@ -3,6 +3,7 @@ from django.views.generic.list import  View
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 import logging
 import os.path
+import re
 from openpyxl import load_workbook
 from imports.models import *
 from comix.models import Publisher, Series, Issue
@@ -65,7 +66,7 @@ class Comic:
     pass
 
 
-class ImportExcelView(View):
+class VariantImportExcelView(View):
     template_name = 'imports/imports.html'
     gcd_series_recs = None
 
@@ -110,7 +111,6 @@ class ImportExcelView(View):
             Comic.issue_notes += make_string(sheet['O' + s_row].value)
             Comic.grade_notes = make_string(sheet['P' + s_row].value)
             Comic.inserts = make_string(sheet['Q' + s_row].value)
-
 
             try:
                 c_issue = Issue.objects.get(catalog_id = Comic.catalog_no)
@@ -141,12 +141,8 @@ class ImportExcelView(View):
 
                 continue
 
-
-
             except ObjectDoesNotExist:
                 continue    # Temp for fixing variants
-
-
 
         context = {'errors': messages,
                    }
@@ -154,7 +150,7 @@ class ImportExcelView(View):
             request, self.template_name, context
         )
 
-class SaveImportExcelView(View):
+class ImportExcelView(View):
     template_name = 'imports/imports.html'
     gcd_series_recs = None
 
@@ -181,6 +177,9 @@ class SaveImportExcelView(View):
             Comic.publisher = sheet['C' + s_row].value
             Comic.sort_name = sheet['D' + s_row].value
             Comic.name = str(sheet['E' + s_row].value)
+            ls_pos = Comic.name.find(' L.S.')
+            if ls_pos > 0:
+                Comic.name = Comic.name[:ls_pos] # remove L.S. from name
             t_year = sheet['F' + s_row].value
             if t_year == None:
                 Comic.year = 0
@@ -203,20 +202,15 @@ class SaveImportExcelView(View):
 
             try:
                 c_issue = Issue.objects.get(catalog_id = Comic.catalog_no)
-                c_issue.price = Comic.price
-                c_issue.quantity = Comic.quantity
-                c_issue.save()
-                # # Temporary fix ToDo: remove
-                # c_series = Series.objects.get(id=c_issue.gcd_series_id)
-                # if c_series.sort_name != Comic.sort_name:
-                #     c_series.sort_name = Comic.sort_name
-                #     c_series.save()
-                #     print('Set sort_name to ', Comic.sort_name)
+                # ToDo: restore next three lines for production
+                # c_issue.price = Comic.price
+                # c_issue.quantity = Comic.quantity
+                # c_issue.save()
                 continue  # not necessary, just for clarity
 
             except ObjectDoesNotExist:
                 # add new entry
-                debug('creating issue:', Comic.catalog_no)
+                # debug('creating issue:', Comic.catalog_no)
                 issue = Issue()
 
                 # Fill in entries from input. Some may need to be fixed
@@ -237,15 +231,30 @@ class SaveImportExcelView(View):
                 issue.status = 'available'
 
                 # Find series from title and year begun
-                self.gcd_series_recs = GcdSeries.objects.filter(Q(name=Comic.name) | Q(sort_name=Comic.name))
-                self.gcd_series_recs = self.gcd_series_recs.filter(country_id=225, year_began=Comic.year)
+                tmp_series_recs = GcdSeries.objects.filter(Q(name=Comic.name) | Q(sort_name=Comic.name))
+                self.gcd_series_recs = tmp_series_recs.filter(country_id=225, year_began=Comic.year)
                 series_ct = len(self.gcd_series_recs)
-                debug('series_ct', str(series_ct))
-                if series_ct == 0:
-                    # failed to get match on name, drop item
-                    messages.append((issue.catalog_id, Comic.name, issue.number, Comic.year, "No match on name"))
-                    continue
-                elif series_ct > 1:
+                # debug('series_ct', str(series_ct))
+                if series_ct == 0:  # Try matching without punctuation
+                    old_name = Comic.name
+                    new_name = old_name.replace("&", "and")
+                    new_name = re.sub(r'[-"\',.:!]', '', new_name)
+                    tmp2_series_recs = GcdSeries.objects.filter(text_name=new_name)
+                    self.gcd_series_recs = tmp2_series_recs.filter(country_id=225, year_began=Comic.year)
+                    series_ct = len(self.gcd_series_recs)
+                    if series_ct == 0:
+                        # No luck, Check for year before or after
+                        self.gcd_series_recs = tmp_series_recs.filter(country_id=225, year_began=Comic.year + 1)
+                        series_ct = len(self.gcd_series_recs)
+                        if series_ct == 0:
+                            self.gcd_series_recs = tmp_series_recs.filter(country_id=225, year_began=Comic.year + 1)
+                            series_ct = len(self.gcd_series_recs)
+                            if series_ct == 0:
+                                # failed to get match on name, drop item
+                                messages.append((issue.catalog_id, Comic.name, issue.number, Comic.year,
+                                                 "No match on name"))
+                                continue
+                if series_ct > 1:
                     # Let's look for a unique match on title and issue #
                     gcd_issue_recs = GcdIssue.objects.filter(Q(series_id__name=Comic.name) |
                                                              Q(series_id__sort_name=Comic.name))
@@ -308,7 +317,7 @@ class SaveImportExcelView(View):
 
                 # Verify Publisher in database or create new
                 try:
-                    debug('Checking Publisher:', gcd_publisher.name)
+                    # debug('Checking Publisher:', gcd_publisher.name)
                     publisher = Publisher.objects.get(pk=gcd_series.publisher_id)
                 except ObjectDoesNotExist:
                     # Need to add publisher.

@@ -258,6 +258,7 @@ class GcdSeries(models.Model):
     has_rating = models.IntegerField()
     publication_type_id = models.IntegerField(blank=True, null=True)
     is_singleton = models.IntegerField()
+    text_name = models.CharField(max_length=255)
 
     class Meta:
         managed = False
