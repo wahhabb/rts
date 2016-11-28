@@ -2,6 +2,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.template import loader, Context
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.list import ListView, View
 from django.db.models import Q
 from django.http import JsonResponse
@@ -23,6 +24,7 @@ def homepage(request):
     return HttpResponseRedirect('/issues/')
 
 
+@csrf_exempt
 def update_session(request):
     if not request.is_ajax() or not request.method=='POST':
         return HttpResponseNotAllowed(['POST'])
