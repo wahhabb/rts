@@ -157,7 +157,7 @@ if DEBUG:
     STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 else:
     STATIC_URL = '/static/'
-    STATICFILES_DIRS = (os.path.join(BASE_DIR, "static1"),)
+    STATICFILES_DIRS = (os.path.join(BASE_DIR, "static_all"),)
 
 LOGIN_REDIRECT_URL = '/issues/'
 

@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f780884-a0dd-4e2f-9cf0-458135dfc813" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/RTS Master Inv Avail 2016 10 06.xlsx" afterPath="$PROJECT_DIR$/data/RTS Master Inv Avail 2016 10 06.xlsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/imports/views.py" afterPath="$PROJECT_DIR$/imports/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/orders/views.py" afterPath="$PROJECT_DIR$/orders/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rts/settings.py" afterPath="$PROJECT_DIR$/rts/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/text_name.py" afterPath="$PROJECT_DIR$/text_name.py" />
     </list>
     <ignored path="rts.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,18 +30,18 @@
       <file leaf-file-name="theme.less" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/theme.less">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4935">
+            <state relative-caret-position="15">
               <caret line="329" column="19" lean-forward="false" selection-start-line="329" selection-start-column="19" selection-end-line="329" selection-end-column="19" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rts/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="165" column="32" lean-forward="false" selection-start-line="165" selection-start-column="32" selection-end-line="165" selection-end-column="32" />
+            <state relative-caret-position="242">
+              <caret line="155" column="11" lean-forward="false" selection-start-line="155" selection-start-column="4" selection-end-line="155" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -100,21 +94,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/comix/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="885">
-              <caret line="72" column="48" lean-forward="true" selection-start-line="72" selection-start-column="48" selection-end-line="72" selection-end-column="48" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/orders/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4035">
-              <caret line="269" column="24" lean-forward="false" selection-start-line="269" selection-start-column="24" selection-end-line="269" selection-end-column="24" />
+            <state relative-caret-position="345">
+              <caret line="265" column="55" lean-forward="false" selection-start-line="265" selection-start-column="55" selection-end-line="265" selection-end-column="55" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -137,6 +121,8 @@
     <findStrings>
       <find>print</find>
       <find>DEBUG</find>
+      <find>STATic</find>
+      <find>static_</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -194,8 +180,8 @@
         <option value="$PROJECT_DIR$/templates/base.html" />
         <option value="$PROJECT_DIR$/text_name.py" />
         <option value="$PROJECT_DIR$/imports/views.py" />
-        <option value="$PROJECT_DIR$/orders/views.py" />
         <option value="$PROJECT_DIR$/rts/settings.py" />
+        <option value="$PROJECT_DIR$/orders/views.py" />
       </list>
     </option>
   </component>
@@ -1118,14 +1104,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/theme.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4935">
-          <caret line="329" column="19" lean-forward="false" selection-start-line="329" selection-start-column="19" selection-end-line="329" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/text_name.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -1173,21 +1151,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/orders/views.py">
+    <entry file="file://$PROJECT_DIR$/static/theme.less">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4035">
-          <caret line="269" column="24" lean-forward="false" selection-start-line="269" selection-start-column="24" selection-end-line="269" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="15">
+          <caret line="329" column="19" lean-forward="false" selection-start-line="329" selection-start-column="19" selection-end-line="329" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rts/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="165" column="32" lean-forward="false" selection-start-line="165" selection-start-column="32" selection-end-line="165" selection-end-column="32" />
+        <state relative-caret-position="242">
+          <caret line="155" column="11" lean-forward="false" selection-start-line="155" selection-start-column="4" selection-end-line="155" selection-end-column="11" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/orders/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="265" column="55" lean-forward="false" selection-start-line="265" selection-start-column="55" selection-end-line="265" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -7,7 +7,7 @@ from django.utils.timezone import now
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.list import View
 from django.core.mail import EmailMultiAlternatives
-from django.contrib.staticfiles.storage import staticfiles_storage
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from email.mime.image import MIMEImage
 
 from orders.cart import *
@@ -266,7 +266,7 @@ class PlaceOrder(View):
                             ' Unit Price: ' + str(item.price) + '</p>'
 
             # f = '/static/bigImages/' + item.product.cover_image
-            f = staticfiles_storage.url('bigImages/' + item.product.cover_image)
+            f = static('bigImages/' + item.product.cover_image)
             if settings.DEBUG:
                 f = 'comix/static/bigImages/' + item.product.cover_image
             fp = open(f, 'rb')
