@@ -19,7 +19,7 @@ for row in results:
     old_name = row[1]
     new_name = old_name.replace("&", "and")
     new_name = re.sub(r' L.S.', '', new_name)
-    new_name = re.sub(r'[-"\',.:!]', '', new_name)
+    new_name = re.sub(r'[-"\',.:! ]', '', new_name)
     sql = "UPDATE tmp_name SET text_name = '" + new_name + "' WHERE id = " + str(row[0]) + ';'
     if (count < 5):
         print(sql, row[0], row[1])

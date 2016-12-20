@@ -164,6 +164,16 @@ class ImportExcelView(View):
         for row in cells:
             fixes[row[0].value] = row[1].value
 
+# For Tim's fixes only: remove for general loading
+#         wb = load_workbook(filename="data/Year corrections.xlsx")
+#         wb.guess_types = True
+#         sheet = wb.active
+#         cells = sheet['A2':'J205']
+#         forces = {}
+#         for row in cells:
+#             if row[9].value is not None:
+#                 forces[row[0].value] = row[9].value
+
         wb = load_workbook(filename="data/RTS Master Inv Avail 2016 10 06.xlsx")
         wb.guess_types = True
         sheet = wb.active
@@ -199,12 +209,85 @@ class ImportExcelView(View):
             Comic.grade_notes = make_string(sheet['P' + s_row].value)
             Comic.inserts = make_string(sheet['Q' + s_row].value)
 
+            # # For Tim's fixes only: remove for general loading
+            # if (forces.get(Comic.catalog_no, None) is None):
+            #     continue
+            # c_issue = Issue.objects.filter(catalog_id=Comic.catalog_no)
+            # if len(c_issue) > 0:
+            #     continue
+            # print('Trying:', Comic.catalog_no)
+            # issue = Issue()
+            # issue.catalog_id = Comic.catalog_no
+            # issue.volume = Comic.vol_no
+            # issue.number = Comic.issue
+            # issue.issue_text = Comic.issue_text
+            # issue.notes = Comic.issue_notes
+            # issue.grade = Comic.grade
+            # issue.grade_notes = Comic.grade_notes
+            # issue.image_scanned = 0
+            # issue.inserts = Comic.inserts
+            # issue.si = Comic.si
+            # issue.added_date = timezone.now()
+            # issue.price = Comic.price
+            # issue.quantity = Comic.quantity
+            # issue.status = 'available'
+            # issue.gcd_id = forces.get(Comic.catalog_no, None)
+            # gcd_issue = GcdIssue.objects.get(id = issue.gcd_id)
+            # if gcd_issue.number == '???':
+            #     messages.append((issue.catalog_id, Comic.name, issue.number, Comic.year,
+            #                      "Non-numeric Issue #"))
+            #     continue
+            # gcd_series = GcdSeries.objects.get(id = gcd_issue.series_id)
+            # gcd_publisher = GcdPublisher.objects.get(id = gcd_series.publisher_id)
+            # issue.publication_date = gcd_issue.publication_date
+            # issue.gcd_notes = gcd_issue.notes
+            # # Verify Publisher in database or create new
+            # try:
+            #     debug('Checking Publisher:', gcd_publisher.name)
+            #     publisher = Publisher.objects.get(pk=gcd_series.publisher_id)
+            # except ObjectDoesNotExist:
+            #     # Need to add publisher.
+            #     publisher = Publisher(id=gcd_publisher.id, gcd_id=gcd_publisher.id,
+            #                           name=gcd_publisher.name, issue_ct=gcd_publisher.issue_count)
+            #     publisher.save()
+            # # Get or create series record
+            # try:
+            #     series = Series.objects.get(pk = gcd_series.id)
+            # except ObjectDoesNotExist:
+            #     print("Creating series:", gcd_series.id, gcd_series.name)
+            #     series = Series()
+            #     series.id = series.gcd_id = gcd_series.id
+            #     series.name = gcd_series.name
+            #     series.sort_name = Comic.sort_name
+            #     series.year_began = gcd_series.year_began
+            #     series.notes = gcd_series.notes
+            #     series.issue_count = gcd_series.issue_count
+            #     series.color = gcd_series.color
+            #     series.gcd_publisher = publisher
+            #     series.save()
+            #     print("Saved series:", series.pk)
+            # issue.gcd_series = series
+            # issue.number = gcd_issue.number
+            # # Now go after cover image
+            # if issue.cover_image == "":
+            #     issue.cover_image = scrape_image(issue.gcd_id)
+            #
+            # # success! Save our issue
+            # issue.save()
+            # debug("Issue saved", str(issue))
+            # continue
+
+
+
 
             try:
                 c_issue = Issue.objects.get(catalog_id = Comic.catalog_no)
                 # ToDo: restore next three lines for production
                 # c_issue.price = Comic.price
                 # c_issue.quantity = Comic.quantity
+                # c_series = c_issue.gcd_series
+                # c_series.sort_name = Comic.sort_name
+                # c_series.save()
                 # c_issue.save()
                 continue  # not necessary, just for clarity
 
@@ -238,22 +321,28 @@ class ImportExcelView(View):
                 if series_ct == 0:  # Try matching without punctuation
                     old_name = Comic.name
                     new_name = old_name.replace("&", "and")
-                    new_name = re.sub(r'[-"\',.:!]', '', new_name)
+                    new_name = re.sub(r'[-"\',.:! ]', '', new_name)
                     tmp2_series_recs = GcdSeries.objects.filter(text_name=new_name)
                     self.gcd_series_recs = tmp2_series_recs.filter(country_id=225, year_began=Comic.year)
                     series_ct = len(self.gcd_series_recs)
                     if series_ct == 0:
                         # No luck, Check for year before or after
-                        self.gcd_series_recs = tmp_series_recs.filter(country_id=225, year_began=Comic.year + 1)
+                        self.gcd_series_recs = tmp2_series_recs.filter(country_id=225, year_began=Comic.year + 1)
                         series_ct = len(self.gcd_series_recs)
                         if series_ct == 0:
-                            self.gcd_series_recs = tmp_series_recs.filter(country_id=225, year_began=Comic.year + 1)
+                            self.gcd_series_recs = tmp2_series_recs.filter(country_id=225, year_began=Comic.year + 1)
                             series_ct = len(self.gcd_series_recs)
                             if series_ct == 0:
-                                # failed to get match on name, drop item
-                                messages.append((issue.catalog_id, Comic.name, issue.number, Comic.year,
-                                                 "No match on name"))
-                                continue
+                                # see if unique match ignoring year
+                                self.gcd_series_recs = tmp2_series_recs.filter(country_id=225)
+                                series_ct = len(self.gcd_series_recs)
+                                if series_ct != 1:
+                                    # failed to get match on name, drop item
+                                    messages.append((issue.catalog_id, Comic.name, issue.number, Comic.year,
+                                                     "No match on name"))
+                                    continue
+                                # else:
+                                #     print('Got unique on', Comic.catalog_no, Comic.name, '#' + Comic.issue)
                 if series_ct > 1:
                     # Let's look for a unique match on title and issue #
                     gcd_issue_recs = GcdIssue.objects.filter(Q(series_id__name=Comic.name) |
@@ -334,7 +423,7 @@ class ImportExcelView(View):
                     series = Series()
                     series.id = series.gcd_id = gcd_series.id
                     series.name = gcd_series.name
-                    series.sort_name = gcd_series.sort_name
+                    series.sort_name = Comic.sort_name
                     series.year_began = gcd_series.year_began
                     series.notes = gcd_series.notes
                     series.issue_count = gcd_series.issue_count
@@ -356,9 +445,6 @@ class ImportExcelView(View):
                 # success! Save our issue
                 issue.save()
                 debug("Issue saved", str(issue))
-                # tbl_issue.is_done = 'Y'  # Mark record as completed
-                # tbl_issue.status = 'available'
-                # tbl_issue.save()
 
         context = {'errors': messages,
                    }

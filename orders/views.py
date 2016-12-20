@@ -7,6 +7,7 @@ from django.utils.timezone import now
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.list import View
 from django.core.mail import EmailMultiAlternatives
+from django.contrib.staticfiles.storage import staticfiles_storage
 from email.mime.image import MIMEImage
 
 from orders.cart import *
@@ -263,7 +264,11 @@ class PlaceOrder(View):
         for item in cart_issues:
             html_content += '<p>' + str(item.product) + '<br>Qty: ' + str(item.quantity) + \
                             ' Unit Price: ' + str(item.price) + '</p>'
-            f = 'comix/static/bigImages/' + item.product.cover_image
+
+            # f = '/static/bigImages/' + item.product.cover_image
+            f = staticfiles_storage.url('bigImages/' + item.product.cover_image)
+            if settings.DEBUG:
+                f = 'comix/static/bigImages/' + item.product.cover_image
             fp = open(f, 'rb')
             msg_img = MIMEImage(fp.read())
             fp.close()
