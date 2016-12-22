@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 import logging
 import os.path
 import re
-from openpyxl import load_workbook
+from openpyxl import load_workbook, Workbook
 from imports.models import *
 from comix.models import Publisher, Series, Issue
 from django.utils import timezone
@@ -66,90 +66,6 @@ class Comic:
     pass
 
 
-class VariantImportExcelView(View):
-    template_name = 'imports/imports.html'
-    gcd_series_recs = None
-
-    def get(self, request):
-        wb = load_workbook(filename="data/PubFix.xlsx")
-        wb.guess_types = True
-        sheet = wb.active
-        cells = sheet['A2':'B62']
-        fixes = {}
-        messages = [('Catalog No', 'Name', 'Issue', 'Year','Problem')]
-        for row in cells:
-            fixes[row[0].value] = row[1].value
-
-        wb = load_workbook(filename="data/RTS Master Inv Avail 2016 10 06.xlsx")
-        wb.guess_types = True
-        sheet = wb.active
-        row = 1
-        while make_string(sheet['A' + str(row + 1)].value) > '':
-            row += 1
-            # if row > 6:
-            #     break   # ToDo: remove, just for testing
-            s_row = str(row)
-            Comic.catalog_no = make_string(sheet['A' + s_row].value)
-            Comic.publisher = sheet['C' + s_row].value
-            Comic.sort_name = sheet['D' + s_row].value
-            Comic.name = str(sheet['E' + s_row].value)
-            t_year = sheet['F' + s_row].value
-            if t_year == None:
-                Comic.year = 0
-            else:
-                Comic.year = int(t_year)
-            Comic.vol_no = make_string(sheet['G' + s_row].value)
-            Comic.issue = make_string(sheet['H' + s_row].value)
-            Comic.issue_text = make_string(sheet['I' + s_row].value)
-            Comic.grade = make_string(sheet['K' + s_row].value)
-            Comic.price = Decimal(sheet['L' + s_row].value)
-            Comic.quantity = int(sheet['M' + s_row].value)
-            Comic.si = make_string(sheet['N' + s_row].value)
-            Comic.issue_notes = make_string(sheet['J' + s_row].value)
-            if Comic.issue_notes > '':
-                Comic.issue_notes += ' '
-            Comic.issue_notes += make_string(sheet['O' + s_row].value)
-            Comic.grade_notes = make_string(sheet['P' + s_row].value)
-            Comic.inserts = make_string(sheet['Q' + s_row].value)
-
-            try:
-                c_issue = Issue.objects.get(catalog_id = Comic.catalog_no)
-                # c_issue.price = Comic.price
-                # c_issue.quantity = Comic.quantity
-                # c_issue.save()
-                # continue  # not necessary, just for clarity
-
-                # Check items with variants to see if only newsstand is variant
-                if c_issue.variants != None and len(c_issue.variants) != 'V':
-                    issues = GcdIssue.objects.filter(series_id=c_issue.gcd_series_id,number=c_issue.number)
-                    print(c_issue.catalog_id, 'found', len(issues))
-                    if len(issues) == 2:
-                        if issues[0].variant_name.find('Newsstand') != -1:
-                            # Use issue 1
-                            c_issue.variants = "V"
-                            c_issue.gcd_id = issues[1].id
-                            scrape_image(c_issue.gcd_id)
-                            c_issue.save()
-                            print('fixing')
-                        elif issues[1].variant_name.find('Newsstand') != -1:
-                            # use issue 2
-                            c_issue.variants = "V"
-                            c_issue.gcd_id = issues[0].id
-                            scrape_image(c_issue.gcd_id)
-                            print('fixing')
-                            c_issue.save()
-
-                continue
-
-            except ObjectDoesNotExist:
-                continue    # Temp for fixing variants
-
-        context = {'errors': messages,
-                   }
-        return render(
-            request, self.template_name, context
-        )
-
 class ImportExcelView(View):
     template_name = 'imports/imports.html'
     gcd_series_recs = None
@@ -174,7 +90,7 @@ class ImportExcelView(View):
 #             if row[9].value is not None:
 #                 forces[row[0].value] = row[9].value
 
-        wb = load_workbook(filename="data/RTS Master Inv Avail 2016 10 06.xlsx")
+        wb = load_workbook(filename="data/RTS Master Inv 2016 12 20.xlsx")
         wb.guess_types = True
         sheet = wb.active
         row = 1
@@ -209,6 +125,9 @@ class ImportExcelView(View):
             Comic.grade_notes = make_string(sheet['P' + s_row].value)
             Comic.inserts = make_string(sheet['Q' + s_row].value)
 
+            # Tim's fixes below
+
+# Tim's fixes only
             # # For Tim's fixes only: remove for general loading
             # if (forces.get(Comic.catalog_no, None) is None):
             #     continue
@@ -278,17 +197,21 @@ class ImportExcelView(View):
             # continue
 
 
-
-
             try:
                 c_issue = Issue.objects.get(catalog_id = Comic.catalog_no)
                 # ToDo: restore next three lines for production
-                # c_issue.price = Comic.price
-                # c_issue.quantity = Comic.quantity
-                # c_series = c_issue.gcd_series
-                # c_series.sort_name = Comic.sort_name
-                # c_series.save()
-                # c_issue.save()
+                c_issue.price = Comic.price
+                c_issue.quantity = Comic.quantity
+                c_issue.grade = Comic.grade
+                c_issue.grade_notes = Comic.grade_notes
+                c_series = c_issue.gcd_series
+                c_series.sort_name = Comic.sort_name
+                sheet['R' + s_row] = c_issue.gcd_id
+                sheet['S' + s_row] = c_issue.gcd_series_id
+                sheet['T' + s_row] = c_issue.gcd_series.gcd_publisher_id
+                sheet['U' + s_row] = c_issue.gcd_series.year_began
+                c_series.save()
+                c_issue.save()
                 continue  # not necessary, just for clarity
 
             except ObjectDoesNotExist:
@@ -446,8 +369,98 @@ class ImportExcelView(View):
                 issue.save()
                 debug("Issue saved", str(issue))
 
+        wb.save(filename='data/Updated Inv 2016 12 20.xlsx')
         context = {'errors': messages,
                    }
         return render(
             request, self.template_name, context
         )
+
+
+
+    class VariantImportExcelView(View):
+        template_name = 'imports/imports.html'
+        gcd_series_recs = None
+
+        def get(self, request):
+            wb = load_workbook(filename="data/PubFix.xlsx")
+            wb.guess_types = True
+            sheet = wb.active
+            cells = sheet['A2':'B62']
+            fixes = {}
+            messages = [('Catalog No', 'Name', 'Issue', 'Year', 'Problem')]
+            for row in cells:
+                fixes[row[0].value] = row[1].value
+
+            wb = load_workbook(filename="data/RTS Master Inv Avail 2016 10 06.xlsx")
+            wb.guess_types = True
+            sheet = wb.active
+            row = 1
+            while make_string(sheet['A' + str(row + 1)].value) > '':
+                row += 1
+                # if row > 6:
+                #     break   # ToDo: remove, just for testing
+                s_row = str(row)
+                Comic.catalog_no = make_string(sheet['A' + s_row].value)
+                Comic.publisher = sheet['C' + s_row].value
+                Comic.sort_name = sheet['D' + s_row].value
+                Comic.name = str(sheet['E' + s_row].value)
+                t_year = sheet['F' + s_row].value
+                if t_year == None:
+                    Comic.year = 0
+                else:
+                    Comic.year = int(t_year)
+                Comic.vol_no = make_string(sheet['G' + s_row].value)
+                Comic.issue = make_string(sheet['H' + s_row].value)
+                Comic.issue_text = make_string(sheet['I' + s_row].value)
+                Comic.grade = make_string(sheet['K' + s_row].value)
+                Comic.price = Decimal(sheet['L' + s_row].value)
+                Comic.quantity = int(sheet['M' + s_row].value)
+                Comic.si = make_string(sheet['N' + s_row].value)
+                Comic.issue_notes = make_string(sheet['J' + s_row].value)
+                if Comic.issue_notes > '':
+                    Comic.issue_notes += ' '
+                Comic.issue_notes += make_string(sheet['O' + s_row].value)
+                Comic.grade_notes = make_string(sheet['P' + s_row].value)
+                Comic.inserts = make_string(sheet['Q' + s_row].value)
+
+                try:
+                    c_issue = Issue.objects.get(catalog_id=Comic.catalog_no)
+                    # c_issue.price = Comic.price
+                    # c_issue.quantity = Comic.quantity
+                    # c_issue.save()
+                    # continue  # not necessary, just for clarity
+
+                    # Check items with variants to see if only newsstand is variant
+                    if c_issue.variants != None and len(c_issue.variants) != 'V':
+                        issues = GcdIssue.objects.filter(series_id=c_issue.gcd_series_id, number=c_issue.number)
+                        print(c_issue.catalog_id, 'found', len(issues))
+                        if len(issues) == 2:
+                            if issues[0].variant_name.find('Newsstand') != -1:
+                                # Use issue 1
+                                c_issue.variants = "V"
+                                c_issue.gcd_id = issues[1].id
+                                scrape_image(c_issue.gcd_id)
+                                c_issue.save()
+                                print('fixing')
+                            elif issues[1].variant_name.find('Newsstand') != -1:
+                                # use issue 2
+                                c_issue.variants = "V"
+                                c_issue.gcd_id = issues[0].id
+                                scrape_image(c_issue.gcd_id)
+                                print('fixing')
+                                c_issue.save()
+
+                    continue
+
+                except ObjectDoesNotExist:
+                    continue  # Temp for fixing variants
+
+            context = {'errors': messages,
+                       }
+            return render(
+                request, self.template_name, context
+            )
+
+
+
