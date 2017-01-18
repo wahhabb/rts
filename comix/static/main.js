@@ -63,6 +63,13 @@ $(function() {
         return false;
     });
 
+    $('#title_search').keydown(function (evnt) {
+        var key = evnt.which;
+        if (key == 13) {
+            dosearch();
+        }
+    });
+
     // This function gets cookie with a given name
     function getCookie(name) {
         var cookieValue = null;

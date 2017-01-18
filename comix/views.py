@@ -139,7 +139,7 @@ class GenreListView(ListView):
         return context
 
 def issue_detail(request, cat_id):
-    issue = Issue.objects.get(pk=cat_id)
+    issue = Issue.objects.get(catalog_id=cat_id)
     tags = Tag.objects.all()
     template = loader.get_template('comix/issue_detail.html')
     genres = Genre.objects.all().order_by('slug')

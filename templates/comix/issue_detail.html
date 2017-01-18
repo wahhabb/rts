@@ -36,6 +36,9 @@
             {% if issue.gcd_notes > "" %}
                 <p><span>Issue Notes:</span> {{ issue.gcd_notes }}</p>
             {% endif %}
+            {% if issue.inserts > "" %}
+                <p><span>Inserts:</span> {{ issue.inserts }}</p>
+            {% endif %}
             {% if issue.notes > "" %}
                 <p><span>RTS Notes:</span> {{ issue.notes }}</p>
             {% endif %}
@@ -58,7 +61,6 @@
 
    <!--
     indicia_date = models.CharField(max_length=255)
-    inserts = models.CharField(max_length=255)
     si = models.CharField(max_length=255)
     added_date = models.DateTimeField()
     tags = models.ManyToManyField(Tag)

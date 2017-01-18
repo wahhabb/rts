@@ -89,16 +89,21 @@ class ImportExcelView(View):
 #         for row in cells:
 #             if row[9].value is not None:
 #                 forces[row[0].value] = row[9].value
+#   End of Tim's fixes
 
-        wb = load_workbook(filename="data/RTS Master Inv 2016 12 20.xlsx")
+        wb = load_workbook(filename="data/Updated Inv 2016 12 20.xlsx")
         wb.guess_types = True
         sheet = wb.active
         row = 1
         while make_string(sheet['A' + str(row + 1)].value) > '':
             row += 1
-            # if row > 6:
+            # if row > 8:
             #     break   # ToDo: remove, just for testing
             s_row = str(row)
+            found_issue = make_string(sheet['R' + s_row].value)
+            if found_issue is None or found_issue == '':
+                continue # Temporary! ToDo: Remove
+
             Comic.catalog_no = make_string(sheet['A' + s_row].value)
             Comic.publisher = sheet['C' + s_row].value
             Comic.sort_name = sheet['D' + s_row].value
@@ -125,99 +130,143 @@ class ImportExcelView(View):
             Comic.grade_notes = make_string(sheet['P' + s_row].value)
             Comic.inserts = make_string(sheet['Q' + s_row].value)
 
-            # Tim's fixes below
+            #            Tim's fixes below
 
-# Tim's fixes only
-            # # For Tim's fixes only: remove for general loading
-            # if (forces.get(Comic.catalog_no, None) is None):
-            #     continue
-            # c_issue = Issue.objects.filter(catalog_id=Comic.catalog_no)
-            # if len(c_issue) > 0:
-            #     continue
-            # print('Trying:', Comic.catalog_no)
-            # issue = Issue()
-            # issue.catalog_id = Comic.catalog_no
-            # issue.volume = Comic.vol_no
-            # issue.number = Comic.issue
-            # issue.issue_text = Comic.issue_text
-            # issue.notes = Comic.issue_notes
-            # issue.grade = Comic.grade
-            # issue.grade_notes = Comic.grade_notes
-            # issue.image_scanned = 0
-            # issue.inserts = Comic.inserts
-            # issue.si = Comic.si
-            # issue.added_date = timezone.now()
-            # issue.price = Comic.price
-            # issue.quantity = Comic.quantity
-            # issue.status = 'available'
-            # issue.gcd_id = forces.get(Comic.catalog_no, None)
-            # gcd_issue = GcdIssue.objects.get(id = issue.gcd_id)
-            # if gcd_issue.number == '???':
-            #     messages.append((issue.catalog_id, Comic.name, issue.number, Comic.year,
-            #                      "Non-numeric Issue #"))
-            #     continue
-            # gcd_series = GcdSeries.objects.get(id = gcd_issue.series_id)
-            # gcd_publisher = GcdPublisher.objects.get(id = gcd_series.publisher_id)
-            # issue.publication_date = gcd_issue.publication_date
-            # issue.gcd_notes = gcd_issue.notes
-            # # Verify Publisher in database or create new
-            # try:
-            #     debug('Checking Publisher:', gcd_publisher.name)
-            #     publisher = Publisher.objects.get(pk=gcd_series.publisher_id)
-            # except ObjectDoesNotExist:
-            #     # Need to add publisher.
-            #     publisher = Publisher(id=gcd_publisher.id, gcd_id=gcd_publisher.id,
-            #                           name=gcd_publisher.name, issue_ct=gcd_publisher.issue_count)
-            #     publisher.save()
-            # # Get or create series record
-            # try:
-            #     series = Series.objects.get(pk = gcd_series.id)
-            # except ObjectDoesNotExist:
-            #     print("Creating series:", gcd_series.id, gcd_series.name)
-            #     series = Series()
-            #     series.id = series.gcd_id = gcd_series.id
-            #     series.name = gcd_series.name
-            #     series.sort_name = Comic.sort_name
-            #     series.year_began = gcd_series.year_began
-            #     series.notes = gcd_series.notes
-            #     series.issue_count = gcd_series.issue_count
-            #     series.color = gcd_series.color
-            #     series.gcd_publisher = publisher
-            #     series.save()
-            #     print("Saved series:", series.pk)
-            # issue.gcd_series = series
-            # issue.number = gcd_issue.number
-            # # Now go after cover image
-            # if issue.cover_image == "":
-            #     issue.cover_image = scrape_image(issue.gcd_id)
+            # #Tim's fixes only
+            #             # For Tim's fixes only: remove for general loading
+            #             if (forces.get(Comic.catalog_no, None) is None):
+            #                 continue
+            #             c_issue = Issue.objects.filter(catalog_id=Comic.catalog_no)
+            #             if len(c_issue) == 0:
+            #                 issue = Issue()
+            #             else:
+            #                 issue = c_issue[0]
+            #             print('Trying:', Comic.catalog_no)
+            #             issue.catalog_id = Comic.catalog_no
+            #             issue.volume = Comic.vol_no
+            #             issue.number = Comic.issue
+            #             issue.issue_text = Comic.issue_text
+            #             issue.notes = Comic.issue_notes
+            #             issue.grade = Comic.grade
+            #             issue.grade_notes = Comic.grade_notes
+            #             issue.image_scanned = 0
+            #             issue.inserts = Comic.inserts
+            #             issue.si = Comic.si
+            #             issue.added_date = timezone.now()
+            #             issue.price = Comic.price
+            #             issue.quantity = Comic.quantity
+            #             issue.status = 'available'
+            #             issue.gcd_series_id = forces.get(Comic.catalog_no, None)
+            #             try:
+            #                 gcd_series = GcdSeries.objects.get(id = issue.gcd_series_id)
+            #             except GcdSeries.DoesNotExist:
+            #                 messages.append((issue.catalog_id, Comic.name, issue.number, Comic.year,
+            #                                  "Series # not on GCD"))
+            #                 continue
+            #             try:
+            #                 gcd_issue = GcdIssue.objects.get(series_id=issue.gcd_series_id, number=issue.number, volume=issue.volume)
+            #             except GcdIssue.DoesNotExist:
+            #                 messages.append((issue.catalog_id, Comic.name, issue.number, Comic.year,
+            #                                  "No match Volume & Issue #"))
+            #                 continue
+            #             except MultipleObjectsReturned:
+            #                 messages.append((issue.catalog_id, Comic.name, issue.number, Comic.year,
+            #                                  "Duplicate Issues on GCD: Variant?"))
+            #                 continue
             #
-            # # success! Save our issue
-            # issue.save()
-            # debug("Issue saved", str(issue))
-            # continue
+            #             if gcd_issue.number == '???':
+            #                 messages.append((issue.catalog_id, Comic.name, issue.number, Comic.year,
+            #                                  "Non-numeric Issue #"))
+            #                 continue
+            #             gcd_publisher = GcdPublisher.objects.get(id = gcd_series.publisher_id)
+            #             issue.publication_date = gcd_issue.publication_date
+            #             issue.gcd_notes = gcd_issue.notes
+            #             # Verify Publisher in database or create new
+            #             try:
+            #                 debug('Checking Publisher:', gcd_publisher.name)
+            #                 publisher = Publisher.objects.get(pk=gcd_series.publisher_id)
+            #             except ObjectDoesNotExist:
+            #                 # Need to add publisher.
+            #                 publisher = Publisher(id=gcd_publisher.id, gcd_id=gcd_publisher.id,
+            #                                       name=gcd_publisher.name, issue_ct=gcd_publisher.issue_count)
+            #                 publisher.save()
+            #             # Get or create series record
+            #             try:
+            #                 series = Series.objects.get(pk = gcd_series.id)
+            #             except ObjectDoesNotExist:
+            #                 print("Creating series:", gcd_series.id, gcd_series.name)
+            #                 series = Series()
+            #                 series.id = series.gcd_id = gcd_series.id
+            #                 series.name = gcd_series.name
+            #                 series.sort_name = Comic.sort_name
+            #                 series.year_began = gcd_series.year_began
+            #                 series.notes = gcd_series.notes
+            #                 series.issue_count = gcd_series.issue_count
+            #                 series.color = gcd_series.color
+            #                 series.gcd_publisher = publisher
+            #                 series.save()
+            #                 print("Saved series:", series.pk)
+            #             issue.gcd_series = series
+            #             issue.number = gcd_issue.number
+            #             # Now go after cover image
+            #             if issue.cover_image == "":
+            #                 issue.cover_image = scrape_image(issue.gcd_id)
+            #
+            #             # success! Save our issue
+            #             issue.save()
+            #             debug("Issue saved", str(issue))
+            #             continue
+            # #   End of Tim's fixes
 
+            #   Temporary fix ToDo: Remove
+            found_series = make_string(sheet['S' + s_row].value)
+            gcd_series = GcdSeries.objects.get(id=found_series)
+            gcd_issue_recs = GcdIssue.objects.filter(series=gcd_series, number=Comic.issue, volume=Comic.vol_no)
+            issue_ct = len(gcd_issue_recs)
 
-            try:
-                c_issue = Issue.objects.get(catalog_id = Comic.catalog_no)
-                # ToDo: restore next three lines for production
-                c_issue.price = Comic.price
-                c_issue.quantity = Comic.quantity
-                c_issue.grade = Comic.grade
-                c_issue.grade_notes = Comic.grade_notes
-                c_series = c_issue.gcd_series
-                c_series.sort_name = Comic.sort_name
-                sheet['R' + s_row] = c_issue.gcd_id
-                sheet['S' + s_row] = c_issue.gcd_series_id
-                sheet['T' + s_row] = c_issue.gcd_series.gcd_publisher_id
-                sheet['U' + s_row] = c_issue.gcd_series.year_began
-                c_series.save()
-                c_issue.save()
-                continue  # not necessary, just for clarity
+            if issue_ct > 1:
+                messages.append((Comic.catalog_no, Comic.name, Comic.issue, Comic.year,
+                                 "Multiple matches: variants?"))
+                continue
+            if issue_ct == 1:
+                if gcd_issue_recs[0].id != int(found_issue):
+                    gcd_issue = gcd_issue_recs[0]
+                    issue = Issue.objects.get(catalog_id=Comic.catalog_no)
+                    debug('Fixing item:', issue)
+                    issue.gcd_id = gcd_issue.id
 
-            except ObjectDoesNotExist:
+                    issue.publication_date = gcd_issue.publication_date
+                    issue.gcd_notes = gcd_issue.notes
+                    issue.cover_image = scrape_image(issue.gcd_id)
+                    # success! Save our issue
+                    issue.save()
+                    debug("Issue saved", str(issue))
+                    continue
+                continue
+            #   End temporary fix
+            if issue_ct == 0:
+            #     messages.append((Comic.catalog_no, Comic.name, Comic.issue, Comic.year,            try:
+            #                      "No match on issue name and number"))                c_issue = Issue.objects.get(catalog_id = Comic.catalog_no)
+            #     continue                # ToDo: restore next three lines for production
+            #     c_issue.price = Comic.price
+            #     c_issue.quantity = Comic.quantity
+            #     c_issue.grade = Comic.grade
+            #     c_issue.grade_notes = Comic.grade_notes
+            #     c_series = c_issue.gcd_series
+            #     c_series.sort_name = Comic.sort_name
+            #     sheet['R' + s_row] = c_issue.gcd_id
+            #     sheet['S' + s_row] = c_issue.gcd_series_id
+            #     sheet['T' + s_row] = c_issue.gcd_series.gcd_publisher_id
+            #     sheet['U' + s_row] = c_issue.gcd_series.year_began
+            #     c_series.save()
+            #     c_issue.save()
+            #     continue  # not necessary, just for clarity
+            #
+            # except ObjectDoesNotExist:
                 # add new entry
                 # debug('creating issue:', Comic.catalog_no)
-                issue = Issue()
+                # issue = Issue()
+                issue = Issue.objects.get(catalog_id=Comic.catalog_no)      # Remove after fixes
 
                 # Fill in entries from input. Some may need to be fixed
                 # Note: there can be multiple records for the same issue in different grades.
@@ -264,13 +313,13 @@ class ImportExcelView(View):
                                     messages.append((issue.catalog_id, Comic.name, issue.number, Comic.year,
                                                      "No match on name"))
                                     continue
-                                # else:
-                                #     print('Got unique on', Comic.catalog_no, Comic.name, '#' + Comic.issue)
+                                    # else:
+                                    #     print('Got unique on', Comic.catalog_no, Comic.name, '#' + Comic.issue)
                 if series_ct > 1:
                     # Let's look for a unique match on title and issue #
                     gcd_issue_recs = GcdIssue.objects.filter(Q(series_id__name=Comic.name) |
                                                              Q(series_id__sort_name=Comic.name))
-                    gcd_issue_recs = gcd_issue_recs.filter(number=Comic.issue)
+                    gcd_issue_recs = gcd_issue_recs.filter(number=Comic.issue, volume=Comic.vol_no)
                     issue_ct = len(gcd_issue_recs)
                     if issue_ct == 0:
                         messages.append((issue.catalog_id, Comic.name, issue.number, Comic.year,
@@ -307,7 +356,8 @@ class ImportExcelView(View):
                 else: # just one series_ct
                     gcd_series = self.gcd_series_recs[0]
                     gcd_publisher = GcdPublisher.objects.get(pk=gcd_series.publisher_id)
-                    gcd_issue_recs = GcdIssue.objects.filter(number=issue.number, series_id=gcd_series.id)
+                    gcd_issue_recs = GcdIssue.objects.filter(number=issue.number,
+                                                             series_id=gcd_series.id, volume=Comic.vol_no)
                     if len(gcd_issue_recs) == 0:
                         a1 = issue.number
                         a2 = gcd_series.id
