@@ -17,11 +17,12 @@
                {% if issue.volume > 0 %}
                     <p><span>Volume #</span> {{ issue.volume }}</p>
                 {% endif %}
-                <p><span>Issue #</span> {{ issue.number }}</p>
+                <p><span>Issue #</span> {{ issue.show_number }}</p>
                 <p><span>Date:</span> {{ issue.publication_date }}</p>
+                <p><span>Catalog #</span> {{ issue.catalog_id }}</p>
                 <p><span>Grade:</span> {{ issue.grade }}</p>
                 {% if issue.grade_notes > "" %}
-                    <p><span>Grade Notes:</span> {{ issue.grade_notes.name }}</p>
+                    <p><span>Grade Notes:</span> {{ issue.grade_notes }}</p>
                 {% endif %}
                 {% if issue.genre %}
                     <p><span>Genre:</span> {{ issue.genre.name }}</p>

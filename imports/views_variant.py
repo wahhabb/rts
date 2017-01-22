@@ -61,7 +61,7 @@ class FindVariantView(View):
 
     def post(self, request):
         useimg = request.POST.get('useimg', '')
-        if useimg == '':    # We;re getting first submit to show images
+        if useimg == '':    # We're getting first submit to show images
             images = []
             error = ''
             cat_id = request.POST['catalog-no']

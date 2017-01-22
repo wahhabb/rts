@@ -22,6 +22,8 @@
                 <option value="30" {% if request.session.per_page == '30' %} selected="selected" {% endif %}
                 >30</option>
                 <option value="99"  {% if request.session.per_page == '99' %} selected="selected" {% endif %}
+                >99</option>
+                <option value="99L"  {% if request.session.per_page == '99L' %} selected="selected" {% endif %}
                 >99 (List format)</option>
             </select>
        <form id="sortorder" action="">
@@ -33,7 +35,7 @@
             <input type="radio" {% if sort_order == 'price-up' %}  checked {% endif %}
                    onclick="sortby('price-up')" name="sort" value="price" id="price-up"> Price Low to High &nbsp;
         </form>
-        {% if request.session.per_page == '99' %}
+        {% if request.session.per_page == '99L' %}
             {% include 'comix/issue_list_list.html' %}
         {% else %}
             {% include 'comix/issue_list_items.html' %}

@@ -24,7 +24,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.generic import TemplateView
 
 from contact import urls as contact_urls
-from imports.views import ImportExcelView
+from imports.views import ImportExcelView, VariantImportExcelView
 from imports.views_variant import FindVariantView, LoadVariantsView
 
 # Allow registration to return to page it came from
@@ -96,6 +96,7 @@ urlpatterns = [
     url(r'^fixvariant/$', FindVariantView.as_view(), name='fix_variant'),
 
     url(r'^loadvariants/$', LoadVariantsView.as_view(), name='load_variants'),
+    url(r'^showvariants/$', VariantImportExcelView.as_view(), name='show_variants'),
 
     url(r'^robots.txt$', TemplateView.as_view(template_name="robots.txt", content_type="text/plain"), name="robots_file"),
     url(r'^sitemap.txt$', TemplateView.as_view(template_name='sitemap.txt', content_type='text/plain'), name="sitemap"),

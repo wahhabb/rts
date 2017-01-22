@@ -56,7 +56,9 @@ class IssueList(View):
     template_name = 'comix/issue_list.html'
 
     def get(self, request):
-        per_page = request.session.get('per_page', 6)
+        per_page = per_page_ct = request.session.get('per_page', 9)
+        if per_page == '99L':
+            per_page_ct = 99
         genre_slug = self.request.GET.get(self.genre_kwarg)
         publisher_slug = self.request.GET.get('publisher')
         sort_order = self.request.GET.get('sort')
@@ -105,7 +107,7 @@ class IssueList(View):
 
         genres = Genre.objects.all().order_by('slug')
 
-        paginator = Paginator(issues, per_page)
+        paginator = Paginator(issues, per_page_ct)
         page_no = request.GET.get(self.page_kwarg)
 
         try:
@@ -125,7 +127,8 @@ class IssueList(View):
                    'sort_order': sort_order,
                    'tags': tags,
                    'cart_item_count': cart_item_count,
-                   'breaks': [2, 5, 8, 11, 14, 17, 20, 23, 26, 29],
+                   'per_page': per_page,
+                   'breaks': range(2,100,3),
                    }
         return render(
             request, self.template_name, context

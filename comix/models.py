@@ -93,6 +93,7 @@ class Issue(models.Model):
     status = models.CharField(max_length=63)
     sold_date = models.DateTimeField(null=True, blank=True)
     variants = models.CharField(max_length=255, null=True, blank=True)
+    show_number = models.CharField(max_length=20, blank=True)
 
     def get_absolute_url(self):
         return reverse('issue_detail', kwargs={'cat_id': self.catalog_id})
