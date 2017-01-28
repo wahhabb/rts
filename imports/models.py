@@ -144,7 +144,7 @@ class GcdIssue(models.Model):
         unique_together = (('series', 'sort_code'),)
 
     def __str__(self):
-        return 'id: ' + str(self.id) + 'issue: ' + self.number
+        return 'id: ' + str(self.id) + ' issue: ' + self.number
 
 # class GcdIssueReprint(models.Model):
 #     origin_issue = models.ForeignKey(GcdIssue, models.DO_NOTHING)

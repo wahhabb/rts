@@ -6,5 +6,8 @@ Disallow: /place/
 Disallow: /add/
 Disallow: /loadvariants/
 Disallow: /get-titles/
+Disallow: /importexcel/
+Disallow: /fixvariant/
+Disallow: /showvariants/
 
 

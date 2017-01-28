@@ -37,7 +37,7 @@ class PublisherList(View):
     template_name = 'comix/publisher_list.html'
 
     def get(self, request):
-        publishers = Publisher.objects.all().order_by('name')
+        publishers = Publisher.objects.filter(in_gcd_flag=True).order_by('name')
         col_count = (publishers.count() + 3 ) // 4
         cart_issues = get_cart_items(request)
         cart_item_count = cart_issues.count()
@@ -65,7 +65,7 @@ class IssueList(View):
         search_text = self.request.GET.get('search')
         tag_slug = self.request.GET.get('tag')
         issues = Issue.objects.all().filter(status='available')
-        issues = issues.filter(Q(variants__isnull=True) | Q(variants='V')) # V means has variants but selected
+        issues = issues.filter(Q(variants__isnull=True) | Q(variants='')) # V means has variants but selected
         tags = Tag.objects.all()
         query_string = ""
         cart_issues = get_cart_items(request)
@@ -101,7 +101,7 @@ class IssueList(View):
             query_string += "&sort=" + sort_order
         sort_seq = {'price-up': 'price', 'price-down': '-price', None: 'alpha'}
         if (sort_order == 'alpha') or (sort_order == None):
-            issues = issues.order_by('gcd_series_id__sort_name', 'number')
+            issues = issues.order_by('gcd_series__sort_name', 'volume', 'number', 'show_number')
         else:
             issues = issues.order_by(sort_seq[sort_order])
 
