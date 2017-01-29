@@ -2,23 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f780884-a0dd-4e2f-9cf0-458135dfc813" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/comix/static/bigImages/87.jpg" afterPath="$PROJECT_DIR$/comix/static/bigImages/87.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/Error Corrections 2017 01 21.xlsx" afterPath="$PROJECT_DIR$/data/Error Corrections 2017 01 21.xlsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/RTS Master Inv 2016 12 20.xlsx" afterPath="$PROJECT_DIR$/data/RTS Master Inv 2016 12 20.xlsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/Updated Inv 2016 12 20.xlsx" afterPath="$PROJECT_DIR$/data/Updated Inv 2016 12 20.xlsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/Year corrections.xlsx" afterPath="$PROJECT_DIR$/data/Year corrections.xlsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/rts.iml" afterPath="$PROJECT_DIR$/.idea/rts.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/comix/admin.py" afterPath="$PROJECT_DIR$/comix/admin.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/comix/models.py" afterPath="$PROJECT_DIR$/comix/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/comix/views.py" afterPath="$PROJECT_DIR$/comix/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/imports/models.py" afterPath="$PROJECT_DIR$/imports/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/imports/views.py" afterPath="$PROJECT_DIR$/imports/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/comix/issue_detail.html" afterPath="$PROJECT_DIR$/templates/comix/issue_detail.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/comix/issue_list_items.html" afterPath="$PROJECT_DIR$/templates/comix/issue_list_items.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/robots.txt" afterPath="$PROJECT_DIR$/templates/robots.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/sitemap.txt" afterPath="$PROJECT_DIR$/templates/sitemap.txt" />
     </list>
     <ignored path="rts.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -42,11 +26,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/comix/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-735">
-              <caret line="14" column="6" lean-forward="true" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+            <state relative-caret-position="243">
+              <caret line="105" column="47" lean-forward="false" selection-start-line="105" selection-start-column="47" selection-end-line="105" selection-end-column="47" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -54,7 +38,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/comix/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="210">
@@ -124,8 +108,9 @@
       <find>notes_preview</find>
       <find>.+</find>
       <find>continue</find>
-      <find>now</find>
       <find>saved s</find>
+      <find>now</find>
+      <find>notes_p</find>
     </findStrings>
     <replaceStrings>
       <replace>http://www.rtscomics.com/issue/$0/</replace>
@@ -183,11 +168,11 @@
         <option value="$PROJECT_DIR$/comix/admin.py" />
         <option value="$PROJECT_DIR$/templates/robots.txt" />
         <option value="$PROJECT_DIR$/templates/sitemap.txt" />
-        <option value="$PROJECT_DIR$/comix/models.py" />
         <option value="$PROJECT_DIR$/templates/comix/issue_list_items.html" />
         <option value="$PROJECT_DIR$/imports/models.py" />
         <option value="$PROJECT_DIR$/imports/views.py" />
         <option value="$PROJECT_DIR$/comix/views.py" />
+        <option value="$PROJECT_DIR$/comix/models.py" />
       </list>
     </option>
   </component>
@@ -1091,24 +1076,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/comix/issue_list_items.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="36" column="61" lean-forward="false" selection-start-line="36" selection-start-column="61" selection-end-line="36" selection-end-column="61" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/comix/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-735">
-          <caret line="14" column="6" lean-forward="true" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/imports/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="437">
@@ -1136,6 +1103,24 @@
         <state relative-caret-position="210">
           <caret line="39" column="62" lean-forward="false" selection-start-line="39" selection-start-column="62" selection-end-line="39" selection-end-column="62" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/comix/issue_list_items.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="36" column="61" lean-forward="false" selection-start-line="36" selection-start-column="61" selection-end-line="36" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/comix/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="105" column="47" lean-forward="false" selection-start-line="105" selection-start-column="47" selection-end-line="105" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

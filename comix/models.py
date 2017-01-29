@@ -103,8 +103,8 @@ class Issue(models.Model):
 
     @property
     def notes_preview(self):
-        all_notes = ' '.join([self.issue_text, self.edition, self.inserts, self.issue_text,
-                        self.gcd_notes, self.scarcity_notes, self.grade_notes ])[:120]
+        all_notes = ' '.join([self.issue_text, self.edition, self.inserts,
+                        self.scarcity_notes, self.grade_notes ])[:120]
         if len(all_notes) > 119:
             all_notes += '...'
         all_notes = re.sub('\s+', ' ', all_notes)
