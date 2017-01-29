@@ -96,7 +96,8 @@ class ImportExcelView(View):
 #   End of Tim's fixes
 
 
-        wb = load_workbook(filename="data/Master inv 33 Available Dump 2017 01 25.xlsx")
+        # wb = load_workbook(filename="data/Master inv 33 Available Dump 2017 01 25.xlsx")
+        wb = load_workbook(filename="data/Updated Inv 3 2017 01 25.xlsx")
         wb.guess_types = True
         sheet = wb.active
         row = 1
@@ -136,6 +137,11 @@ class ImportExcelView(View):
             Comic.numerical_grade = make_string(sheet['U' + s_row].value)
             found_series = make_string(sheet['R' + s_row].value)
             found_issue = make_string(sheet['S' + s_row].value)
+
+            if Comic.not_in_gcd :
+                continue
+            if int(found_issue) > 1000000:
+                continue
 
             if found_issue is not None and found_issue != '':
                 c_issue = Issue.objects.filter(catalog_id=Comic.catalog_no)
@@ -191,6 +197,7 @@ class ImportExcelView(View):
                     issue.cover_image = scrape_image(issue.gcd_id)
 
             else:
+                continue    #   Temporary: remove
                 c_issue = Issue.objects.filter(catalog_id=Comic.catalog_no)
 
                 if len(c_issue) == 0:
@@ -287,7 +294,9 @@ class ImportExcelView(View):
             # sheet['AI' + s_row] = gcd_issue.publication_date
 
             # print('.', end='')
-            issue.save()
+            publisher.name = Comic.publisher
+            publisher.save()
+            # issue.save()
             continue
 
 
@@ -595,7 +604,7 @@ class ImportExcelView(View):
             #     issue.save()
             #     debug("Issue saved", str(issue))
 
-        wb.save(filename='data/Updated Inv 3 2017 01 25.xlsx')
+        # wb.save(filename='data/Updated Inv 3 2017 01 25.xlsx')
         context = {'errors': messages,
                    }
         return render(

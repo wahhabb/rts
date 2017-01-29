@@ -29,7 +29,12 @@
                 <span>Volume #</span> {{ issue.volume }}
             {% endif %}
             <span>Issue #</span> {{ issue.number }}</p>
-            <p><span>Date:</span> {{ issue.publication_date }}</p>
+                <p><span>Date:</span>
+                    {% if issue.indicia_date > '' %}
+                    {{ issue.indicia_date }}
+                    {% else %}
+                    {{ issue.publication_date }}
+                    {% endif %}</p>
             <p><span>Grade:</span> {{ issue.grade }}</p>
             {% if issue.grade_notes > "" %}
                 <p><span>Grade Notes:</span> {{ issue.grade_notes}}</p>
