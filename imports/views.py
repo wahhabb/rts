@@ -97,7 +97,7 @@ class ImportExcelView(View):
 
 
         # wb = load_workbook(filename="data/Master inv 33 Available Dump 2017 01 25.xlsx")
-        wb = load_workbook(filename="data/Updated Inv 2 2017 01 25.xlsx")
+        wb = load_workbook(filename="data/errors6.xlsx")
         wb.guess_types = True
         sheet = wb.active
         row = 1
@@ -148,6 +148,10 @@ class ImportExcelView(View):
 
                 gcd_issue = GcdIssue.objects.get(id=int(found_issue))
                 gcd_series = GcdSeries.objects.get(id=int(found_series))
+                if int(found_series) != gcd_issue.series_id:
+                    messages.append((Comic.catalog_no, Comic.name, Comic.vol_no, Comic.issue, Comic.year,
+                                     "Inconsistent Series & Issue"))
+                    continue
 
                 gcd_publisher = GcdPublisher.objects.get(id = gcd_series.publisher_id)
                 issue.publication_date = gcd_issue.publication_date
@@ -178,11 +182,6 @@ class ImportExcelView(View):
 
                     series.save()
                     print("Saved series:", series.pk)
-# Temporary ToDo: Remove
-                series.name = Comic.name
-                series.sort_name = Comic.sort_name
-                series.save()
-                continue
 
                 issue.gcd_series = series
                 issue.gcd_id = gcd_issue.id
@@ -193,10 +192,10 @@ class ImportExcelView(View):
                         issue.hrn_number = int(hrn)
                     except:
                         hrn = hrn # no-op
-                # Now go after cover image
-                issue.cover_image == ""     # Temporary: ToDo: Remove
-                if issue.cover_image == "":
-                    issue.cover_image = scrape_image(issue.gcd_id)
+            # Now go after cover image
+            issue.cover_image = ""     # Temporary: ToDo: Remove
+            if issue.cover_image == "":
+                issue.cover_image = scrape_image(issue.gcd_id)
 
             else:
                 c_issue = Issue.objects.filter(catalog_id=Comic.catalog_no)
@@ -250,8 +249,6 @@ class ImportExcelView(View):
 
             # print('Trying:', Comic.catalog_no)
             issue.variants = ""
-            # if issue.catalog_id is not None:
-            #     assert (issue.catalog_id == Comic.catalog_no), 'Catalog_id mismatch'
             issue.catalog_id = Comic.catalog_no
             issue.volume = Comic.vol_no
             issue.show_number = Comic.issue
@@ -295,9 +292,7 @@ class ImportExcelView(View):
             # sheet['AI' + s_row] = gcd_issue.publication_date
 
             # print('.', end='')
-            publisher.name = Comic.publisher
-            publisher.save()
-            # issue.save()
+            issue.save()
             continue
 
 
