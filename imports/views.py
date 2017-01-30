@@ -97,7 +97,7 @@ class ImportExcelView(View):
 
 
         # wb = load_workbook(filename="data/Master inv 33 Available Dump 2017 01 25.xlsx")
-        wb = load_workbook(filename="data/Updated Inv 3 2017 01 25.xlsx")
+        wb = load_workbook(filename="data/Updated Inv 2 2017 01 25.xlsx")
         wb.guess_types = True
         sheet = wb.active
         row = 1
@@ -137,11 +137,6 @@ class ImportExcelView(View):
             Comic.numerical_grade = make_string(sheet['U' + s_row].value)
             found_series = make_string(sheet['R' + s_row].value)
             found_issue = make_string(sheet['S' + s_row].value)
-
-            if Comic.not_in_gcd :
-                continue
-            if int(found_issue) > 1000000:
-                continue
 
             if found_issue is not None and found_issue != '':
                 c_issue = Issue.objects.filter(catalog_id=Comic.catalog_no)
@@ -183,6 +178,12 @@ class ImportExcelView(View):
 
                     series.save()
                     print("Saved series:", series.pk)
+# Temporary ToDo: Remove
+                series.name = Comic.name
+                series.sort_name = Comic.sort_name
+                series.save()
+                continue
+
                 issue.gcd_series = series
                 issue.gcd_id = gcd_issue.id
                 if found_series == '30403':     # Classics Illustrated
@@ -193,11 +194,11 @@ class ImportExcelView(View):
                     except:
                         hrn = hrn # no-op
                 # Now go after cover image
+                issue.cover_image == ""     # Temporary: ToDo: Remove
                 if issue.cover_image == "":
                     issue.cover_image = scrape_image(issue.gcd_id)
 
             else:
-                continue    #   Temporary: remove
                 c_issue = Issue.objects.filter(catalog_id=Comic.catalog_no)
 
                 if len(c_issue) == 0:

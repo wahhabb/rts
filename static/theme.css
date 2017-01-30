@@ -144,7 +144,7 @@ h5.card-header {
 }
 .card h6.card-meta {
   color: #4452c0;
-  text-align: center;
+  padding-left: 1.5rem;
 }
 #id_email {
   width: 210px;

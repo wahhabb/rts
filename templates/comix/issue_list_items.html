@@ -14,7 +14,6 @@
                 </div>
             </div>
             <div class="card-body">
-                <p><span>Catalog #</span> {{ issue.catalog_id }}</p>
                {% if issue.volume > 0 %}
                     <p><span>Volume #</span> {{ issue.volume }}</p>
                 {% endif %}
@@ -38,13 +37,14 @@
                     {% endif %}
                     </p>
                 {% endif %}
-                {% if issue.gcd_notes > "" %}
-                    <p><span>GCD Notes:</span> {{ issue.gcd_notes_preview }}
-                    {% if issue.gcd_notes_preview|length > 97 %}
-                        (<a href="{{ issue.get_absolute_url }}">more</a>)
-                    {% endif %}
-                    </p>
-                {% endif %}
+{#                {% if issue.gcd_notes > "" %}#}
+{#                    <p><span>GCD Notes:</span> {{ issue.gcd_notes_preview }}#}
+{#                    {% if issue.gcd_notes_preview|length > 97 %}#}
+{#                        (<a href="{{ issue.get_absolute_url }}">more</a>)#}
+{#                    {% endif %}#}
+{#                    </p>#}
+{#                {% endif %}#}
+                <p><span>Catalog #</span> {{ issue.catalog_id }}</p>
                 <a href="#/" class="btn btn-primary" onclick="add_to_cart('{{ issue.catalog_id }}')">Add to Cart</a>
                 <a href="{{ issue.get_absolute_url }}" class="btn btn-primary">Details</a>
                 <a href="#/" class="btn btn-primary" onclick="add_to_wish_list('{{ issue.pk }}')">Add to Wish List</a>

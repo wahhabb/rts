@@ -7,6 +7,7 @@ from django.views.generic.list import ListView, View
 from django.db.models import Q
 from django.http import JsonResponse
 import re, string
+from itertools import chain
 
 
 from comix.models import Genre, Issue, Publisher, Tag, Series
@@ -70,6 +71,7 @@ class IssueList(View):
         query_string = ""
         cart_issues = get_cart_items(request)
         cart_item_count = cart_issues.count()
+        issues_following = None
 
         if tag_slug != None:
             tag = Tag.objects.get(slug=tag_slug)
@@ -90,10 +92,12 @@ class IssueList(View):
             publisher_text = None
 
         if search_text != None:
-            issues = issues.filter(Q(gcd_series_id__name__icontains=search_text) |
-                                    Q(tags__name__icontains=search_text) |
+            issues1 = issues.filter(gcd_series_id__name__icontains=search_text)
+            issues_following = issues.filter(Q(tags__name__icontains=search_text) |
                                    Q(gcd_series__gcd_publisher__name__icontains=search_text) |
                                    Q(notes__icontains=search_text))
+            issues_following = issues_following.exclude(gcd_series_id__name__icontains=search_text)
+            issues = issues1
             query_string += "&search=" + search_text
             log.debug("Search: " + search_text)
 
@@ -101,10 +105,18 @@ class IssueList(View):
             query_string += "&sort=" + sort_order
         sort_seq = {'price-up': 'price', 'price-down': '-price', None: 'alpha'}
         if (sort_order == 'alpha') or (sort_order == None):
-            issues = issues.order_by('gcd_series__sort_name', 'volume', 'number', 'show_number')
+            issues = issues.order_by('gcd_series__sort_name', 'gcd_series__year_began', 'volume', 'number',
+                                     'hrn_number', 'edition', 'inserts', 'issue_text', 'numerical_grade', 'price')
+            if issues_following != None:
+                issues_following = issues_following.order_by('gcd_series__sort_name', 'gcd_series__year_began', 'volume', 'number',
+                                     'hrn_number', 'edition', 'inserts', 'issue_text', 'numerical_grade', 'price')
         else:
             issues = issues.order_by(sort_seq[sort_order])
+            if issues_following != None:
+                issues_following = issues_following.order_by(sort_seq[sort_order])
 
+        if issues_following != None:
+            issues = list(chain(issues, issues_following))
         genres = Genre.objects.all().order_by('slug')
 
         paginator = Paginator(issues, per_page_ct)

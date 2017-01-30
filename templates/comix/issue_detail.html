@@ -24,33 +24,27 @@
             <h1>{{ issue.gcd_series.name }}
                 {% if issue.volume > '' %} Volume {{ issue.volume }}{% endif %}
                 #{{ issue.number }}</h1>
-            <p><span>Publisher:</span> {{ series.gcd_publisher }}</p>
+            <p>{{ series.gcd_publisher }}</p>
             <p>{% if issue.volume > '' %}
                 <span>Volume #</span> {{ issue.volume }}
             {% endif %}
             <span>Issue #</span> {{ issue.number }}</p>
+            <p><span>Grade:</span> {{ issue.grade }}</p>
                 <p><span>Date:</span>
                     {% if issue.indicia_date > '' %}
                     {{ issue.indicia_date }}
                     {% else %}
                     {{ issue.publication_date }}
                     {% endif %}</p>
-            <p><span>Grade:</span> {{ issue.grade }}</p>
-            {% if issue.grade_notes > "" %}
-                <p><span>Grade Notes:</span> {{ issue.grade_notes}}</p>
-            {% endif %}
             {% if issue.genre_id > 0 %}
                 <p><span>Genre:</span> {{ issue.genre_id.name }}</p>
             {% endif %}
-            {% if issue.gcd_notes > "" %}
-                <p><span>Issue Notes:</span> {{ issue.gcd_notes }}</p>
+            {% if issue.all_notes > "" %}
+                <p>{{ issue.all_notes }}</p>
             {% endif %}
-            {% if issue.inserts > "" %}
-                <p><span>Inserts:</span> {{ issue.inserts }}</p>
-            {% endif %}
-            {% if issue.notes > "" %}
-                <p><span>RTS Notes:</span> {{ issue.notes }}</p>
-            {% endif %}
+{#            {% if issue.gcd_notes > "" %}#}
+{#                <p><span>GCD Notes:</span> {{ issue.gcd_notes }}</p>#}
+{#            {% endif %}#}
             <hr>
             <p>Price: <span class="price">${{ issue.price }}</span></p>
             {% if issue.quantity > 1 %}

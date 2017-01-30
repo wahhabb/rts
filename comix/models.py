@@ -103,7 +103,7 @@ class Issue(models.Model):
 
     @property
     def notes_preview(self):
-        all_notes = ' '.join([self.issue_text, self.edition, self.inserts,
+        all_notes = ' '.join([self.issue_text, self.edition, self.inserts, self.notes,
                         self.scarcity_notes, self.grade_notes ])[:120]
         if len(all_notes) > 119:
             all_notes += '...'
@@ -118,6 +118,16 @@ class Issue(models.Model):
         if len(notes) > 99:
             notes += '...'
         return notes
+
+    @property
+    def all_notes(self):
+        all_notes = ' '.join([self.issue_text, self.edition, self.inserts, self.notes,
+                        self.scarcity_notes, self.grade_notes ])
+        all_notes = re.sub('\s+', ' ', all_notes)
+        if all_notes == ' ':
+            all_notes = ''
+        return all_notes
+
 
     def get_absolute_url(self):
         return reverse('issue_detail', kwargs={'cat_id': self.catalog_id})
