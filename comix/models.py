@@ -75,6 +75,7 @@ class Issue(models.Model):
     in_gcd_flag = models.BooleanField(default=True)
     catalog_id = models.CharField(max_length=255, blank=True, unique=True)
     gcd_series = models.ForeignKey(Series, verbose_name="Title")
+    publisher_name = models.CharField(max_length=255, blank=True)
     volume = models.CharField(max_length=255, blank=True, null=True)
     number = models.IntegerField(verbose_name='Issue No.')
     issue_text = models.CharField(max_length=255, blank=True)

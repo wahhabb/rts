@@ -97,7 +97,7 @@ class ImportExcelView(View):
 
 
         # wb = load_workbook(filename="data/Master inv 33 Available Dump 2017 01 25.xlsx")
-        wb = load_workbook(filename="data/errors6.xlsx")
+        wb = load_workbook(filename="data/Updated Inv 2 2017 01 25.xlsx")
         wb.guess_types = True
         sheet = wb.active
         row = 1
@@ -106,13 +106,17 @@ class ImportExcelView(View):
             # if row > 6:
             #     break   # ToDo: remove, just for testing
             s_row = str(row)
+            if row % 1000 == 0:
+                print(s_row)
 
             Comic.catalog_no = make_string(sheet['A' + s_row].value)
 
             Comic.name = str(sheet['B' + s_row].value)
             ls_pos = Comic.name.find(' L.S.')
-            if ls_pos > 0:
-                Comic.name = Comic.name[:ls_pos] # remove L.S. from name
+            if ls_pos == 0:     # Temporary!!
+                continue
+            # if ls_pos > 0:
+            #     Comic.name = Comic.name[:ls_pos] # remove L.S. from name
             Comic.sort_name = make_string(sheet['C' + s_row].value)
             Comic.publisher = make_string(sheet['D' + s_row].value)
 
@@ -146,6 +150,12 @@ class ImportExcelView(View):
                 else:
                     issue = c_issue[0]
 
+                # Temporary!!
+                series = Series.objects.get(pk=found_series)
+                series.name = Comic.name
+                series.save()
+                continue
+
                 gcd_issue = GcdIssue.objects.get(id=int(found_issue))
                 gcd_series = GcdSeries.objects.get(id=int(found_series))
                 if int(found_series) != gcd_issue.series_id:
@@ -160,6 +170,11 @@ class ImportExcelView(View):
                 try:
                     # debug('Checking Publisher:', gcd_publisher.name)
                     publisher = Publisher.objects.get(pk=gcd_series.publisher_id)
+                    publisher.name = Comic.publisher        # Temporary: ToDo: Remove
+                    publisher.save()
+                    continue
+
+
                 except ObjectDoesNotExist:
                     # Need to add publisher.
                     publisher = Publisher(id=gcd_publisher.id, gcd_id=gcd_publisher.id,
@@ -222,7 +237,7 @@ class ImportExcelView(View):
                         debug('Adding publisher not in GCD:', publisher.name)
                         publisher.save()
                     try:
-                       series = Series.objects.get(name=Comic.name, year_began=Comic.year, in_gcd_flag=False)
+                        series = Series.objects.get(name=Comic.name, year_began=Comic.year, in_gcd_flag=False)
                     except Series.DoesNotExist:
                         series = Series()
                         series.in_gcd_flag = False
@@ -292,7 +307,7 @@ class ImportExcelView(View):
             # sheet['AI' + s_row] = gcd_issue.publication_date
 
             # print('.', end='')
-            issue.save()
+            # issue.save()
             continue
 
 

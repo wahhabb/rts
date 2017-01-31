@@ -24,7 +24,7 @@
             <h1>{{ issue.gcd_series.name }}
                 {% if issue.volume > '' %} Volume {{ issue.volume }}{% endif %}
                 #{{ issue.number }}</h1>
-            <p>{{ series.gcd_publisher }}</p>
+            <p>{{ issue.publisher_name }}</p>
             <p>{% if issue.volume > '' %}
                 <span>Volume #</span> {{ issue.volume }}
             {% endif %}
