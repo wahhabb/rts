@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f780884-a0dd-4e2f-9cf0-458135dfc813" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/~$errors6.xlsx" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/comix/models.py" afterPath="$PROJECT_DIR$/comix/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/imports/views.py" afterPath="$PROJECT_DIR$/imports/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/comix/issue_detail.html" afterPath="$PROJECT_DIR$/templates/comix/issue_detail.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/comix/issue_list_items.html" afterPath="$PROJECT_DIR$/templates/comix/issue_list_items.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/robots.txt" afterPath="$PROJECT_DIR$/templates/robots.txt" />
     </list>
     <ignored path="rts.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,11 +26,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/comix/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
-              <caret line="77" column="64" lean-forward="false" selection-start-line="77" selection-start-column="64" selection-end-line="77" selection-end-column="64" />
+            <state relative-caret-position="483">
+              <caret line="136" column="56" lean-forward="false" selection-start-line="136" selection-start-column="56" selection-end-line="136" selection-end-column="56" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -76,7 +70,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/imports/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="300">
@@ -194,10 +188,10 @@
         <option value="$PROJECT_DIR$/static/theme.less" />
         <option value="$PROJECT_DIR$/comix/views.py" />
         <option value="$PROJECT_DIR$/templates/robots.txt" />
-        <option value="$PROJECT_DIR$/comix/models.py" />
         <option value="$PROJECT_DIR$/templates/comix/issue_list_items.html" />
         <option value="$PROJECT_DIR$/templates/comix/issue_detail.html" />
         <option value="$PROJECT_DIR$/imports/views.py" />
+        <option value="$PROJECT_DIR$/comix/models.py" />
       </list>
     </option>
   </component>
@@ -1095,16 +1089,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/comix/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="77" column="64" lean-forward="false" selection-start-line="77" selection-start-column="64" selection-end-line="77" selection-end-column="64" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/comix/issue_list_items.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -1140,6 +1124,16 @@
             <element signature="e#12851#12852#0" expanded="false" />
             <element signature="e#31716#31766#0" expanded="false" />
             <element signature="e#34201#34266#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/comix/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="136" column="56" lean-forward="false" selection-start-line="136" selection-start-column="56" selection-end-line="136" selection-end-column="56" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
