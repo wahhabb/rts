@@ -21,6 +21,7 @@
                     <span>Issue #</span> {{ issue.show_number }}</p>
                 <p><span>Grade:</span> {{ issue.grade }}</p>
                 <p>Price: <span class="price">${{ issue.price }}</span></p>
+            <p><span>sort-name:</span> {{ issue.gcd_series.sort_name }}</p>
                 <p><span>Date:</span>
                     {% if issue.indicia_date > '' %}
                     {{ issue.indicia_date }}

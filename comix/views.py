@@ -10,7 +10,7 @@ import re, string
 from itertools import chain
 
 
-from comix.models import Genre, Issue, Publisher, Tag, Series
+from comix.models import Genre, Issue, Publisher, Tag, Series, PubCount
 from orders.cart import get_cart_items
 import logging
 
@@ -38,7 +38,7 @@ class PublisherList(View):
     template_name = 'comix/publisher_list.html'
 
     def get(self, request):
-        publishers = Publisher.objects.filter(in_gcd_flag=True).order_by('name')
+        publishers = PubCount.objects.all().order_by('name')
         col_count = (publishers.count() + 3 ) // 4
         cart_issues = get_cart_items(request)
         cart_item_count = cart_issues.count()
@@ -84,17 +84,17 @@ class IssueList(View):
         else:
             genre_text = None
         if publisher_slug != None:
-            publisher = Publisher.objects.get(slug=publisher_slug)
+            publisher = PubCount.objects.get(slug=publisher_slug)
             publisher_text = publisher.name
             query_string += "&publisher=" + publisher_slug
-            issues = issues.filter(gcd_series_id__gcd_publisher_id=publisher.id)
+            issues = issues.filter(publisher_name=publisher.name)
         else:
             publisher_text = None
 
         if search_text != None:
             issues1 = issues.filter(gcd_series_id__name__icontains=search_text)
             issues_following = issues.filter(Q(tags__name__icontains=search_text) |
-                                   Q(gcd_series__gcd_publisher__name__icontains=search_text) |
+                                   Q(publisher_name__icontains=search_text) |
                                    Q(notes__icontains=search_text))
             issues_following = issues_following.exclude(gcd_series_id__name__icontains=search_text)
             issues = issues1
@@ -200,7 +200,7 @@ class SearchAutocompleteView(View):
         if request.is_ajax():
             q = request.GET.get('term', '').lower()
             foundset = set()
-            publishers = Publisher.objects.filter(name__icontains=q)
+            publishers = PubCount.objects.filter(name__icontains=q)
             for publisher in publishers:
                 foundset.add(string.capwords(publisher.name))
             titles = Series.objects.filter(name__icontains=q)

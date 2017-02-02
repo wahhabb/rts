@@ -6,7 +6,7 @@ import os.path
 import re
 from openpyxl import load_workbook, Workbook
 from imports.models import *
-from comix.models import Publisher, Series, Issue
+from comix.models import Publisher, Series, Issue, PubCount
 from django.utils import timezone
 from django.db.models import Q
 from decimal import *
@@ -102,7 +102,7 @@ class ImportExcelView(View):
         sheet = wb.active
         row = 1
         while make_string(sheet['A' + str(row + 1)].value) > '':
-            row += 1
+            # row += 1
             # if row > 6:
             #     break   # ToDo: remove, just for testing
             s_row = str(row)
@@ -112,9 +112,8 @@ class ImportExcelView(View):
             Comic.catalog_no = make_string(sheet['A' + s_row].value)
 
             Comic.name = str(sheet['B' + s_row].value)
-            ls_pos = Comic.name.find(' L.S.')
-            if ls_pos == 0:     # Temporary!!
-                continue
+            # Restore the below to search the GCD
+            # ls_pos = Comic.name.find(' L.S.')
             # if ls_pos > 0:
             #     Comic.name = Comic.name[:ls_pos] # remove L.S. from name
             Comic.sort_name = make_string(sheet['C' + s_row].value)
@@ -144,17 +143,12 @@ class ImportExcelView(View):
 
             if found_issue is not None and found_issue != '':
                 c_issue = Issue.objects.filter(catalog_id=Comic.catalog_no)
+                debug('found_issue:', found_issue)
 
                 if len(c_issue) == 0:
                     issue = Issue()
                 else:
                     issue = c_issue[0]
-
-                # Temporary!!
-                series = Series.objects.get(pk=found_series)
-                series.name = Comic.name
-                series.save()
-                continue
 
                 gcd_issue = GcdIssue.objects.get(id=int(found_issue))
                 gcd_series = GcdSeries.objects.get(id=int(found_series))
@@ -170,7 +164,6 @@ class ImportExcelView(View):
                 try:
                     # debug('Checking Publisher:', gcd_publisher.name)
                     publisher = Publisher.objects.get(pk=gcd_series.publisher_id)
-                    publisher.name = Comic.publisher        # Temporary: ToDo: Remove
                     publisher.save()
                     continue
 
@@ -187,7 +180,8 @@ class ImportExcelView(View):
                     print("Creating series:", gcd_series.id, gcd_series.name)
                     series = Series()
                     series.id = series.gcd_id = gcd_series.id
-                    series.name = gcd_series.name
+                    # series.name = gcd_series.name
+                    series.name = Comic.name
                     series.sort_name = Comic.sort_name
                     series.year_began = gcd_series.year_began
                     series.notes = gcd_series.notes
@@ -307,7 +301,9 @@ class ImportExcelView(View):
             # sheet['AI' + s_row] = gcd_issue.publication_date
 
             # print('.', end='')
-            # issue.save()
+            series.sort_name = Comic.sort_name
+            series.save()
+            issue.save()
             continue
 
 
@@ -617,6 +613,21 @@ class ImportExcelView(View):
 
         # wb.save(filename='data/Updated Inv 3 2017 01 25.xlsx')
         context = {'errors': messages,
+                   }
+        return render(
+            request, self.template_name, context
+        )
+
+
+class TestMe(View):
+    template_name = 'imports/imports.html'
+
+    def get(self, request):
+        pubs = PubCount.objects.all()
+        for pub in pubs:
+            pub.save()
+
+        context = {'errors': [],
                    }
         return render(
             request, self.template_name, context

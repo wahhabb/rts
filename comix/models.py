@@ -22,6 +22,19 @@ class Publisher(models.Model):
     def __str__(self):
         return self.name
 
+class PubCount(models.Model):
+    name = models.CharField(max_length=255)
+    count = models.IntegerField()
+    slug = models.SlugField()
+
+    def save(self, *args, **kwargs):
+        if not self.slug or self.slug == '':
+            self.slug = slugify(self.name)[:49]
+        super(PubCount, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
 
 class Series(models.Model):
     gcd_id = models.IntegerField()

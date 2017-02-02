@@ -9,9 +9,9 @@
     <section id="list" class="columns">
         <div class="col-3 column">
         {% for publisher in publishers %}
-                    <p class="{% if publisher.issue_ct > 5000 %}
+                    <p class="{% if publisher.count > 600 %}
                                 size3em
-                                {% elif publisher.issue_ct > 600 %}
+                                {% elif publisher.count > 100 %}
                                  size2em
                                 {% endif %}">
                         <a href="/issues/?publisher={{ publisher.slug }}">{{ publisher.name }}</a> </p>
