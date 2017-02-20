@@ -1,25 +1,25 @@
 {% extends "base.html" %}
 {% load catalog_filters %}
 {% block title %}
-{{ block.super }} - Wish List
+{{ block.super }} - Want List
 {% endblock %}
 {% block content %}
 <section class="columns" id="wishlist">
     <div class="col-1 column">
     </div>
     <div class="col-10 column">
-    <h1>Wish List</h1>
+    <h1>Want List</h1>
 
     {% if needs_login %}
-    <p>Please <a href="{%  url 'login' %}?next={% url 'wish_list' %}" class="btn btn-primary">Log In</a>
-    to see your wish list, or <a href="{% url 'registration_register' %}?next={{ request.get_full_path|urlencode }}"
+    <p>Please <a href="{%  url 'login' %}?next={% url 'want_list' %}" class="btn btn-primary">Log In</a>
+    to see your Want List, or <a href="{% url 'registration_register' %}?next={{ request.get_full_path|urlencode }}"
        class="btn btn-primary">Sign Up
         </a>
-    to be able to save items to your wish list.</p>
+    to be able to save items to your want list.</p>
     <p>By creating an account you will be able to shop faster, be up to date on an order’s
         status, and keep track of the orders you have previously made.</p>
     {% else %}
-	<table summary="Your Wish List" id="shopping_cart">
+	<table summary="Your Want List" id="shopping_cart">
 		<thead>
 			<tr>
 				<th scope="col">Image</th>
@@ -48,7 +48,7 @@
 		{% else %}
 		      <tr>
 					<td colspan="6" style="height:30px;">
-						Your wish list is empty.
+						Your want list is empty.
 					</td>
 				</tr>
 		{% endif %}

@@ -124,8 +124,8 @@ class Issue(models.Model):
         if len(inserts) > 0:
             inserts += '.'
         all_notes = ' '.join([issue_text, self.edition, inserts, self.notes,
-                        self.scarcity_notes, self.grade_notes ])[:120]
-        if len(all_notes) > 119:
+                        self.scarcity_notes, self.grade_notes ])[:80]
+        if len(all_notes) > 79:
             all_notes += '...'
         all_notes = re.sub('\s+', ' ', all_notes)
         if all_notes == ' ':
@@ -134,8 +134,8 @@ class Issue(models.Model):
 
     @property
     def gcd_notes_preview(self):
-        notes = self.gcd_notes[:100]
-        if len(notes) > 99:
+        notes = self.gcd_notes[:80]
+        if len(notes) > 79:
             notes += '...'
         return notes
 

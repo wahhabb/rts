@@ -5,8 +5,8 @@
             <img src="/static/thumbnails/{{ item.issue.cover_image }}">
         </td>
         <td>
-            <a href="{{ item.get_absolute_url }}" class="cart">
-                {{ item.issue.gcd_series.name }}
+            <a href="{{ item.issue.get_absolute_url }}" class="cart">
+                {{ item.issue.gcd_series.name }} &mdash; {{ item.issue.gcd_series.year_began }} Series
             </a>
         </td>
         <td>

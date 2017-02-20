@@ -4,10 +4,14 @@
 <html lang="en">
     <head>
         <link rel="stylesheet" href="{% static 'spectre.css' %}" />
+        <link rel="stylesheet" href="{% static 'sm-core-css.css' %}" />
+        <link rel="stylesheet" href="{% static 'sm-clean.css' %}" />
         <link rel="stylesheet" type="text/css" media="all" href="{% static 'theme.css' %}" />
-        <link href="https://fonts.googleapis.com/css?family=Baloo+Paaji" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Economica:700|Open+Sans+Condensed:300,700|Open+sans:300,700"
+              rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="{% static "main.js" %}"></script>
+        <script src="{% static "jquery.smartmenus.js" %}"></script>
         <meta charset="utf-8">
         <meta name="viewport" width="device-width" content="initial-scale=1.0">
         <link rel="shortcut icon" href="{% static 'favicon.png' %}"/>
@@ -26,53 +30,95 @@
     <body>
         <div id="wrapper">
         <header>
-            <div  class="navbar">
-            <section class="navbar-section">
-                <!-- Nav button
-                <a href="#" class="btn btn-link btn-lg">
-                    <i class="icon icon-people"></i>
-                </a>
-                -->
-                <a href="/" class="navbar-brand">RTS Comics<sup>&reg;</sup></a> <!-- ToDo: fix hardcoded link -->
-                <br><span id="tagline">Collectors helping collectors since 1986</span>
-            </section>
-            <section class="navbar-section" id="search_block">
-                <input id="title_search" type="text" class="form-input input-inline" placeholder="Enter search...">
-                <a href="javascript:dosearch()" class="btn">Go</a>
-            </section>
-            <section class="navbar-section">
-                <a href="{% url 'show_cart' %}" class="btn">
-                    Cart <img src="{% static 'icon-cart.svg' %}" class="icon">
-                    <span id="cart-count">{{ cart_item_count|default:"" }}</span>
-                </a>
-                {% if user.is_anonymous %}
-                    {% if not 'login' in request.path %}
-                        {% if 'logout' in request.path %}
-                            <a href="{%  url 'login' %}" class="btn">Login</a>
-                        {% else %}
-                            <a href="{%  url 'login' %}?next={{ request.get_full_path|urlencode }}" class="btn">
-                                Login
+            <div>
+                <div id="login">
+                    {% if user.is_anonymous %}
+                        <span>Welcome!</span>
+                        {% if not 'login' in request.path %}
+                            {% if 'logout' in request.path %}
+                                <a href="{%  url 'login' %}">Sign-in</a>
+                            {% else %}
+                                <a href="{%  url 'login' %}?next={{ request.get_full_path|urlencode }}">
+                                    Sign-in
+                                </a>
+                            {% endif %}
+                            <a href="{% url 'registration_register' %}?next={{ request.get_full_path|urlencode }}">
+                                Register
                             </a>
                         {% endif %}
-                    {% endif %}
-                    <a href="{% url 'registration_register' %}?next={{ request.get_full_path|urlencode }}" class="btn">Sign Up</a>
                 {% else %}
-                    <p>Welcome, {{ user.username }}</p>
-                    <a href="{%  url 'logout' %}" class="btn">Log Out</a>
+                    <span id="welcome">Welcome, {{ user.get_username }}</span>
+                    <a href="{%  url 'logout' %}">Log Out</a>
                {% endif %}
-            </section>
                 </div>
-                <div class="text-center">
-                    <div class="btn-group">
-                        <a href="{% url 'issue_list' %}" class="btn btn-primary">Find Comics</a>
-                        <a href="{% url 'get_catalog' %}" class="btn btn-primary">Get Catalog</a>
-                        <a href="{% url 'photojournals' %}" class="btn btn-primary">Photo-Journals</a>
-                        <a href="{% url 'wish_list' %}" class="btn btn-primary">Wish List</a>
-                        <a href="{% url 'about' %}" class="btn btn-primary">About Us</a>
-                        <a href="{% url 'contact' %}" class="btn btn-primary">Contact Us</a>
+                <a id="cart" href="{% url 'show_cart' %}">
+                    <span id="cart-count">{{ cart_item_count|default:"0" }}</span>
+                </a>
+                <div id="show-menu"><a href="#/" onclick="show_menu();" class="box-shadow-menu">Menu</a></div>
+              <a href="/" class="logo"><img src="{% static 'logo.png' %}"></a> <!-- ToDo: fix hardcoded link -->
+            <section id="search_block">
+                <div id="browse" class="inline-block">BROWSE <span class="sub-arrow">+</span>
+                    <div>
+                        <a href="/issues/">Browse All</a>
+                        <a href="/publishers/">By Publisher</a>
                     </div>
                 </div>
+                <input id="search-box" type="text" class="form-input input-inline"
+                       placeholder="Title, Publisher, Keyword, ...">
+                <a href="javascript:dosearch()" id="search-btn"><img src="{% static 'search.svg' %}"></a>
+                <img src="{%  static 'tagline.png' %}" id="tagline"
+                     alt="Collectors Helping Collectors Since 1984">
+            </section>
+
+            </div>
         </header>
+
+    <ul id="main-menu" class="sm sm-clean">
+        <li class="small-only"><a href="#/" onclick="hide_menu();">Hide Menu
+                <svg xmlns="http://www.w3.org/2000/svg" id="close-icon" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
+             width="28" height="28" viewBox="0 0 28 28" data-code="62164" data-tags="times-rectangle-o,window-close-o">
+            <g fill="#2d3092" transform="scale(0.02734375 0.02734375)">
+                <path d="M718.286 634.857l-83.429 83.429c-7.429 7.429-18.857 7.429-26.286 0l-96.571-96.571-96.571
+                96.571c-7.429 7.429-18.857 7.429-26.286 0l-83.429-83.429c-7.429-7.429-7.429-18.857
+                0-26.286l96.571-96.571-96.571-96.571c-7.429-7.429-7.429-18.857 0-26.286l83.429-83.429c7.429-7.429
+                18.857-7.429 26.286 0l96.571 96.571 96.571-96.571c7.429-7.429 18.857-7.429 26.286 0l83.429 83.429c7.429
+                7.429 7.429 18.857 0 26.286l-96.571 96.571 96.571 96.571c7.429 7.429 7.429 18.857 0 26.286zM146.286
+                804.571h731.429v-585.143h-731.429v585.143zM1024 164.571v694.857c0 50.286-41.143 91.429-91.429
+                91.429h-841.143c-50.286 0-91.429-41.143-91.429-91.429v-694.857c0-50.286 41.143-91.429
+                91.429-91.429h841.143c50.286 0 91.429 41.143 91.429 91.429z"/></g>
+            </svg></a>
+        </li>
+        <li><a href="/">HOME</a>
+        </li>
+        <li><a href="#/">FEATURED</a></li>
+        <li><a href="{% url 'photojournals' %}">PHOTO-JOURNALS</a></li>
+        <li class="drop"><a href="#/">SUPPLIES</a></li>
+        <li><a href="{% url 'about' %}">ABOUT</a></li>
+    {% if user.is_anonymous %}
+        {% if not 'login' in request.path %}
+            {% if 'logout' in request.path %}
+                <li class="small-only"><a href="{%  url 'login' %}">Sign-in</a></li>
+            {% else %}
+                <li  class="small-only"><a href="{%  url 'login' %}?next={{ request.get_full_path|urlencode }}">
+                    Sign-in
+                </a></li>
+            {% endif %}
+            <li class="small-only"><a href="{% url 'registration_register' %}?next={{ request.get_full_path|urlencode }}"
+                   >
+                Register
+            </a></li>
+        {% endif %}
+    {% endif %}
+        <li id="myrts"><a href="#/">My RTS</a>
+            <ul>
+                <li><a href="#/">Your Account</a></li>
+                <li><a href="{% url 'want_list' %}">Want List</a></li>
+                <li><a href="#/">Your Orders</a></li>
+            </ul>
+        </li>
+      </ul>
+
+
         {% if messages %}
         <div id="messages">
             {% for message in messages %}
@@ -111,5 +157,98 @@
   ga('send', 'pageview');
 
 </script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $(function() {
+            $("#search-box").autocomplete({
+                source: "/get-titles/",
+                minLength: 2
+            });
+            $('.ui-widget').click(function () {
+                setTimeout(dosearch, 200);
+            });
+            $('#browse').click(function () {
+                $('#browse div').slideToggle(250);
+            });
+        });
+        function perPage(count) {
+        $.post('/update_session/', {count: count}, function(data) {
+            var qs = "{{ query_string|safe }}";
+            window.location = 'issues/?page=1' + qs;
+{#            window.location = '?{% query_transform request page=1 %}';#}
+
+        })
+            .fail(function () {
+                alert('fail');
+            });
+        }
+        function sortby(order) {
+            prev_order = order;
+            var qs = "{{ query_string|safe }}";
+            if (qs.search(/(.+)&sort=.+(&*.*)/) > -1) {
+                window.location = 'issues/?page=1' + qs.replace(/(.+)&sort=[^&]+(.*)/, '$1&sort=' + order);
+            } else {
+                window.location = 'issues/?page=1' + qs + '&sort=' + order;
+            }
+        }
+// SmartMenus init
+$(function() {
+  $('#main-menu').smartmenus({
+    mainMenuSubOffsetX: -1,
+    mainMenuSubOffsetY: 4,
+    subMenusSubOffsetX: 6,
+    subMenusSubOffsetY: -6
+  });
+});
+
+// SmartMenus mobile menu toggle button
+$(function() {
+  var $mainMenuState = $('#main-menu-state');
+  if ($mainMenuState.length) {
+    // animate mobile menu
+    $mainMenuState.change(function(e) {
+      var $menu = $('#main-menu');
+      if (this.checked) {
+        $menu.hide().slideDown(250, function() { $menu.css('display', ''); });
+      } else {
+        $menu.show().slideUp(250, function() { $menu.css('display', ''); });
+      }
+    });
+    // hide mobile menu beforeunload
+    $(window).bind('beforeunload unload', function() {
+      if ($mainMenuState[0].checked) {
+        $mainMenuState[0].click();
+      }
+    });
+  }
+    do_resize();
+    $(window).resize( do_resize );
+
+function do_resize() {
+    var full_menu_size = 600;
+    if ($(window).width() > full_menu_size)
+        $('#main-menu').show();
+    else
+        $('#main-menu').hide();
+    ratio = $('#slider').width() / 756; // ToDO: Magic number
+    $('#slider .rotate-text').css({
+        'transform': 'scale(' + ratio + ') rotate(-16deg)',
+    });
+    if (ratio < .67) {
+        $('#slider').css('padding-top', 90 * ratio * ratio * ratio);
+    } else {
+        $('#slider').css('padding-top', 90 * ratio * ratio);
+    }
+}
+});
+
+function show_menu() {
+    $('#main-menu').slideDown(250);
+}
+function hide_menu() {
+    $('#main-menu').hide();
+}
+    </script>
     </body>
 </html>

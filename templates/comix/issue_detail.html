@@ -23,6 +23,7 @@
         <div class="column col-4 notes">
             <h1>{{ issue.gcd_series.name }}
                 {% if issue.volume > '' %} Volume {{ issue.volume }}{% endif %}
+             &mdash; {{ issue.gcd_series.year_began }} Series
                 #{{ issue.number }}</h1>
             <p>{{ issue.publisher_name }}</p>
             <p>{% if issue.volume > '' %}

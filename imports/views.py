@@ -703,11 +703,6 @@ class FixesExcelView(View):
             if found_series == '':
                 continue
 
-
-
-
-
-
                 # wb = load_workbook(filename="data/Updated Inv 2016 12 20.xlsx")
 
                 # wb = load_workbook(filename="data/RTS Master Inv 2016 12 20.xlsx")

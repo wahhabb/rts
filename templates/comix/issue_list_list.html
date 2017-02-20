@@ -20,7 +20,7 @@
             <td>{{ issue.publication_date }}</td>
             <td>{{ issue.grade }}</td>
             <td>${{ issue.price }}</td>
-            <td><a href="#/" onclick="add_to_wish_list('{{ issue.pk }}')">Add to Wish List</a></td>
+            <td><a href="#/" onclick="add_to_wish_list('{{ issue.pk }}')">Add to Want List</a></td>
             <td><a href="#/" onclick="add_to_cart('{{ issue.catalog_id }}')">Add to Cart</a></td>
         </tr>
         {% empty %}

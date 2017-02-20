@@ -12,9 +12,9 @@ function add_to_cart(catalog_id) {
         success: function(json) {
             $('#cart-count').html(json['cart_count']);
             if (json['not_added']) {
-                $('#already_in_cart').show(400).delay(1400).hide(200);
+                $('#already_in_cart').slideDown(400).delay(1400).hide(200);
             } else {
-                $('#added_to_cart').html('Added to Cart').show(400).delay(1400).hide(200);
+                $('#added_to_cart').html('Added to Cart').slideDown(400).delay(1400).hide(200);
             }
         },
         error: function(xhr, errmsg, err) {
@@ -35,35 +35,50 @@ function add_to_wish_list(issue_id) {
             console.log(json);
             console.log("success--wish_list_add");
             if (json['not_added']) {
-                alert('Please log in or sign up to save to wish list')
+                alert('Please log in or sign up to save to Want List')
             } else {
-                $('#added_to_cart').html('Added to Wish List').show(400).delay(1400).hide(200);
+                $('#added_to_cart').html('Added to Want List').slideDown(400).delay(1400).hide(200);
             }
         }
     });
 }
 
+function genreChosen($slug) {
+    // Send to list for genre
+    window.location = "/issues/?category=" + $slug;
+}
+function dosearch() {
+    title_field = document.getElementById('search-box');
+    title_search = title_field.value;
+    title_field.className = 'form-input input-inline';
+    if (title_search.length) {
+        window.location = '/issues/?search=' + title_search
+    } else {
+    title_field.className = 'form-input input-inline error';
+    }
+}
 $(function() {
-    $('#title_search_btn').click(function () {
-        $('#category_block').slideUp();
-        $('#tag_block').slideUp();
-        $('#search_block').slideDown("slow");
-        return false;
-    });
-    $('#category_search_btn').click(function () {
-        $('#category_block').slideDown("slow");
-        $('#search_block').slideUp();
-        $('#tag_block').slideUp();
-        return false;
-    });
-    $('#tag_search_btn').click(function () {
-        $('#category_block').slideUp();
-        $('#search_block').slideUp();
-        $('#tag_block').slideDown("slow");
-        return false;
-    });
+    $(window).resize();
+});
 
-    $('#title_search').keydown(function (evnt) {
+$(window).resize( function() {
+    if ($(window).width() < 601) {
+        if (!$('#search-bar h3').hasClass('btn3')) {
+            $('#search_buttons').hide();
+            $('#search-bar h3').addClass('btn3')
+                .click(function () {
+                    $('#search_buttons').toggle(400);
+                });
+        }
+    } else {
+        $('#search-bar h3').removeClass('btn3').unbind('click');
+                $('#search_buttons').show(400);
+    }
+});
+
+
+$(function() {
+    $('#search-box').keydown(function (evnt) {
         var key = evnt.which;
         if (key == 13) {
             dosearch();

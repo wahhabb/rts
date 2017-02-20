@@ -1,10 +1,8 @@
-    <div class="columns">
+    <div class="flexwrap">
 
     {% for issue in issues %}
-        <div class="card column col-4">
+        <div class="card comic">
             <div class="card-header">
-                <h5 class="card-header">{{ issue.gcd_series.name }}</h5>
-                <h6 class="card-meta">{{ issue.publisher_name }}</h6>
                 <div class="card-image">
                     <a href="{{ issue.get_absolute_url }}">
                         <img src="/static/thumbnails/{{ issue.cover_image }}"
@@ -14,25 +12,25 @@
                 </div>
             </div>
             <div class="card-body">
+                <p class="center-text">{{ issue.gcd_series.name }} &mdash;
+                    {{ issue.gcd_series.year_began }} Series
+                </p>
+                <p class="center-text">{{ issue.publisher_name }}</p>
                {% if issue.volume > 0 %}
                     <p><span>Volume #</span> {{ issue.volume }}</p>
                 {% endif %}
                 <p>{% if issue.volume > '' %}Volume {{ issue.volume }}{% endif %}
                     <span>Issue #</span> {{ issue.show_number }}</p>
                 <p><span>Grade:</span> {{ issue.grade }}</p>
-                <p>Price: <span class="price">${{ issue.price }}</span></p>
-            <p><span>sort-name:</span> {{ issue.gcd_series.sort_name }}</p>
+                <p><span class="price">Price:</span>${{ issue.price }}</p>
                 <p><span>Date:</span>
                     {% if issue.indicia_date > '' %}
                     {{ issue.indicia_date }}
                     {% else %}
                     {{ issue.publication_date }}
                     {% endif %}</p>
-                {% if issue.genre %}
-                    <p><span>Genre:</span> {{ issue.genre.name }}</p>
-                {% endif %}
                 {% if issue.notes_preview > "" %}
-                    <p><span>{{ issue.notes_preview }}
+                    <p class="center-text">{{ issue.notes_preview }}
                     {% if issue.notes_preview|length > 114 %}
                         (<a href="{{ issue.get_absolute_url }}">more</a>)
                     {% endif %}
@@ -45,18 +43,13 @@
 {#                    {% endif %}#}
 {#                    </p>#}
 {#                {% endif %}#}
-                <p><span>Catalog #</span> {{ issue.catalog_id }}</p>
-                <a href="#/" class="btn btn-primary" onclick="add_to_cart('{{ issue.catalog_id }}')">Add to Cart</a>
-                <a href="{{ issue.get_absolute_url }}" class="btn btn-primary">Details</a>
-                <a href="#/" class="btn btn-primary" onclick="add_to_wish_list('{{ issue.pk }}')">Add to Wish List</a>
+{#                <p><span>Catalog #</span> {{ issue.catalog_id }}</p>#}
+                <a href="#/" class="btn btn-primary add-to-cart" onclick="add_to_cart('{{ issue.catalog_id }}')">Add to Cart</a>
+{#                <a href="{{ issue.get_absolute_url }}" class="btn btn-primary">Details</a>#}
+{#                <a href="#/" class="btn btn-primary" onclick="add_to_wish_list('{{ issue.pk }}')">Add to Want List</a>#}
             </div>
-            {% if forloop.counter0 in breaks %}
-                </div></div>
-                <div class="columns">
-            {% else %}
-                </div>
-            {% endif %}
+        </div>
         {% empty %}
             <h4>Sorry, no items found that match your request.</h4>
         {% endfor %}
-
+    </div>

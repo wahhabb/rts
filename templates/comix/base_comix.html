@@ -1,73 +1,69 @@
 {% extends parent_template|default:"base.html" %}
 {% block head %}
-        <script>
-            function genreChosen($slug) {
-                // Send to list for genre
-                window.location = "{% url 'issue_list' %}?category=" + $slug;
-            }
-            function dosearch() {
-                title_field = document.getElementById('title_search');
-                title_search = title_field.value;
-                title_field.className = 'form-input input-inline';
-                if (title_search.length) {
-                    window.location = '?search=' + title_search
-                } else {
-                title_field.className = 'form-input input-inline error';
-                }
-            }
-            $(function() {
-                $(window).resize();
-            });
-
-            $(window).resize( function() {
-                if ($(window).width() < 601) {
-                    if (!$('#search-bar h3').hasClass('btn3')) {
-                        $('#search_buttons').hide();
-                        $('#search-bar h3').addClass('btn3')
-                            .click(function () {
-                                $('#search_buttons').toggle(400);
-                            });
-                    }
-                } else {
-                    $('#search-bar h3').removeClass('btn3').unbind('click');
-                            $('#search_buttons').show(400);
-                }
-            });
-        </script>
+{#        <script>#}
+{#            function genreChosen($slug) {#}
+{#                // Send to list for genre#}
+{#                window.location = "{% url 'issue_list' %}?category=" + $slug;#}
+{#            }#}
+{#            function dosearch() {#}
+{#                title_field = document.getElementById('title_search');#}
+{#                title_search = title_field.value;#}
+{#                title_field.className = 'form-input input-inline';#}
+{#                if (title_search.length) {#}
+{#                    window.location = '?search=' + title_search#}
+{#                } else {#}
+{#                title_field.className = 'form-input input-inline error';#}
+{#                }#}
+{#            }#}
+{#            $(function() {#}
+{#                $(window).resize();#}
+{#            });#}
+{##}
+{#            $(window).resize( function() {#}
+{#                if ($(window).width() < 601) {#}
+{#                    if (!$('#search-bar h3').hasClass('btn3')) {#}
+{#                        $('#search_buttons').hide();#}
+{#                        $('#search-bar h3').addClass('btn3')#}
+{#                            .click(function () {#}
+{#                                $('#search_buttons').toggle(400);#}
+{#                            });#}
+{#                    }#}
+{#                } else {#}
+{#                    $('#search-bar h3').removeClass('btn3').unbind('click');#}
+{#                            $('#search_buttons').show(400);#}
+{#                }#}
+{#            });#}
+{#        </script>#}
 {% endblock %}
 {% block content %}
     {% block sectionhead %}
         <section id="list" class="columns">
     {% endblock %}
-        <div id="search-bar" class="column col-3">
-            <h3><span>Search for Comics</span></h3>
-            <div id="search_buttons">
-                <a href="{% url 'issue_list' %}" class="btn3"><span>Show All</span></a>
-                <a href="/publishers/" class="btn3"><span>Search by Publisher</span></a>
-{#                <a id="title_search_btn" href="#" class="btn3"><span>Search by Title</span></a>#}
-{#                <div id="search_block">#}
-{#                    <input id="title_search" type="text" class="form-input input-inline" placeholder="Enter search...">#}
-{#                    <a href="javascript:dosearch()" class="btn">Go</a>#}
-{#                </div>#}
-            <div class="hidden">
-                <a id="category_search_btn" href="#" class="btn3"><span>Search by Category</span></a>
-                <div id="category_block">
-                    <select id="genres" onchange="genreChosen(value);">
-                        <option value="0">Please choose a category...</option>
-                        {% for genre in genres %}
-                        <option value="{{ genre.slug }}">{{ genre.genre }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <a id="tag_search_btn" href="#" class="btn3"><span>Search by Tag</span></a>
-                <div id="tag_block">
-                    {% for tag in tags %}
-                    <span><a href="?tag={{ tag.slug }}">{{ tag.name }}</a> </span>
-                    {% endfor %}
-                </div>
-            </div> <!-- hidden: remove when features are added -->
-            </div>
-        </div>
+{#        <div id="search-bar" class="column col-3">#}
+{#            <h3><span>Our Guarantee</span></h3>#}
+{#            <div id="guarantee">#}
+{#                Your satisfaction is fully guaranteed on all comics purchased from RTS.#}
+{#                You may return any comic in the same condition for a full refund within 30 days!#}
+{#            </div>#}
+{#        <h4>RTS COMICS UNLIMITED, INC.</h4>#}
+{#        <p>#}
+{#PO Box 150412<br>#}
+{#Lakewood CO 80215-0412 USA<br>#}
+{#Phone: 303-403-1840<br>#}
+{#<br>#}
+{#Hours:<br>#}
+{#The best time to try and reach us is 10AM-6PM Mountain time Monday-Saturday<br>#}
+{##}
+{#            <br></p>#}
+{##}
+{#            <h4>How To Order:</h4>#}
+{##}
+{#<p>U.S. Customers can order from the website.<br><br>#}
+{#    International or have questions?<br>#}
+{#    You can e-mail an order (RTSUnlimitedInc@Gmail.com), call in an order (303)-403-1840, fax an order to (303)-403-1837, or mail an order to RTS Unlimited, Inc, PO Box 150412, Lakewood CO 80215-0412. We accept, checks, money orders, PayPal, Visa, MasterCard, American Express, and Discover.#}
+{##}
+{#</p>#}
+{#        </div>#}
 
     {% block subcontent %}
         Default goes here

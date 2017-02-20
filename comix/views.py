@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.http.response import HttpResponse, HttpResponseRedirect
+from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.template import loader, Context
 from django.views.decorators.csrf import csrf_exempt
@@ -20,9 +20,6 @@ log = logging.getLogger(__name__)
 
 # Create your views here.
 ####### Comix Related ######
-
-def homepage(request):
-    return HttpResponseRedirect('/issues/')
 
 
 @csrf_exempt
@@ -140,7 +137,6 @@ class IssueList(View):
                    'tags': tags,
                    'cart_item_count': cart_item_count,
                    'per_page': per_page,
-                   'breaks': range(2,100,3),
                    }
         return render(
             request, self.template_name, context
@@ -192,6 +188,7 @@ class GetCatalogPage(StaticPageMixin, View):
 
 class PhotoJournalPage(StaticPageMixin, View):
     template_name = 'comix/photojournals.html'
+
 
 #   Dropdown for search shows titles, publishers, notes, gcd_notes, tags, genres
 #   ToDo: Add Categories

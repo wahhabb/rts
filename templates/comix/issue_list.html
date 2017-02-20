@@ -5,11 +5,50 @@
 {% endblock %}
 
 {% block sectionhead %}
+    {% load static %}
+    {% if request.path == '/' %}
+    <section id="promo" class="columns">
+    <div id="slider">
+        <div class="rotate-text">
+        <h3>Welcome to RTS Comics Unlimited, Inc.</h3>
+        <h4>Collectors helping collectors since 1984.</h4>
+        <p>If you’re a collector of 1930-1960 comics<br>
+        of any genre, we understand. Whether we have<br>
+        it in our large collection or not, we will
+            <br>help you find what you’re looking for.</p>
+        </div>
+    </div>
+    <div id="meetrts">
+        <h2>Meet RTS Comics</h2>
+        <table>
+            <tr>
+                <td><img src="{% static 'comix/redstar.png' %}"></td>
+                <td>30-Day Money-back Guarantee on All Orders</td>
+            </tr>
+            <tr>
+                <td><img src="{% static 'comix/redstar.png' %}"></td>
+                <td>Over 12,000 Different Comics in Stock</td>
+            </tr>
+            <tr>
+                <td><img src="{% static 'comix/redstar.png' %}"></td>
+                <td>Comics from 1917 to 2014</td>
+            </tr>
+            <tr>
+                <td><img src="{% static 'comix/redstar.png' %}"></td>
+                <td>Telephone Support at 303.403.1840</td>
+            </tr>
+            <tr>
+                <td><img src="{% static 'comix/redstar.png' %}"></td>
+                <td>Get Our Full-Color Catalog</td>
+            </tr>
+        </table>
+    </div>
+    </section>
+    {% endif %}
     <section id="list" class="columns">
 {% endblock %}
 {% block subcontent %}
-    {% load static %}
-        <div class="column col-9 issue">
+        <div class="column col-12 issue">
         {% if genre_text != None %}
             <h3>Category: {{ genre_text }}</h3>
         {% elif publisher_name != None %}
@@ -83,39 +122,7 @@
     <div id="already_in_cart">Already in Cart<br>Not Added</div>
     <div id="added_to_cart">Added to Cart</div>
 
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script>
-        $(function() {
-            $('#search_block').show();
-            $("#title_search").autocomplete({
-                source: "/get-titles/",
-                minLength: 2
-            });
-            $('.ui-widget').click(function () {
-                setTimeout(dosearch, 200);
-            });
-        });
-        function perPage(count) {
-        $.post('/update_session/', {count: count}, function(data) {
-            var qs = "{{ query_string|safe }}";
-            window.location = '?page=1' + qs;
-{#            window.location = '?{% query_transform request page=1 %}';#}
+<script>
+</script>
 
-        })
-            .fail(function () {
-                alert('fail');
-            });
-        }
-        function sortby(order) {
-            prev_order = order;
-            var qs = "{{ query_string|safe }}";
-            if (qs.search(/(.+)&sort=.+(&*.*)/) > -1) {
-                window.location = '?page=1' + qs.replace(/(.+)&sort=[^&]+(.*)/, '$1&sort=' + order);
-            } else {
-                window.location = '?page=1' + qs + '&sort=' + order;
-            }
-        }
-
-    </script>
 {% endblock %}

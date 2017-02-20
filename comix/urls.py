@@ -1,14 +1,8 @@
-from django.conf.urls import include, url
-from django.contrib import  admin
-from django.contrib.auth import views as auth_views
-from django.core.urlresolvers import reverse_lazy
-from django.contrib.auth.forms import AuthenticationForm
-
-from comix.views import homepage
+from django.conf.urls import url
 from comix.views import *
 
 urlpatterns = [
-    url(r'^$', homepage),
+    url(r'^$', IssueList.as_view(), name='issue_list'),
 
     url(r'^genres/$', GenreListView.as_view(),
         name='genre_list'),
