@@ -90,8 +90,8 @@ a#cart {
 #search-btn {
   position: relative;
   left: -4px;
-  top: 2px;
-  padding: 11px 13px 6px;
+  top: 0px;
+  padding: 11px 13px 9px;
   background: #fdc035;
   border: solid 1px #be1e2d;
   border-left: none;
@@ -390,7 +390,7 @@ h5.card-header {
   padding: 1em 1.5em 0.8em;
   color: yellow;
   font-size: 120%;
-  background: #4452c0;
+  background: #4452C0;
   text-shadow: darkblue 1px 2px 2px;
   border: ridge 7px yellow;
   border-radius: 2rem;
