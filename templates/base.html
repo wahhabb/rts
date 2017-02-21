@@ -175,7 +175,7 @@
         function perPage(count) {
         $.post('/update_session/', {count: count}, function(data) {
             var qs = "{{ query_string|safe }}";
-            window.location = 'issues/?page=1' + qs;
+            window.location = '/issues/?page=1' + qs;
 {#            window.location = '?{% query_transform request page=1 %}';#}
 
         })
