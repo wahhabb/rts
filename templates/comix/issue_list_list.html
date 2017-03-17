@@ -12,7 +12,8 @@
     <tbody>
     {% for issue in issues %}
         <tr>
-            <td><a href="{{ issue.get_absolute_url }}">{{ issue.gcd_series.name }}
+            <td><a href="{{ issue.get_absolute_url }}">{{ issue.gcd_series.name }}  &mdash;
+                    {{ issue.gcd_series.tim_year }} Series
             {% if issue.volume > 0 %}
                 <span>Volume #</span> {{ issue.volume }}
             {% endif %}

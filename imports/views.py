@@ -102,7 +102,7 @@ class ImportExcelView(View):
         sheet = wb.active
         row = 1
         while make_string(sheet['A' + str(row + 1)].value) > '':
-            # row += 1
+            row += 1
             # if row > 6:
             #     break   # ToDo: remove, just for testing
             s_row = str(row)
@@ -141,9 +141,27 @@ class ImportExcelView(View):
             found_series = make_string(sheet['R' + s_row].value)
             found_issue = make_string(sheet['S' + s_row].value)
 
+#temporary: remove
+            t_issue = Issue.objects.get(catalog_id=Comic.catalog_no)
+            t_series = t_issue.gcd_series
+            t_issue.tim_year = Comic.year
+            t_issue.save()
+            if t_series.tim_year == 0:
+                t_series.tim_year = Comic.year
+                t_series.save()
+            else:
+                if t_series.tim_year != Comic.year:
+                    messages.append((Comic.catalog_no, Comic.name, Comic.vol_no, Comic.issue, Comic.year,
+                                     "Inconsistent Year for Series: Was " + str(t_series.tim_year)))
+            continue
+# end temporary
+
+
+
+
+
             if found_issue is not None and found_issue != '':
                 c_issue = Issue.objects.filter(catalog_id=Comic.catalog_no)
-                debug('found_issue:', found_issue)
 
                 if len(c_issue) == 0:
                     issue = Issue()
