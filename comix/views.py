@@ -54,9 +54,9 @@ class IssueList(View):
     template_name = 'comix/issue_list.html'
 
     def get(self, request):
-        per_page = per_page_ct = request.session.get('per_page', 9)
-        if per_page == '99L':
-            per_page_ct = 99
+        per_page = per_page_ct = request.session.get('per_page', 12)
+        if per_page == '100L':
+            per_page_ct = 100
         genre_slug = self.request.GET.get(self.genre_kwarg)
         publisher_slug = self.request.GET.get('publisher')
         sort_order = self.request.GET.get('sort')
@@ -126,6 +126,10 @@ class IssueList(View):
         except EmptyPage:
             page = paginator.page(paginator.num_pages)
 
+        is_home = False
+        if request.path == '/' and page_no == None:
+            is_home = True
+
         context = {'issues': page,
                    'paginator': paginator,
                    'is_paginated': page.has_other_pages(),
@@ -137,6 +141,7 @@ class IssueList(View):
                    'tags': tags,
                    'cart_item_count': cart_item_count,
                    'per_page': per_page,
+                   'is_home': is_home,
                    }
         return render(
             request, self.template_name, context
@@ -161,6 +166,7 @@ def issue_detail(request, cat_id):
                        'genres': genres,
                        'tags': tags,
                        'cart_item_count': cart_item_count,
+                       'user': request.user,
                        })
     return HttpResponse(template.render(context))
 
@@ -188,6 +194,12 @@ class GetCatalogPage(StaticPageMixin, View):
 
 class PhotoJournalPage(StaticPageMixin, View):
     template_name = 'comix/photojournals.html'
+
+class OrderingPage(StaticPageMixin, View):
+    template_name = 'comix/ordering.html'
+
+class GuaranteePage(StaticPageMixin, View):
+    template_name = 'comix/guarantee.html'
 
 
 #   Dropdown for search shows titles, publishers, notes, gcd_notes, tags, genres

@@ -1,0 +1,43 @@
+{% extends parent_template|default:"base.html" %}
+{% block title %}
+{{ block.super }} - Ordering
+{% endblock %}
+{% block content %}
+    {% load static %}
+    <section id="about" class="columns">
+        <div class="col-1 column">
+        </div>
+        <div class="col-10 column">
+        <h1>Ordering from RTS Comics</h1>
+            <p>If you live within the United States, you can order from this website. We guarantee
+                you will be happy with your order! 
+            If you live outside the United States or do not wish to use this website to make a purchase, you can e-mail an order
+         (RTSUnlimitedInc@Gmail.com), call in an order
+         (303)-403-1840, fax an order to (303)-403-1837, or mail an
+         order to RTS Unlimited, Inc, PO Box 150412, Lakewood CO
+         80215-0412. We accept, checks, money orders, PayPal, Visa,
+         MasterCard, American Express, and Discover.</p>
+
+         <h4>RTS Unlimited, Inc.</h4>
+
+         <p>
+         PO Box 150412<br>
+         Lakewood CO 80215-0412 USA<br>
+         Phone: 303-403-1840
+         </p>
+
+         <p>Hours: The best time to try and reach us is 10AM-6PM Mountain time
+         Monday-Saturday<br>
+         </p>
+
+
+        </div>
+        <div class="col-1 column">
+        </div>
+
+    </section>
+    <script>
+        $('#wrapper').css('background-image', "url('{% static 'comix/bg.jpg'  %}')");
+    </script>
+
+{% endblock %}

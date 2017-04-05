@@ -13,12 +13,17 @@
     {% load static %}
         <div class="column col-4">
             <img src="/static/bigImages/{{ issue.cover_image }}" alt="Cover of {{ issue.gcd_series.name }} #{{ issue.number }}" class="img-responsive rounded">
+            <div class="clearfix">
             {% if issue.image_scanned == False %}
-            <div class="clearfix smaller">
                 Stock photo from
-                <a href="http://www.comics.org" target="_blank">Comics.org</a>
-            </div>
+                <a href="http://www.comics.org" target="_blank">Comics.org</a>.
+                {% if issue.price > 1 %}
+                     <a href="/contact?scan={{ issue.catalog_id }}">Request a scan</a> of this actual comic
+                {% endif %}
+            {% else %}
+                Scan of actual comic
             {% endif %}
+            </div>
         </div>
         <div class="column col-4 notes">
             <h1>{{ issue.gcd_series.name }}
@@ -58,6 +63,7 @@
             {% else %}
                 <p class="sorry">Sorry&mdash;Sold!</p>
             {% endif %}
+                <a href="#/" class="btn btn-primary want-list-detail" onclick="add_to_wish_list('{{ issue.pk }}')">Want List</a>
                 <a href="#/" class="btn btn-primary" onclick="history.go(-1)">Go Back</a>
             <div id="results"></div>
 

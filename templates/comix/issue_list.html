@@ -1,12 +1,16 @@
 {% extends parent_template|default:"comix/base_comix.html" %}
 
 {% block title %}
-{{ block.super }} - Comic List
+    {% if is_home %}
+        {{ block.super }} - Home
+    {% else %}
+        {{ block.super }} - Comic List
+    {% endif %}
 {% endblock %}
 
 {% block sectionhead %}
     {% load static %}
-    {% if request.path == '/' %}
+    {% if is_home %}
     <section id="promo" class="columns">
     <div id="slider">
         <div class="rotate-text">
@@ -57,13 +61,13 @@
 {#        <h3>{{ request.session.per_page }} per page</h3>#}
             <label for="per_page">Show per page:</label>
              <select id="per_page" onchange="perPage(value);">
-                <option value="9">9</option>
-                <option value="30" {% if request.session.per_page == '30' %} selected="selected" {% endif %}
+                <option value="12">12</option>
+                <option value="36" {% if request.session.per_page == '36' %} selected="selected" {% endif %}
                 >30</option>
-                <option value="99"  {% if request.session.per_page == '99' %} selected="selected" {% endif %}
+                <option value="100"  {% if request.session.per_page == '100' %} selected="selected" {% endif %}
                 >99</option>
-                <option value="99L"  {% if request.session.per_page == '99L' %} selected="selected" {% endif %}
-                >99 (List format)</option>
+                <option value="100L"  {% if request.session.per_page == '100L' %} selected="selected" {% endif %}
+                >100 (List format)</option>
             </select>
        <form id="sortorder" action="">
             <span>Sort Order: &nbsp;</span>

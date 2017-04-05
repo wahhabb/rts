@@ -119,6 +119,7 @@ class Issue(models.Model):
 
     @property
     def notes_preview(self):
+        max_len = 43
         issue_text = self.issue_text
         if len(issue_text) > 0:
             issue_text += '.'
@@ -126,18 +127,19 @@ class Issue(models.Model):
         if len(inserts) > 0:
             inserts += '.'
         all_notes = ' '.join([issue_text, self.edition, inserts, self.notes,
-                        self.scarcity_notes, self.grade_notes ])[:80]
-        if len(all_notes) > 79:
+                              self.scarcity_notes, self.grade_notes ])
+        all_notes = re.sub('\s+', ' ', all_notes)[:max_len]
+        if len(all_notes) >= max_len:
             all_notes += '...'
-        all_notes = re.sub('\s+', ' ', all_notes)
         if all_notes == ' ':
             all_notes = ''
         return all_notes
 
     @property
     def gcd_notes_preview(self):
-        notes = self.gcd_notes[:80]
-        if len(notes) > 79:
+        max_len = 43
+        notes = self.gcd_notes[:max_len]
+        if len(notes) >= max_len:
             notes += '...'
         return notes
 

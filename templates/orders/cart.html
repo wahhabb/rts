@@ -15,7 +15,6 @@
 			<tr>
 				<th scope="col">Image</th>
 				<th scope="col">Title</th>
-                <th scope="col">Issue #</th>
 				<th scope="col">Quantity</th>
 				<th scope="col">Unit Price</th>
 				<th scope="col" class="right">Total</th>
@@ -24,7 +23,7 @@
 		</thead>
 		<tfoot>
 			<tr>
-				<th class="align-right" colspan="5">
+				<th class="align-right" colspan="4">
 					Cart Subtotal:
 				</th>
 				<th class="align-right">
@@ -33,8 +32,8 @@
 			</tr>
 			{% if cart_items %}
 			<tr>
-				<th class="align-right" colspan="6">
-                <a href="{% url 'issue_list' %}" class="btn">Shop More</a>
+				<th class="align-right" colspan="5">
+                <a href="{% url 'issue_list' %}" class="btn">Continue Shopping</a>
                 {% if has_profile %}
                     <a href="{% url 'profile_update' %}" class="btn btn-primary">Check Out</a>
                 {% else %}

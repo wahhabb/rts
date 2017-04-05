@@ -32,7 +32,10 @@
         <header>
             <div>
                 <div id="login">
-                    {% if user.is_anonymous %}
+                    {% if user.is_authenticated %}
+                        <span id="welcome">Welcome, {{ user.get_username }}</span>
+                        <a href="{%  url 'logout' %}">Log Out</a>
+                    {% else %}
                         <span>Welcome!</span>
                         {% if not 'login' in request.path %}
                             {% if 'logout' in request.path %}
@@ -46,15 +49,12 @@
                                 Register
                             </a>
                         {% endif %}
-                {% else %}
-                    <span id="welcome">Welcome, {{ user.get_username }}</span>
-                    <a href="{%  url 'logout' %}">Log Out</a>
-               {% endif %}
+                   {% endif %}
                 </div>
                 <a id="cart" href="{% url 'show_cart' %}">
                     <span id="cart-count">{{ cart_item_count|default:"0" }}</span>
                 </a>
-                <div id="show-menu"><a href="#/" onclick="show_menu();" class="box-shadow-menu">Menu</a></div>
+                <div id="show-menu"><a href="#" onclick="show_menu();" class="box-shadow-menu"><img src="{% static 'icon-menu.png' %}" > Menu</a></div>
               <a href="/" class="logo"><img src="{% static 'logo.png' %}"></a> <!-- ToDo: fix hardcoded link -->
             <section id="search_block">
                 <div id="browse" class="inline-block">BROWSE <span class="sub-arrow">+</span>
@@ -90,10 +90,18 @@
         </li>
         <li><a href="/">HOME</a>
         </li>
-        <li><a href="#/">FEATURED</a></li>
+{#        <li><a href="#/">FEATURED</a></li>#}
         <li><a href="{% url 'photojournals' %}">PHOTO-JOURNALS</a></li>
-        <li class="drop"><a href="#/">SUPPLIES</a></li>
-        <li><a href="{% url 'about' %}">ABOUT</a></li>
+{#        <li class="drop"><a href="#/">SUPPLIES</a></li>#}
+        <li class="drop"><a href="{% url 'ordering' %}">ORDERING</a></li>
+        <li><a href="#/">ABOUT US</a>
+            <ul>
+                <li><a href="{% url 'about' %}">About RTS</a></li>
+                <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                <li><a href="{% url 'guarantee' %}">10 Point Guarantee</a></li>
+            </ul>
+
+        </li>
     {% if user.is_anonymous %}
         {% if not 'login' in request.path %}
             {% if 'logout' in request.path %}
@@ -144,7 +152,7 @@
                 &copy; 2017 RTS Unlimited
             </p>
             <p>
-                Web development by Deep Web Works
+                Web design and development by Kay and Wahhab Baldwin
             </p>
         </footer>
 <script>

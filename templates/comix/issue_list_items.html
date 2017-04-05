@@ -11,7 +11,7 @@
                     </a>
                 </div>
             </div>
-            <div class="card-body">
+            <div class="card-body" onclick="location.href='{{ issue.get_absolute_url }}';">
                 <p class="center-text">{{ issue.gcd_series.name }} &mdash;
                     {{ issue.gcd_series.tim_year }} Series
                 </p>
@@ -31,8 +31,8 @@
                     {% endif %}</p>
                 {% if issue.notes_preview > "" %}
                     <p class="center-text">{{ issue.notes_preview }}
-                    {% if issue.notes_preview|length > 114 %}
-                        (<a href="{{ issue.get_absolute_url }}">more</a>)
+                    {% if issue.notes_preview|length > 43 %}
+                        <a href="{{ issue.get_absolute_url }}" class="more-link">more</a>
                     {% endif %}
                     </p>
                 {% endif %}
@@ -44,10 +44,10 @@
 {#                    </p>#}
 {#                {% endif %}#}
 {#                <p><span>Catalog #</span> {{ issue.catalog_id }}</p>#}
-                <a href="#/" class="btn btn-primary add-to-cart" onclick="add_to_cart('{{ issue.catalog_id }}')">Add to Cart</a>
-{#                <a href="{{ issue.get_absolute_url }}" class="btn btn-primary">Details</a>#}
-{#                <a href="#/" class="btn btn-primary" onclick="add_to_wish_list('{{ issue.pk }}')">Add to Want List</a>#}
             </div>
+            <a href="#/" class="btn btn-primary add-to-cart" onclick="add_to_cart('{{ issue.catalog_id }}')">Add to Cart</a>
+{#                <a href="{{ issue.get_absolute_url }}" class="btn btn-primary">Details</a>#}
+            <a href="#/" class="btn btn-primary want-list" onclick="add_to_wish_list('{{ issue.pk }}')">Want List</a>
         </div>
         {% empty %}
             <h4>Sorry, no items found that match your request.</h4>

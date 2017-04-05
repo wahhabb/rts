@@ -20,9 +20,13 @@ urlpatterns = [
 
     url(r'about/$', AboutPage.as_view(), name='about'),
 
+    url(r'ordering/$', OrderingPage.as_view(), name='ordering'),
+
     url(r'get-catalog/$', GetCatalogPage.as_view(), name='get_catalog'),
 
     url(r'photojournals/$', PhotoJournalPage.as_view(), name='photojournals'),
+
+    url(r'guarantee/$', GuaranteePage.as_view(), name='guarantee'),
 
     url(r'update_session/', update_session, name='update_session'),
 

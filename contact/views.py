@@ -18,11 +18,14 @@ class ContactView(View):
         user_email = ''
         if request.user.is_authenticated:
             user_email = request.user.email
+        scan_item = self.request.GET.get('scan')
+
         return render(request,
                       self.template_name,
                       {'form': self.form_class(),
                        'user_email': user_email,
                        'cart_item_count': cart_item_count,
+                       'scan_item': scan_item,
                        }
         )
 

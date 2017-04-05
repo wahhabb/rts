@@ -20,9 +20,14 @@
         </div>
     </section>
     <script>
+        var scan_text = '{{ scan_item }}';
+        if (scan_text.length > 0) {
+            scan_text = 'Please send me a cover scan for the comic with Catalog ID = ' + scan_text;
+            $('#id_subject').val('Cover Scan Request');
+        }
         $('input[type=submit]').addClass('btn btn-primary');
-        $('#id_email').before('<br>').val("{{ user_email }}")
-        $('#id_text').before('<br>');
+        $('#id_email').before('<br>').val("{{ user_email }}");
+        $('#id_text').before('<br>').val(scan_text);
         $('#wrapper').css('background-image', "url('/static/comix/bg.jpg')");
     </script>
 

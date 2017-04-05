@@ -1,5 +1,5 @@
 /* Theme.less */
-@back-color: #ffffff;
+@back-color: #fcfcfc;
 @accent-color: #fdc035;
 @vert-spacing: 2.5rem;
 @spectre-border-color: #4452C0;
@@ -14,6 +14,13 @@ html, body {
   font-family: "Open Sans", sans-serif;
   color: #222;
 }
+main h1 {
+  margin-top: 0.5rem;
+}
+.form-input.input-inline {
+    vertical-align: bottom;
+}
+
 #wrapper {
   min-height: 100%;
   /* equal to footer height */
@@ -40,22 +47,14 @@ header {
   margin-top: 0.7em;
   display: none;;
 }
-.box-shadow-menu {
+a.box-shadow-menu {
   position: relative;
-  padding-right: 1.25em;
-  color: @theme-red;
-}
-.box-shadow-menu:after {
-  content: "";
-  position: absolute;
-  left: 40px;
-  top: 0.25em;
-  width: 1em;
-  height: 0.15em;
-  background: @theme-blue;
-  box-shadow:
-    0 0.25em 0 0 @theme-blue,
-    0 0.5em 0 0 @theme-blue;
+  color: @theme-blue;
+  text-decoration: none;
+  font-weight: 700;
+  img {
+    height: 16px;
+  }
 }
 .logo {
   display: inline-block;
@@ -115,6 +114,12 @@ a #cart-count {
   color: @theme-blue;
   font-weight: bold;
   text-decoration: none;
+}
+@media screen and (max-width: 600px) {
+  #cart-count {
+    background: url('/static/cart.png') no-repeat 20px 16px;
+    background-size: 65%;
+  }
 }
 #browse {
   color: @theme-blue;
@@ -236,14 +241,6 @@ a #cart-count {
   background: @theme-gray;
   width: 25%;
 }
-@media screen and (max-width: 1200px) {
-  #meetrts {
-    font-size: 17px;
-  }
-  #meetrts td img {
-    height: 27px;
-  }
-}
 #meetrts h2 {
   color: @theme-red;
   font-weight: 700;
@@ -252,8 +249,22 @@ a #cart-count {
 }
 #meetrts td {
   padding-left: 1em;
+  padding-right: 1em;
   vertical-align: top;
+  img {
+    width:36px;
+  }
 }
+@media screen and (max-width: 1200px) {
+  #meetrts {
+    font-size: 17px;
+  }
+  #meetrts td img {
+    height: 27px;
+    width: 27px;
+  }
+}
+
 .flexwrap {
   display: -ms-flexbox;
   display: -webkit-flex;
@@ -313,6 +324,9 @@ section.navbar-section:first-of-type {
   list-style-type: none;
 
 }
+.btn {
+  border-radius: .6em;
+}
 .btn.delete {
   width: 60px;
   background: url("/static/icon-trash.svg") no-repeat center center;
@@ -328,6 +342,9 @@ section.navbar-section:first-of-type {
   font-size:1.6em;
   font-weight:bold;
 }
+#single .notes {
+  font-size: 17px;
+}
 #single .notes span {
   color: #888;
 }
@@ -339,6 +356,7 @@ section.navbar-section:first-of-type {
   -webkit-box-shadow: 3px 3px 5px 0px rgba(25, 25, 25, 0.5);
   -moz-box-shadow:    3px 3px 5px 0px rgba(25, 25, 25, 0.5);
   box-shadow:         3px 3px 5px 0px rgba(25, 25, 25, 0.5);
+  margin-bottom: 8px;
 }
 #list img {
   -webkit-box-shadow: 2px 2px 4px 0px rgba(25, 25, 25, 0.5);
@@ -386,13 +404,29 @@ h5.card-header {
   width: 30%;
 }
 .card-body p:last-of-type {
-  padding-bottom: 5rem;
+  padding-bottom: 7rem;
   padding-top: 12px;
+}
+.card.comic .card-body {
+  cursor: pointer;
 }
 .add-to-cart {
   position: absolute;
   bottom: 16px;
-  left: 25%;
+  left: 8%;
+  padding: .7rem 1.1rem;
+}
+.btn.btn-primary.want-list {
+  position: absolute;
+  bottom: 16px;
+  right: 8%;
+  padding: .7rem 1rem;
+  background: #999;
+  border-color: #666;
+}
+.btn.btn-primary.want-list-detail {
+  background: #999;
+  border-color: #666;
 }
 #id_email {
   width: 210px;
@@ -428,6 +462,11 @@ fieldset.checkout legend {
 .sorry {
   font-size: 120%;
   font-weight: bold;
+}
+.more-link {
+  font-style: italic;
+  text-decoration: none;
+  color: #666;
 }
 .pagination {
   padding-top: 0;
