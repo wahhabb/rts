@@ -51,7 +51,7 @@ class ShowCart(View):
 
     def post(self, request):
         postdata = request.POST.copy()
-        if postdata['remove'] == 'remove':
+        if 'remove' in request.POST:
             remove_from_cart(request)
         if postdata['submit'] == 'Update':
             update_cart(request)
@@ -192,6 +192,23 @@ def get_profile(self, request):
         for obj in serializers.deserialize("json", json_profile):
             profile = obj.object
     return profile
+
+class ShowOrderHistory(View):
+    tempate_name = 'orders/order_history.html'
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            orders = Order.objects.filter(user=request.user)
+            order_issues = IssueInOrder.objects.filter(order__user=request.user)
+            order_issues = order_issues.order_by('order_id')
+            context = {
+                        # 'orders': orders,
+                       'order_issues': order_issues,
+                       'needs_login': False}
+            return render(request, self.tempate_name, context)
+        else:
+            return render(request, self.tempate_name, {'needs_login': True})
+
 
 
 class ProfileUpdate(View):

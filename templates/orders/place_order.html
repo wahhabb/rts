@@ -16,19 +16,19 @@
         <div class="columns">
         <div class="column col-6">
             <h5>Contact Information:</h5>
-            <p>Email: {% form_table_row profile.email %}</p>
-            <p>Telephone: {% form_table_row profile.phone %}</p>
+            <p>Email: {% form_table_row profile.email %}<br>
+                Telephone: {% form_table_row profile.phone %}</p>
         </div>
 
         <div class="column col-6">
             <h5>Shipping Information:</h5>
             <p>{% form_table_row profile.first_name %}
-                {% form_table_row profile.last_name %}</p>
-             <p>{% form_table_row profile.address1 %}</p>
+                {% form_table_row profile.last_name %}<br>
+                {% form_table_row profile.address1 %}<br>
             {% if profile.address2 %}
-                <p>{% form_table_row profile.address2 %}</p>
+                {% form_table_row profile.address2 %}<br>
             {% endif %}
-            <p>   {% form_table_row profile.city %}
+                {% form_table_row profile.city %}
                 {% form_table_row profile.state %},
                 {% form_table_row profile.zip %}</p>
         </div>
@@ -38,11 +38,12 @@
 	<table summary="Your Order" id="order_items">
 		<thead>
 			<tr>
-				<th scope="col">Title</th>
-                <th scope="col">Issue #</th>
-				<th scope="col">Quantity</th>
-				<th scope="col">Unit Price</th>
-				<th scope="col" class="right">Total</th>
+				<th scope="col"></th>
+				<th scope="col" class="align-left">Title</th>
+                <th scope="col" class="align-left">Issue #</th>
+				<th scope="col" class="center-text">Quantity</th>
+				<th scope="col" class="align-right">Unit Price</th>
+				<th scope="col" class="align-right">Total</th>
 			</tr>
 		</thead>
 		<tfoot>
@@ -108,7 +109,8 @@
               <input type="hidden" name="os2_{{ forloop.counter }}" value="{% if item.product.volume > 0 %}
                             Volume {{ item.product.volume }} #
                         {% endif %}{{ item.product.number }}">
-           {% endfor %}				<th class="align-right" colspan="4">
+           {% endfor %}
+              <th class="align-right" colspan="4">
                 <a href="#" onClick="document.getElementById('registerForm').submit(); return false;"
                    class="btn-primary btn">Continue
                 </a>

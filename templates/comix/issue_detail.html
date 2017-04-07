@@ -59,7 +59,11 @@
             <p>Catalog # {{ issue.catalog_id }}</p>
             <hr>
             {% if issue.status == 'available' %}
+                {% if issue in cart_issues %}
+                    <p class="btn non-btn">In Cart</p>
+                {% else %}
                 <a href="#/" class="btn btn-primary"  onclick="add_to_cart('{{ issue.catalog_id }}')">Add to Cart</a>
+                {% endif %}
             {% else %}
                 <p class="sorry">Sorry&mdash;Sold!</p>
             {% endif %}

@@ -63,11 +63,11 @@
              <select id="per_page" onchange="perPage(value);">
                 <option value="12">12</option>
                 <option value="36" {% if request.session.per_page == '36' %} selected="selected" {% endif %}
-                >30</option>
+                >36</option>
                 <option value="100"  {% if request.session.per_page == '100' %} selected="selected" {% endif %}
-                >99</option>
-                <option value="100L"  {% if request.session.per_page == '100L' %} selected="selected" {% endif %}
-                >100 (List format)</option>
+                >100</option>
+                <option value="200L"  {% if request.session.per_page == '200L' %} selected="selected" {% endif %}
+                >200 (List format)</option>
             </select>
        <form id="sortorder" action="">
             <span>Sort Order: &nbsp;</span>
@@ -78,7 +78,7 @@
             <input type="radio" {% if sort_order == 'price-up' %}  checked {% endif %}
                    onclick="sortby('price-up')" name="sort" value="price" id="price-up"> Price Low to High &nbsp;
         </form>
-        {% if request.session.per_page == '99L' %}
+        {% if request.session.per_page == '200L' %}
             {% include 'comix/issue_list_list.html' %}
         {% else %}
             {% include 'comix/issue_list_items.html' %}

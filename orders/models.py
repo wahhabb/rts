@@ -98,6 +98,9 @@ class IssueInOrder(models.Model):
     quantity = models.PositiveIntegerField()
     issue = models.ForeignKey(Issue)
 
+    def total(self):
+        return self.sale_price * self.quantity
+
 
 class WishList(models.Model):
     issue = models.ForeignKey(Issue)

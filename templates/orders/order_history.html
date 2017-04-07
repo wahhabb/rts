@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load catalog_filters %}
+{% load static %}
+{% block title %}
+{{ block.super }} - Order History
+{% endblock %}
+{% block content %}
+<div  class="columns" id="order_history">
+    <div class="col-1 column">
+    </div>
+    <div class="col-10 column">
+    <h1>Order History</h1>
+
+    {% if needs_login %}
+        <p>Please <a href="{%  url 'login' %}?next={% url 'order_history' %}" class="btn btn-primary">Log In</a>
+        to see your Order History, or <a href="{% url 'registration_register' %}?next={{ request.get_full_path|urlencode }}"
+           class="btn btn-primary">Sign Up
+            </a>
+        to have your future purchases saved so you can see them online.</p>
+        <p>By creating an account you will be able to shop faster, be up to date on an order’s
+            status, and keep track of the orders you have previously made.</p>
+    {% else %}
+
+    {% regroup order_issues by order as orders %}
+    {% for order in orders %}
+
+        <div class="columns">
+        <div class="column col-6">
+            <h5>Order Information:</h5>
+        <p>Order Number: {{ order.grouper.id }}<br>
+            Date Placed: {{ order.grouper.date_placed }}<br>
+        {% if order.grouper.date_shipped %}
+            Date Shipped: {{ order.grouper.date_shipped }}</p>
+        {% else %}
+            Status: Not yet shipped.</p>
+        {% endif %}
+        </div>
+
+        <div class="column col-6">
+        <h5>Shipping Information:</h5>
+            <p>{{ order.grouper.first_name }} {{ order.grouper.last_name }}<br>
+                {{ order.grouper.address1 }}<br>
+            {% if order.grouper.address2 %}
+                {{ order.grouper.address2 }}<br>
+            {% endif %}
+            {{ order.grouper.city }}, {{ order.grouper.state }} {{ order.grouper.zip }}<br>
+            </p>
+            <p>Email: {{ order.grouper.email }}<br>
+                Telephone: {{ order.grouper.phone }}</p>
+        </div>
+    </div>
+    <h5>Order Items:</h5>
+	<table summary="Order Items" id="order_items">
+		<thead>
+			<tr>
+				<th scope="col"></th>
+				<th scope="col" class="align-left">Title</th>
+                <th scope="col" class="align-left">Issue #</th>
+				<th scope="col" class="center-text">Quantity</th>
+				<th scope="col" class="align-right">Unit Price</th>
+				<th scope="col" class="align-right">Total</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<th class="align-right" colspan="5">
+					Shipping:
+				</th>
+				<th class="align-right">
+					{{ order.grouper.shipping_charge|currency }}
+				</th>
+			</tr>
+			<tr>
+				<th class="align-right" colspan="5">
+					Order Total:
+				</th>
+				<th class="align-right">
+					{{ order.grouper.order_total|currency }}
+				</th>
+			</tr>
+        </tfoot>
+
+    <tbody>
+    {% for item in order.list %}
+        <tr>
+            <td><img src = "/static/thumbnails/{{ item.issue.cover_image }}"></td>
+            <td>
+                <a href="{{ item.get_absolute_url }}" class="cart">
+                    {{ item.issue.gcd_series.name }} &mdash;
+                    {{ item.issue.gcd_series.tim_year }} Series
+                </a>
+            </td>
+            <td>
+            {% if item.volume > 0 %}
+                <span>Volume #</span> {{ item.issue.volume }}
+            {% endif %}
+            {{ item.issue.number }}
+            </td>
+            <td class="center-text">
+                {{ item.quantity }}
+            </td>
+            <td class="align-right">{{ item.sale_price|currency }}</td>
+            <td class="align-right">{{ item.total|currency }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+
+
+    {% endfor %}
+    {% endif %}
+
+
+    </div>
+    <div class="col-1 column">
+    </div>
+</section>
+{% endblock %}

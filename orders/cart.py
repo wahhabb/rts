@@ -33,6 +33,10 @@ def get_cart_items(request):
     """ return all items from the current user's cart """
     return CartItem.objects.filter(cart_id=_cart_id(request))
 
+def get_cart_issues(request):
+    items = list(get_cart_items(request))
+    return [item.product for item in items]
+
 
 def get_single_item(request, item_id):
     return get_object_or_404(CartItem, id=item_id, cart_id=_cart_id(request))

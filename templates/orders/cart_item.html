@@ -23,6 +23,7 @@
         <td class="center-text">
             {% if item.product.quantity > 1 %}
             <form method="post" action="." class="cart">
+                {% csrf_token %}
                 <input type="text" name="quantity" value="{{ item.quantity }}"
                        id="quantity" size="2" class="quantity" maxlength="5" />
                 <br>

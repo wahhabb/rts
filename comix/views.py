@@ -11,7 +11,7 @@ from itertools import chain
 
 
 from comix.models import Genre, Issue, Publisher, Tag, Series, PubCount
-from orders.cart import get_cart_items
+from orders.cart import get_cart_issues, get_cart_items
 import logging
 
 
@@ -55,8 +55,8 @@ class IssueList(View):
 
     def get(self, request):
         per_page = per_page_ct = request.session.get('per_page', 12)
-        if per_page == '100L':
-            per_page_ct = 100
+        if per_page == '200L':
+            per_page_ct = 200
         genre_slug = self.request.GET.get(self.genre_kwarg)
         publisher_slug = self.request.GET.get('publisher')
         sort_order = self.request.GET.get('sort')
@@ -66,8 +66,9 @@ class IssueList(View):
         issues = issues.filter(Q(variants__isnull=True) | Q(variants='')) # V means has variants but selected
         tags = Tag.objects.all()
         query_string = ""
-        cart_issues = get_cart_items(request)
-        cart_item_count = cart_issues.count()
+        cart_issues = get_cart_issues(request)
+        cart_items = get_cart_items(request)
+        cart_item_count = cart_items.count()
         issues_following = None
 
         if tag_slug != None:
@@ -139,6 +140,7 @@ class IssueList(View):
                    'publisher_name': publisher_text,
                    'sort_order': sort_order,
                    'tags': tags,
+                   'cart_issues': cart_issues,
                    'cart_item_count': cart_item_count,
                    'per_page': per_page,
                    'is_home': is_home,
@@ -159,13 +161,15 @@ def issue_detail(request, cat_id):
     tags = Tag.objects.all()
     template = loader.get_template('comix/issue_detail.html')
     genres = Genre.objects.all().order_by('slug')
-    cart_issues = get_cart_items(request)
-    cart_item_count = cart_issues.count()
+    cart_issues = get_cart_issues(request)
+    cart_items = get_cart_items(request)
+    cart_item_count = cart_items.count()
     context = Context({'issue': issue,
                        'series': issue.gcd_series,
                        'genres': genres,
                        'tags': tags,
                        'cart_item_count': cart_item_count,
+                       'cart_issues': cart_issues,
                        'user': request.user,
                        })
     return HttpResponse(template.render(context))

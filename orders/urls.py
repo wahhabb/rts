@@ -9,5 +9,6 @@ urlpatterns = [
     url(r'profile/create/$', ProfileCreate.as_view(), name='profile_create'),
     url(r'profile/update/$', ProfileUpdate.as_view(), name='profile_update'),
     url(r'place/$', PlaceOrder.as_view(), name='place_order'),
-    url(r'thanks', CompleteOrder.as_view(), name='complete_order')
+    url(r'thanks', CompleteOrder.as_view(), name='complete_order'),
+    url(r'order_history', ShowOrderHistory.as_view(), name='order_history'),
 ]

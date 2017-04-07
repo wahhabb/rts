@@ -428,6 +428,13 @@ h5.card-header {
   background: #999;
   border-color: #666;
 }
+.btn.non-btn {
+  background: @theme-red;
+  border-color: @theme-red;
+  color: #fff;
+  cursor: default;
+}
+
 #id_email {
   width: 210px;
 }
@@ -529,9 +536,26 @@ fieldset.checkout legend {
 #create_account input {
   margin-right: 20px;
 }
-#get_catalog .col-10, #about .col-10, #contact .col-10, #place_order .col-10 {
+#get_catalog .col-10, #about .col-10, #contact .col-10, #place_order .col-10, #order_history .col10 {
   background-color: rgba(255,255,255,0.9);
   padding: 20px 40px;
+}
+#order_items {
+  width: 100%;
+}
+#order_items tbody tr {
+  background-color: #f2f2f2;
+}
+#order_items th, #order_items td {
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+}
+#order_items td:first-child {
+  padding: 0;
+}
+#order_items tbody tr td:first-child{
+  background-color: white;
+  width: 105px;
 }
 #photojournals img.float-left {
   margin-right: 24px;
