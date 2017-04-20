@@ -68,6 +68,7 @@ class Order(BaseOrderInfo):
     date_shipped = models.DateTimeField(null=True)
     shipping_charge = models.DecimalField(max_digits=7, decimal_places=2)
     order_total = models.DecimalField(max_digits=7, decimal_places=2)
+    payment_received = models.BooleanField(default=False)
     items = models.ManyToManyField(Issue, through='IssueInOrder')
 
     @classmethod

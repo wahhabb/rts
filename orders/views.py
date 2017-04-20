@@ -9,6 +9,7 @@ from django.views.generic.list import View
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from email.mime.image import MIMEImage
+from django.utils import timezone
 
 from orders.cart import *
 from orders.cart import _cart_id
@@ -198,9 +199,8 @@ class ShowOrderHistory(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            orders = Order.objects.filter(user=request.user)
             order_issues = IssueInOrder.objects.filter(order__user=request.user)
-            order_issues = order_issues.order_by('order_id')
+            order_issues = order_issues.order_by('-order_id')
             context = {
                         # 'orders': orders,
                        'order_issues': order_issues,
@@ -209,6 +209,72 @@ class ShowOrderHistory(View):
         else:
             return render(request, self.tempate_name, {'needs_login': True})
 
+
+
+class OrderUpdate(View):
+    tempate_name = 'orders/order_history.html'
+
+    def get(self, request):
+        # Cancel order
+        cancel_no = self.request.GET.get('cancel')
+        if cancel_no is not None:
+            # cancel order by adding back to inventory and deleting Order and IssueInOrder records
+            order_issues = IssueInOrder.objects.filter(order_id=cancel_no)
+            for issue_in_order in order_issues:
+                issue = issue_in_order.issue
+                if issue.sold_date is not None:
+                    issue.sold_date = None
+                    issue.status = 'available'
+                    issue.quantity = issue_in_order.quantity
+                    issue.save()
+                else:
+                    issue.quantity += issue_in_order.quantity
+                    issue.save()
+                issue_in_order.delete()
+            Order.objects.get(id=cancel_no).delete()
+
+        # Cancel item from order
+        cancel_item = self.request.GET.get('cancel_item')
+        if cancel_item is not None:
+            issue_in_order = IssueInOrder.objects.get(id=cancel_item)
+            issue = issue_in_order.issue
+            if issue.sold_date is not None:
+                issue.sold_date = None
+                issue.status = 'available'
+                issue.quantity = issue_in_order.quantity
+                issue.save()
+            else:
+                issue.quantity += issue_in_order.quantity
+                issue.save()
+            issue_in_order.delete()
+
+        # Mark order as shipped
+        show_shipped = self.request.GET.get('show_shipped')
+        if show_shipped is not None:
+            # Mark order as shipped
+            order = Order.objects.get(id=show_shipped)
+            order.date_shipped = timezone.now()
+            order.save()
+
+        # Mark order as paid
+        paid = self.request.GET.get('paid')
+        if paid is not None:
+            # Mark order as paid in full
+            order = Order.objects.get(id=paid)
+            order.payment_received = True
+            order.save()
+
+        if request.user.is_staff:
+            order_issues = IssueInOrder.objects.filter(order__date_shipped__isnull=True)
+            order_issues = order_issues.order_by('-order_id')
+            context = {
+                       'order_issues': order_issues,
+                       'needs_login': False,
+                        'is_update': True,
+            }
+            return render(request, self.tempate_name, context)
+        else:
+            return render(request, self.tempate_name, {'needs_staff': True})
 
 
 class ProfileUpdate(View):
@@ -267,6 +333,25 @@ class PlaceOrder(View):
                 # deserialize into new object
                 for obj in serializers.deserialize("json", json_profile):
                     profile = obj.object
+        # 1. Create Order record from Profile, 2. Add items to order
+        # 3. Delete cart items 4. Reduce item quantity or Mark items as sold
+        # Note that payment_received is set to False
+
+        order = Order.create(profile, cart_issues[0].cart_id, shipping_charge(request),
+                             cart_subtotal(request) + shipping_charge(request))
+        order.save()
+        for issue in cart_issues:
+            product = issue.product
+            new_order_item = IssueInOrder.objects.create(
+                order=order, issue=product, quantity=issue.quantity, sale_price = issue.price)
+            new_order_item.save()
+            issue.delete()
+            # get product
+            product.quantity -= new_order_item.quantity
+            if product.quantity <= 0:
+                product.sold_date = now()
+                product.status = 'sold'
+            product.save()
         subject = 'RTSComics: Order being placed'
         from_email = 'info@rtscomics.com'
         to_list = ['info@rtscomics.com']
@@ -338,23 +423,6 @@ class CompleteOrder(View):
                     profile = obj.object
                     if  not request.user.is_authenticated:
                         profile.user = User.objects.get(pk=ANONYMOUS_USER)
-        # 1. Create Order record from Profile, 2. Add items to order
-        # 3. Delete cart items 4. Reduce item quantity or Mark items as sold
-        order = Order.create(profile, cart_issues[0].cart_id, shipping_charge(request),
-                             cart_subtotal(request) + shipping_charge(request))
-        order.save()
-        for issue in cart_issues:
-            product = issue.product
-            new_order_item = IssueInOrder.objects.create(
-                order=order, issue=product, quantity=issue.quantity, sale_price = issue.price)
-            new_order_item.save()
-            issue.delete()
-            # get product
-            product.quantity -= new_order_item.quantity
-            if product.quantity <= 0:
-                product.sold_date = now()
-                product.status = 'sold'
-            product.save()
 
         subject = 'RTSComics: Order was saved'
         from_email = 'info@rtscomics.com'

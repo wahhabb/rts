@@ -12,8 +12,7 @@
                 </div>
             </div>
             <div class="card-body" onclick="location.href='{{ issue.get_absolute_url }}';">
-                <p class="center-text">{{ issue.gcd_series.name }} &mdash;
-                    {{ issue.gcd_series.tim_year }} Series
+                <p class="center-text">{{ issue.title }}
                 </p>
                 <p class="center-text">{{ issue.publisher_name }}</p>
                {% if issue.volume > 0 %}

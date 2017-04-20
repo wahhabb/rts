@@ -158,6 +158,10 @@ class Issue(models.Model):
             all_notes = ''
         return all_notes
 
+    @property
+    def title(self):
+        return self.gcd_series.name + ' — ' + str(self.gcd_series.tim_year) + ' Series'
+
 
     def get_absolute_url(self):
         return reverse('issue_detail', kwargs={'cat_id': self.catalog_id})

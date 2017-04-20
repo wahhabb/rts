@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'place/$', PlaceOrder.as_view(), name='place_order'),
     url(r'thanks', CompleteOrder.as_view(), name='complete_order'),
     url(r'order_history', ShowOrderHistory.as_view(), name='order_history'),
+    url(r'order_update', OrderUpdate.as_view(), name='order_update'),
 ]

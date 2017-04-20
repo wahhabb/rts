@@ -122,6 +122,9 @@
                 <li><a href="#/">Your Account</a></li>
                 <li><a href="{% url 'want_list' %}">Want List</a></li>
                 <li><a href="{% url 'order_history' %}">Your Orders</a></li>
+            {% if user.is_staff %}
+                <li><a href="{% url 'order_update' %}">Update Orders<br>(Admin only)</a></li>
+            {% endif %}
             </ul>
         </li>
       </ul>
