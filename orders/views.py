@@ -369,9 +369,7 @@ class PlaceOrder(View):
             html_content += '<p>' + str(item.product) + '<br>Qty: ' + str(item.quantity) + \
                             ' Unit Price: ' + str(item.price) + '</p>'
 
-            f = static('thumbnails/' + item.product.cover_image)
-            if settings.DEBUG:
-                f = 'comix/static/thumbnails/' + item.product.cover_image
+            f = 'comix/static/thumbnails/' + item.product.cover_image
             fp = open(f, 'rb')
             msg_img = MIMEImage(fp.read())
             fp.close()
@@ -387,7 +385,6 @@ class PlaceOrder(View):
         context = {'cart_item_count': cart_item_count,
                            'cart_items': cart_issues,
                            'cart_subtotal': subtotal,
-                            'breaks': [3, 7, 11, 15, 19],
                             'profile': profile,
                             'shipping': shipping,
                             'paypal_url': settings.PAYPAL_URL,
@@ -439,7 +436,7 @@ class CompleteOrder(View):
         for item in cart_issues:
             html_content += '<p>' + str(item.product) + '<br>Qty: ' + str(item.quantity) + \
                             ' Unit Price: ' + str(item.price) + '</p>'
-            f = 'comix/static/bigImages/' + item.product.cover_image
+            f = 'comix/static/thumbnails/' + item.product.cover_image
             fp = open(f, 'rb')
             msg_img = MIMEImage(fp.read())
             fp.close()
