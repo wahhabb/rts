@@ -93,7 +93,12 @@
 {#        <li><a href="#/">FEATURED</a></li>#}
         <li><a href="{% url 'photojournals' %}">PHOTO-JOURNALS</a></li>
 {#        <li class="drop"><a href="#/">SUPPLIES</a></li>#}
-        <li class="drop"><a href="{% url 'ordering' %}">ORDERING</a></li>
+        <li class="drop"><a href="#/">ORDERING</a>
+            <ul>
+                <li><a href="{% url 'ordering' %}">How to Order</a></li>
+                <li><a href="{% url 'get_catalog' %}">Get Our Catalog</a></li>
+            </ul>
+        </li>
         <li><a href="#/">ABOUT US</a>
             <ul>
                 <li><a href="{% url 'about' %}">About RTS</a></li>

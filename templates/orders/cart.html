@@ -4,20 +4,38 @@
 {{ block.super }} - Shopping Cart
 {% endblock %}
 {% block content %}
+    {% load static %}
 <section  class="columns" id="shopping_cart">
     <div class="col-1 column">
     </div>
     <div class="col-10 column">
-    <h1>Shopping Cart</h1>
-
-	<table summary="Your Shopping Cart" id="shopping_cart">
+{#    <h1>Shopping Cart</h1>#}
+    <table id="buy_steps">
+        <tr>
+            <td>&nbsp;</td>
+            <td>
+                <img src="{% static 'comix/redstar.png' %}"><br>Cart
+            </td>
+            <td class="faint">
+                <img src="{% static 'comix/redstar.png' %}"><br>Details
+            </td>
+            <td class="faint">
+                <img src="{% static 'comix/redstar.png' %}"><br>Shipping
+            </td>
+            <td class="faint">
+                <img src="{% static 'comix/redstar.png' %}"><br>Payment
+            </td>
+        </tr>
+    </table>
+    <h3>Your cart contains {{ cart_item_count }} item{% if cart_item_count > 1 %}s {% endif %}</h3>
+	<table summary="Your Shopping Cart" id="shopping_cart" class="cart-table">
 		<thead>
 			<tr>
-				<th scope="col">Image</th>
-				<th scope="col">Title</th>
+				<th scope="col">Item</th>
+				<th scope="col" class="align-center">Name</th>
 				<th scope="col">Quantity</th>
-				<th scope="col">Unit Price</th>
-				<th scope="col" class="right">Total</th>
+				<th scope="col">Price</th>
+				<th scope="col" class="right">Subtotal</th>
 				<th></th>
 			</tr>
 		</thead>
@@ -26,7 +44,7 @@
 				<th class="align-right" colspan="4">
 					Cart Subtotal:
 				</th>
-				<th class="align-right">
+				<th class="align-center">
 					{{ cart_subtotal|currency }}
 				</th>
 			</tr>

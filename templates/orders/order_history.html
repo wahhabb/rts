@@ -9,7 +9,11 @@
     <div class="col-1 column">
     </div>
     <div class="col-10 column">
+    {% if is_update %}
+    <h1>Unshipped Orders</h1>
+    {% else %}
     <h1>Order History</h1>
+    {% endif %}
 
     {% if needs_login %}
         <p>Please <a href="{%  url 'login' %}?next={% url 'order_history' %}" class="btn btn-primary">Log In</a>
@@ -73,15 +77,14 @@
         </div>
     </div>
     <h5>Order Items:</h5>
-	<table summary="Order Items" id="order_items">
+	<table summary="Order Items" id="order_items" class="cart-table">
 		<thead>
 			<tr>
-				<th scope="col"></th>
-				<th scope="col" class="align-left">Title</th>
-                <th scope="col" class="align-left">Issue #</th>
-				<th scope="col" class="center-text">Quantity</th>
-				<th scope="col" class="align-right">Unit Price</th>
-				<th scope="col" class="align-right">Total</th>
+				<th scope="col">Item</th>
+				<th scope="col" class="align-center">Name</th>
+				<th scope="col">Quantity</th>
+				<th scope="col">Price</th>
+				<th scope="col" class="right">Subtotal</th>
 			</tr>
 		</thead>
 		<tfoot>
@@ -106,17 +109,15 @@
     <tbody>
     {% for item in order.list %}
         <tr>
-            <td><img src = "/static/thumbnails/{{ item.issue.cover_image }}"></td>
+            <td><img class="thumb" src = "/static/thumbnails/{{ item.issue.cover_image }}"></td>
             <td>
                 <a href="{{ item.get_absolute_url }}" class="cart">
                     {{ item.issue.title }}
+                {% if item.volume > 0 %}
+                    <span>Volume #</span> {{ item.issue.volume }}
+                {% endif %}
+                #{{ item.issue.number }}
                 </a>
-            </td>
-            <td>
-            {% if item.volume > 0 %}
-                <span>Volume #</span> {{ item.issue.volume }}
-            {% endif %}
-            {{ item.issue.number }}
             </td>
             <td class="center-text">
                 {{ item.quantity }}

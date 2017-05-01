@@ -19,12 +19,11 @@
     <p>By creating an account you will be able to shop faster, be up to date on an order’s
         status, and keep track of the orders you have previously made.</p>
     {% else %}
-	<table summary="Your Want List" id="shopping_cart">
+	<table summary="Your Want List" id="shopping_cart" class="cart-table">
 		<thead>
 			<tr>
-				<th scope="col">Image</th>
-				<th scope="col">Title</th>
-                <th scope="col">Issue #</th>
+				<th scope="col">Item</th>
+				<th scope="col" class="align-center">Name</th>
 				<th scope="col">Price</th>
 				<th></th>
 				<th></th>
@@ -34,7 +33,7 @@
 			{% if wish_list_items %}
 			<tr>
 				<th class="align-right" colspan="6">
-                <a href="{% url 'issue_list' %}" class="btn">Shop More</a>
+                <a href="{% url 'issue_list' %}" class="btn">Continue Shopping</a>
                 </form>
 				</th>
 			</tr>

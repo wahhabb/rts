@@ -21,7 +21,7 @@
             <td>{{ issue.grade }}</td>
             <td>${{ issue.price }}</td>
             <td><a href="#/" onclick="add_to_wish_list('{{ issue.pk }}')">Add to Want List</a></td>
-            <td><a href="#/" onclick="add_to_cart('{{ issue.catalog_id }}')">Add to Cart</a></td>
+            <td><a href="#/" onclick="add_to_cart('{{ issue.catalog_id }}', this)">Add to Cart</a></td>
         </tr>
         {% empty %}
             <h4>Sorry, no items found that match your request.</h4>

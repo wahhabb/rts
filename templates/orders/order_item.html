@@ -1,7 +1,7 @@
 {% load catalog_filters %}
 
     <tr>
-            <td><img src = "/static/thumbnails/{{ item.product.cover_image }}"></td>
+            <td><img class="thumb" src = "/static/thumbnails/{{ item.product.cover_image }}"></td>
         <td>
             <a href="{{ item.get_absolute_url }}" class="cart">
                 {{ item.product.title }}

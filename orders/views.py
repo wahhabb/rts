@@ -333,6 +333,8 @@ class PlaceOrder(View):
                 # deserialize into new object
                 for obj in serializers.deserialize("json", json_profile):
                     profile = obj.object
+                if not request.user.is_authenticated:
+                    profile.user = User.objects.get(pk=ANONYMOUS_USER)
         # 1. Create Order record from Profile, 2. Add items to order
         # 3. Delete cart items 4. Reduce item quantity or Mark items as sold
         # Note that payment_received is set to False
@@ -367,10 +369,9 @@ class PlaceOrder(View):
             html_content += '<p>' + str(item.product) + '<br>Qty: ' + str(item.quantity) + \
                             ' Unit Price: ' + str(item.price) + '</p>'
 
-            # f = '/static/bigImages/' + item.product.cover_image
-            f = static('bigImages/' + item.product.cover_image)
+            f = static('thumbnails/' + item.product.cover_image)
             if settings.DEBUG:
-                f = 'comix/static/bigImages/' + item.product.cover_image
+                f = 'comix/static/thumbnails/' + item.product.cover_image
             fp = open(f, 'rb')
             msg_img = MIMEImage(fp.read())
             fp.close()

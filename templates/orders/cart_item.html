@@ -2,7 +2,7 @@
 
     <tr>
         <td>
-            <img src="/static/thumbnails/{{ item.product.cover_image }}">
+            <img class="thumb" src="/static/thumbnails/{{ item.product.cover_image }}">
         </td>
         <td>
             <a href="{{ item.get_absolute_url }}" class="cart">
@@ -36,8 +36,8 @@
                 {% csrf_token %}
                 <input type="hidden" name="item_id" value="{{ item.id }}" />
                 <input type="hidden" name="remove" value="remove" />
-                <input type="submit" name="submit" value="" class="btn delete"/>
-            <br>Remove
+                <input type="submit" name="submit" value="Remove" class="delete"/>
+{#            <br>Remove#}
             </form>
         </td>
     </tr>

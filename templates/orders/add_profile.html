@@ -6,11 +6,30 @@
 {{ block.super }} - Check Out
 {% endblock %}
 {% block content %}
+    {% load static %}
 <section id="checkout" class="columns">
     <div class="col-1 column">
     </div>
     <div class="col-10 column">
-    <h1>Shipping Information</h1>
+        <table id="buy_steps">
+        <tr>
+            <td>&nbsp;</td>
+            <td class="faint">
+                <img src="{% static 'comix/redstar.png' %}"><br>Cart
+            </td>
+            <td>
+                <img src="{% static 'comix/redstar.png' %}"><br>Details
+            </td>
+            <td class="faint">
+                <img src="{% static 'comix/redstar.png' %}"><br>Shipping
+            </td>
+            <td class="faint">
+                <img src="{% static 'comix/redstar.png' %}"><br>Payment
+            </td>
+        </tr>
+    </table>
+
+    <h3>Shipping Information</h3>
     {% if not request.user.is_authenticated %}
     <p><a href="{%  url 'login' %}?next={% url 'profile_update' %}" class="btn btn-primary">Log In</a>
     or <a href="{% url 'registration_register' %}?next={{ request.get_full_path|urlencode }}"

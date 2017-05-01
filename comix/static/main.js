@@ -1,9 +1,8 @@
 /**
  * Created by wahhab on 8/28/16.
  */
-function add_to_cart(catalog_id) {
-    console.log("In addToCart");
-
+function add_to_cart(catalog_id, field) {
+    // console.log("In addToCart");
     $.ajax({
         url: "/order/add/",
         type: "POST",
@@ -16,6 +15,8 @@ function add_to_cart(catalog_id) {
             } else {
                 $('#added_to_cart').html('Added to Cart').slideDown(400).delay(1400).hide(200);
             }
+            // field.innerHTML = "In Cart";
+            $(field).removeClass("btn-primary").addClass('non-btn').html('In Cart');
         },
         error: function(xhr, errmsg, err) {
             $('#results').html('Oops! We have encountered an error: ' + errmsg).show();

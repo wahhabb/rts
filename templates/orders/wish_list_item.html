@@ -2,18 +2,16 @@
 
     <tr>
         <td>
-            <img src="/static/thumbnails/{{ item.issue.cover_image }}">
+            <img class="thumb" src="/static/thumbnails/{{ item.issue.cover_image }}">
         </td>
         <td>
             <a href="{{ item.issue.get_absolute_url }}" class="cart">
                 {{ item.issue.title }}
+            {% if item.volume > 0 %}
+                <span>Volume #</span> {{ item.issue.volume }}
+            {% endif %}
+            #{{ item.issue.number }}
             </a>
-        </td>
-        <td>
-        {% if item.volume > 0 %}
-            <span>Volume #</span> {{ item.issue.volume }}
-        {% endif %}
-        {{ item.issue.number }}
         </td>
         <td>{{ item.issue.price|currency }}</td>
         <td>
@@ -21,8 +19,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="item_id" value="{{ item.issue.id }}" />
                 <input type="hidden" name="remove" value="remove" />
-                <input type="submit" name="submit" value="" class="btn delete"/>
-            <br>Remove
+                <input type="submit" name="submit" value="Remove" class="delete"/>
             </form>
         </td>
         <td>

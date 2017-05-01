@@ -47,7 +47,7 @@
                 {% if issue in cart_issues %}
                     <span class="btn non-btn add-to-cart">In Cart</span>
                 {% else %}
-                <a href="#/" class="btn btn-primary add-to-cart"  onclick="add_to_cart('{{ issue.catalog_id }}')">Add to Cart</a>
+                <a href="#/" class="btn btn-primary add-to-cart"  onclick="add_to_cart('{{ issue.catalog_id }}', this)">Add to Cart</a>
                 {% endif %}
 
 {#                <a href="{{ issue.get_absolute_url }}" class="btn btn-primary">Details</a>#}
