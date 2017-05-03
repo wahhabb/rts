@@ -60,12 +60,18 @@
                 {% if issue in cart_issues %}
                     <p class="btn non-btn">In Cart</p>
                 {% else %}
-                <a href="#/" class="btn btn-primary"  onclick="add_to_cart('{{ issue.catalog_id }}', this)">Add to Cart</a>
+                <a href="#/" class="btn btn-primary"
+                   onclick="add_to_cart('{{ issue.catalog_id }}', this)">Add to Cart</a>
                 {% endif %}
             {% else %}
                 <p class="sorry">Sorry&mdash;Sold!</p>
             {% endif %}
-                <a href="#/" class="btn btn-primary want-list-detail" onclick="add_to_wish_list('{{ issue.pk }}')">Want List</a>
+                {% if issue in wish_list_issues %}
+                    <p class="btn non-btn">In Want List</p>
+                {% else %}
+                    <a href="#/" class="btn btn-primary want-list-detail"
+                       onclick="add_to_wish_list('{{ issue.pk }}')">Want List</a>
+                {% endif %}
                 <a href="#/" class="btn btn-primary" onclick="history.go(-1)">Go Back</a>
                  {% if issue.price > 1 %}
                      <p><a href="/contact?scan={{ issue.catalog_id }}">Request a scan</a> of this actual comic</p>

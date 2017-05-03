@@ -44,14 +44,20 @@
 {#                {% endif %}#}
 {#                <p><span>Catalog #</span> {{ issue.catalog_id }}</p>#}
             </div>
+                {% if issue in wish_list_issues %}
+                    <span class="btn non-btn want-list">In Want List</span>
+                {% else %}
+                    <a href="#/" class="btn btn-primary want-list"
+                       onclick="add_to_wish_list('{{ issue.pk }}', this)">Want List</a>
+                {% endif %}
+
                 {% if issue in cart_issues %}
                     <span class="btn non-btn add-to-cart">In Cart</span>
                 {% else %}
-                <a href="#/" class="btn btn-primary add-to-cart"  onclick="add_to_cart('{{ issue.catalog_id }}', this)">Add to Cart</a>
+                    <a href="#/" class="btn btn-primary add-to-cart"
+                       onclick="add_to_cart('{{ issue.catalog_id }}', this)">Add to Cart</a>
                 {% endif %}
 
-{#                <a href="{{ issue.get_absolute_url }}" class="btn btn-primary">Details</a>#}
-            <a href="#/" class="btn btn-primary want-list" onclick="add_to_wish_list('{{ issue.pk }}')">Want List</a>
         </div>
         {% empty %}
             <h4>Sorry, no items found that match your request.</h4>

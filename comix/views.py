@@ -11,7 +11,7 @@ from itertools import chain
 
 
 from comix.models import Genre, Issue, Publisher, Tag, Series, PubCount
-from orders.cart import get_cart_issues, get_cart_items
+from orders.cart import get_cart_issues, get_cart_items, get_wish_list_issues
 import logging
 
 
@@ -69,6 +69,7 @@ class IssueList(View):
         cart_issues = get_cart_issues(request)
         cart_items = get_cart_items(request)
         cart_item_count = cart_items.count()
+        wish_list_issues = get_wish_list_issues(request)
         issues_following = None
 
         if tag_slug != None:
@@ -142,6 +143,7 @@ class IssueList(View):
                    'tags': tags,
                    'cart_issues': cart_issues,
                    'cart_item_count': cart_item_count,
+                   'wish_list_issues': wish_list_issues,
                    'per_page': per_page,
                    'is_home': is_home,
                    }
@@ -164,18 +166,20 @@ def issue_detail(request, cat_id):
     cart_issues = get_cart_issues(request)
     cart_items = get_cart_items(request)
     cart_item_count = cart_items.count()
+    wish_list_issues = get_wish_list_issues(request)
     context = Context({'issue': issue,
                        'series': issue.gcd_series,
                        'genres': genres,
                        'tags': tags,
                        'cart_item_count': cart_item_count,
                        'cart_issues': cart_issues,
+                       'wish_list_issues': wish_list_issues,
                        'user': request.user,
                        })
     return HttpResponse(template.render(context))
 
-######  Static Pages #######
 
+######  Static Pages #######
 class StaticPageMixin:
     template_name = ''
 
@@ -199,8 +203,10 @@ class GetCatalogPage(StaticPageMixin, View):
 class PhotoJournalPage(StaticPageMixin, View):
     template_name = 'comix/photojournals.html'
 
+
 class OrderingPage(StaticPageMixin, View):
     template_name = 'comix/ordering.html'
+
 
 class GuaranteePage(StaticPageMixin, View):
     template_name = 'comix/guarantee.html'

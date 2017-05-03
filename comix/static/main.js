@@ -15,7 +15,6 @@ function add_to_cart(catalog_id, field) {
             } else {
                 $('#added_to_cart').html('Added to Cart').slideDown(400).delay(1400).hide(200);
             }
-            // field.innerHTML = "In Cart";
             $(field).removeClass("btn-primary").addClass('non-btn').html('In Cart');
         },
         error: function(xhr, errmsg, err) {
@@ -26,7 +25,7 @@ function add_to_cart(catalog_id, field) {
     return 0;
 }
 
-function add_to_wish_list(issue_id) {
+function add_to_wish_list(issue_id, field) {
     $.ajax({
         url: "/order/to_wish_list/",
         type: "POST",
@@ -40,6 +39,7 @@ function add_to_wish_list(issue_id) {
             } else {
                 $('#added_to_cart').html('Added to Want List').slideDown(400).delay(1400).hide(200);
             }
+            $(field).removeClass("btn-primary").addClass('non-btn').html('In Want List');
         }
     });
 }
