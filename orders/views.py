@@ -7,7 +7,6 @@ from django.utils.timezone import now
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.list import View
 from django.core.mail import EmailMultiAlternatives
-from django.contrib.staticfiles.templatetags.staticfiles import static
 from email.mime.image import MIMEImage
 from django.utils import timezone
 
@@ -369,7 +368,10 @@ class PlaceOrder(View):
             html_content += '<p>' + str(item.product) + '<br>Qty: ' + str(item.quantity) + \
                             ' Unit Price: ' + str(item.price) + '</p>'
 
-            f = 'comix/static/thumbnails/' + item.product.cover_image
+            if settings.DEBUG:
+                f = 'comix/static/thumbnails/' + item.product.cover_image
+            else:
+                f = settings.STATIC_ROOT + '/thumbnails/' + item.product.cover_image
             fp = open(f, 'rb')
             msg_img = MIMEImage(fp.read())
             fp.close()
@@ -436,7 +438,10 @@ class CompleteOrder(View):
         for item in cart_issues:
             html_content += '<p>' + str(item.product) + '<br>Qty: ' + str(item.quantity) + \
                             ' Unit Price: ' + str(item.price) + '</p>'
-            f = 'comix/static/thumbnails/' + item.product.cover_image
+            if settings.DEBUG:
+                f = 'comix/static/thumbnails/' + item.product.cover_image
+            else:
+                f = settings.STATIC_ROOT + '/thumbnails/' + item.product.cover_image
             fp = open(f, 'rb')
             msg_img = MIMEImage(fp.read())
             fp.close()
