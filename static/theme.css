@@ -102,7 +102,7 @@ a#cart {
   position: relative;
   left: -4px;
   top: 0px;
-  padding: 11px 13px 9px;
+  padding: 9px 13px 8px;
   background: #fdc035;
   border: solid 1px #be1e2d;
   border-left: none;
@@ -154,7 +154,7 @@ a #cart-count {
 }
 #browse div {
   position: absolute;
-  top: 38px;
+  top: 37px;
   left: -1px;
   text-align: center;
   z-index: 999;
@@ -566,10 +566,12 @@ fieldset.checkout legend {
 #get_catalog .col-10,
 #about .col-10,
 #contact .col-10,
+#my_account .col-10,
 #place_order .col-10,
 #order_history .col-10,
 #photojournals .col-10,
-#shopping_cart .col-10 {
+#shopping_cart .col-10,
+#checkout .col-10 {
   padding: 20px 40px;
   border-radius: 2em;
   border: 2px solid #fdc035;
@@ -607,6 +609,10 @@ fieldset.checkout legend {
 }
 .redborder {
   border: groove 5px red;
+}
+.green {
+  color: #30ae40;
+  font-size: 1.3em;
 }
 #close-icon {
   right: 5px;

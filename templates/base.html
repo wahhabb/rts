@@ -124,7 +124,7 @@
     {% endif %}
         <li id="myrts"><a href="#/">My RTS</a>
             <ul>
-                <li><a href="#/">Your Account</a></li>
+                <li><a href="{% url 'my_account' %}">Your Account</a></li>
                 <li><a href="{% url 'want_list' %}">Want List</a></li>
                 <li><a href="{% url 'order_history' %}">Your Orders</a></li>
             {% if user.is_staff %}
@@ -185,7 +185,10 @@
                 setTimeout(dosearch, 200);
             });
             $('#browse').click(function () {
-                $('#browse div').slideToggle(250);
+                $('#browse div').slideToggle(200);
+            });
+            $('#browse').hover(function () {
+                $('#browse div').slideToggle(200);
             });
         });
         function perPage(count) {

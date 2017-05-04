@@ -19,6 +19,7 @@ ANONYMOUS_USER = 99999
 
 
 class ShowCart(View):
+    ''' View Shopping Cart '''
     template_name = 'orders/cart.html'
 
     def show(self, request):
@@ -57,7 +58,9 @@ class ShowCart(View):
             update_cart(request)
         return self.show(request)
 
+
 class ShowWishList(View):
+    ''' Show Want List '''
     tempate_name = 'orders/wish_list.html'
 
     def get(self, request):
@@ -156,6 +159,7 @@ def wish_list_add(request):
     else:
         return JsonResponse({"nothing to see": "this shouldn't happen"})
 
+
 class ProfileCreate(View):
     form_class = ProfileForm
     template_name = 'orders/add_profile.html'
@@ -193,6 +197,7 @@ def get_profile(self, request):
             profile = obj.object
     return profile
 
+
 class ShowOrderHistory(View):
     tempate_name = 'orders/order_history.html'
 
@@ -207,7 +212,6 @@ class ShowOrderHistory(View):
             return render(request, self.tempate_name, context)
         else:
             return render(request, self.tempate_name, {'needs_login': True})
-
 
 
 class OrderUpdate(View):
@@ -457,3 +461,36 @@ class CompleteOrder(View):
         return render(
             request, self.template_name, {}
         )
+
+
+class AccountUpdate(View):
+    form_class = ProfileForm
+    template_name = 'orders/my_account.html'
+    model = UserProfile
+
+    def get(self, request):
+        try:
+            profile = get_profile(self, request)
+        except:
+            return redirect('profile_create')
+        context = {
+            'form': self.form_class(instance=profile),
+            'profile': profile,
+            'needs_login': not request.user.is_authenticated,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        profile = get_profile(self, request)
+        bound_form = self.form_class(request.POST, instance=profile)
+        if bound_form.is_valid():
+            bound_form.save()
+            updated = True
+        context = {
+            'form': bound_form,
+            'profile': profile,
+            'updated': updated,
+        }
+        return render(request, self.template_name, context)
+
+

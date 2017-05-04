@@ -27,6 +27,7 @@ from contact import urls as contact_urls
 from imports.views import ImportExcelView, VariantImportExcelView
 from imports.views_variant import FindVariantView, LoadVariantsView
 from imports.views import TestMe
+from orders.views import AccountUpdate
 
 # Allow registration to return to page it came from
 @method_decorator(csrf_protect, name="dispatch")
@@ -87,6 +88,8 @@ urlpatterns = [
     url(r'^accounts/', include('registration.backends.simple.urls')),
 
     url(r'^contact/', include(contact_urls,)),
+
+    url(r'^my_account/$', AccountUpdate.as_view(), name='my_account'),
 
     url(r'^order/', include('orders.urls')),
 

@@ -7,34 +7,28 @@
 {% endblock %}
 {% block content %}
     {% load static %}
-<section id="checkout" class="columns">
+<section id="my_account" class="columns">
     <div class="col-1 column">
     </div>
     <div class="col-10 column">
-    <table id="buy_steps">
-        <tr>
-            <td>&nbsp;</td>
-            <td class="faint">
-                <img src="{% static 'comix/redstar.png' %}"><br>Cart
-            </td>
-            <td>
-                <img src="{% static 'comix/redstar.png' %}"><br>Details
-            </td>
-            <td class="faint">
-                <img src="{% static 'comix/redstar.png' %}"><br>Review
-            </td>
-            <td class="faint">
-                <img src="{% static 'comix/redstar.png' %}"><br>Payment
-            </td>
-        </tr>
-    </table>
-    <h3>Shipping Information</h3>
-    <p>Please verify your shipping information.</p>
+    <h3>Account Information</h3>
+    {% if updated %}
+        <p class="green">Account Information successfully updated!</p>
+    {% endif %}
     {% if error_message %}
     <ul class="errorlist">
         <li>{{ error_message }}</li>
     </ul>
     {% endif %}
+    {% if needs_login %}
+        <p>Please <a href="{%  url 'login' %}?next={% url 'my_account' %}" class="btn btn-primary">Log In</a>
+        to see your Account information, or <a href="{% url 'registration_register' %}?next={{ request.get_full_path|urlencode }}"
+           class="btn btn-primary">Sign Up
+            </a>
+        to save your information.</p>
+        <p>By creating an account you will be able to shop faster, keep a want list, be up to date on an order’s
+            status, and keep track of the orders you have previously made.</p>
+    {% else %}
 
 
     <form action="." method="post">
@@ -61,11 +55,11 @@
         </fieldset>
         <table>
             <tr>
-                <th colspan="2"><input type="submit" value="Continue" class="btn btn-primary"></th>
+                <th colspan="2"><input type="submit" value="Update" class="btn btn-primary"></th>
             </tr>
         </table>
-        <p>You will have an opportunity to review your order before paying.</p>
     </form>
+    {% endif %}
     </div>
     <div class="col-1 column">
     </div>
