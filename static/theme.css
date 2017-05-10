@@ -102,14 +102,17 @@ a#cart {
   border-radius: 0;
 }
 #search-btn {
+  display: inline-block;
   position: relative;
   left: -4px;
-  top: 0px;
-  padding: 9px 13px 8px;
-  background: #fdc035;
+  top: 0;
+  vertical-align: bottom;
+  width: 42px;
+  height: 38px;
   border: solid 1px #be1e2d;
   border-left: none;
   cursor: pointer;
+  background: #fdc035 url("/static/search.svg") no-repeat 12px 9px;
 }
 #cart-count {
   width: 96px;

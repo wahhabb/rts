@@ -108,16 +108,18 @@ a#cart {
   border-radius: 0;
 }
 #search-btn {
+  display: inline-block;
   position: relative;
   left: -4px;
-  top:0px;
-  padding: 9px 13px 8px;
-  background: @accent-color;
+  top:0;
+  vertical-align: bottom;
+  width:42px;
+  height: 38px;
   border: solid 1px @theme-red;
   border-left: none;
   cursor: pointer;
+  background: @accent-color url("/static/search.svg") no-repeat 12px 9px;
 }
-
 #cart-count {
   width: 96px;
   height: 50px;
