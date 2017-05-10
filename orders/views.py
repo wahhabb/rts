@@ -306,7 +306,7 @@ class ProfileUpdate(View):
                 # update session data
                 new_profile = bound_form.save(commit=False)
                 request.session[ANONYMOUS_PROFILE] = serializers.serialize('json', [new_profile, ])
-            return redirect('place_order')
+            return redirect('review_order')
         else:
             context = {
                 'form': bound_form,
@@ -315,10 +315,95 @@ class ProfileUpdate(View):
             return render(request, self.template_name, context)
 
 
-class PlaceOrder(View):
-    template_name = 'orders/place_order.html'
+class ReviewOrder(View):
+    template_name = 'orders/review_order.html'
 
     def get(self, request):
+        cart_issues = get_cart_items(request)
+        cart_item_count = cart_issues.count()
+        subtotal = cart_subtotal(request)
+        shipping = shipping_charge(request)
+        if request.user.is_authenticated:
+            try:
+                profile = UserProfile.objects.get(user=request.user)
+            except ObjectDoesNotExist:
+                return redirect(ProfileCreate)
+        else:
+            json_profile = request.session.get(ANONYMOUS_PROFILE, '')
+            if json_profile == ' ':
+                return redirect(ProfileCreate)
+            else:
+                # deserialize into new object
+                for obj in serializers.deserialize("json", json_profile):
+                    profile = obj.object
+                if not request.user.is_authenticated:
+                    profile.user = User.objects.get(pk=ANONYMOUS_USER)
+        # 1. Create Order record from Profile, 2. Add items to order
+        # 3. Delete cart items 4. Reduce item quantity or Mark items as sold
+        # Note that payment_received is set to False
+
+        # order = Order.create(profile, cart_issues[0].cart_id, shipping_charge(request),
+        #                      cart_subtotal(request) + shipping_charge(request))
+        # order.save()
+        # for issue in cart_issues:
+        #     product = issue.product
+        #     new_order_item = IssueInOrder.objects.create(
+        #         order=order, issue=product, quantity=issue.quantity, sale_price = issue.price)
+        #     new_order_item.save()
+        #     issue.delete()
+        #     # get product
+        #     product.quantity -= new_order_item.quantity
+        #     if product.quantity <= 0:
+        #         product.sold_date = now()
+        #         product.status = 'sold'
+        #     product.save()
+        # subject = 'RTSComics: Order being placed'
+        # from_email = 'info@rtscomics.com'
+        # to_list = ['info@rtscomics.com']
+        # text_content = 'Use an email program that reads HTML!'
+        # msg = EmailMultiAlternatives(subject, text_content, from_email, to_list)
+        # html_content = '<!DOCTYPE html><body><h3>Ordered By</h3><p>' + profile.first_name + \
+        #                ' ' + profile.last_name + '</p>'
+        # html_content += '<h4>Address:</h4><p>' + profile.address1 + '<br>' + profile.address2 + '</p>'
+        # html_content += '<p>' + profile.city + ', ' + profile.state + ' ' + profile.zip + '</p>'
+        # html_content += '<h3>Order Items:</h3>'
+        #
+        # for item in cart_issues:
+        #     html_content += '<p>' + str(item.product) + '<br>Qty: ' + str(item.quantity) + \
+        #                     ' Unit Price: ' + str(item.price) + '</p>'
+        #
+        #     if settings.DEBUG:
+        #         f = 'comix/static/thumbnails/' + item.product.cover_image
+        #     else:
+        #         f = settings.STATIC_ROOT + '/thumbnails/' + item.product.cover_image
+        #     fp = open(f, 'rb')
+        #     msg_img = MIMEImage(fp.read())
+        #     fp.close()
+        #     msg_img.add_header('Content-ID', '<{}>'.format(item.product.cover_image))
+        #     msg.attach(msg_img)
+        #     html_content += '<p><img src="cid:' + \
+        #                     item.product.cover_image + '" /></p>'
+        # html_content += '</body>'
+        # msg.attach_alternative(html_content, "text/html")
+        # msg.mixed_subtype = 'related'
+        # msg.send(fail_silently=False)
+
+        context = {'cart_item_count': cart_item_count,
+                           'cart_items': cart_issues,
+                           'cart_subtotal': subtotal,
+                            'profile': profile,
+                            'shipping': shipping,
+                            'paypal_url': settings.PAYPAL_URL,
+                            'paypal_email': settings.PAYPAL_EMAIL,
+                            'cart_total': subtotal + shipping,
+                            'site_name': settings.SITE_URL,
+                            'go_to_paypal': 0,
+                   }
+        return render(
+            request, self.template_name, context
+        )
+
+    def post(self, request):
         cart_issues = get_cart_items(request)
         cart_item_count = cart_issues.count()
         subtotal = cart_subtotal(request)
@@ -387,7 +472,6 @@ class PlaceOrder(View):
         msg.attach_alternative(html_content, "text/html")
         msg.mixed_subtype = 'related'
         msg.send(fail_silently=False)
-
         context = {'cart_item_count': cart_item_count,
                            'cart_items': cart_issues,
                            'cart_subtotal': subtotal,
@@ -397,10 +481,12 @@ class PlaceOrder(View):
                             'paypal_email': settings.PAYPAL_EMAIL,
                             'cart_total': subtotal + shipping,
                             'site_name': settings.SITE_URL,
+                            'go_to_paypal': 1,
                    }
         return render(
             request, self.template_name, context
         )
+
 
 class CompleteOrder(View):
     template_name = 'orders/complete_order.html'

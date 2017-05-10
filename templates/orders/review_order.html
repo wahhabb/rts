@@ -88,7 +88,7 @@
 					{{ cart_total|currency }}
 				</th>
 			</tr>
-			<tr>
+            <th class="align-left mixed" colspan="4">
           <form action="{{ paypal_url }}" method="post" id="registerForm" >
 		  <input type="hidden" name="cmd" value="_cart">
 		  <input type="hidden" name="upload" value="1">
@@ -127,14 +127,18 @@
                             Volume {{ item.product.volume }} #
                         {% endif %}{{ item.product.number }}">
            {% endfor %}
-              <th class="align-right" colspan="4">
-                <a href="#" onClick="document.getElementById('registerForm').submit(); return false;"
-                   class="btn-primary btn">Continue
-                </a>
-                </form>
+                <p class="red">You will be taken to PayPal to make payment. You do not need a PayPal&nbsp;account.</p>
                 <p>Please note: all orders are subject to availability. We do a lot of conventions and
-                    may not have had time to update our database to indicate all sold items. </p>
+                    may not have had time to update our database to indicate all sold&nbsp;items. </p>
 				</th>
+              <th class="align-right">
+                  <button type="submit" id="to_paypal">Go to PayPal</button>
+                </form>
+            <form action="." method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn-primary btn" id="dopost">Continue</button>
+            </form>
+            </th>
 			</tr>
 		</tfoot>
 		<tbody>
@@ -149,4 +153,20 @@
     <div class="col-1 column">
     </div>
 </section>
+    <div id="scrim"></div>
+    <div id="spinner">
+        <h2>Your order is being processed...</h2>
+        <img src="{% static "swirler.gif" %}">
+    </div>
+    <script>
+    $(function() {
+        $("#dopost").click(function () {
+            $("#scrim, #spinner").show(400);
+        });
+        if ({{ go_to_paypal }}) {
+            $("#scrim, #spinner").show();
+            $("#to_paypal").click();
+        }
+    });
+    </script>
 {% endblock %}
