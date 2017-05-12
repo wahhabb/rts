@@ -1,23 +1,29 @@
-def scrape_image(gcd_issue_id):
-    import urllib.request
-    from bs4 import BeautifulSoup
-    import re
-    from PIL import Image
+def show_page_list(pmax, cur):
+    page_list = list(range(1,pmax+1))
+    if pmax - cur > 2 and pmax > 4:
+        if cur == 1:
+            page_list[3:pmax-1] = ['...']
+        else:
+            page_list[cur + 1:pmax - 1] = ['...']
+    if cur > 3 and pmax > 4:
+        if pmax - cur < 2:
+            page_list[1:pmax - 3] = ['...']
+        else:
+            page_list[1:cur - 2] = ['...']
 
-    # Get cover from "http://www.comics.org/issue/" + gcd_issue_id + '/cover/4/'
-    with urllib.request.urlopen('http://www.comics.org/issue/' + str(gcd_issue_id) + '/cover/4/') as response:
-        html = response.read()
-    soup = BeautifulSoup(html)
-    img = soup.find('img', 'cover_img')
-    matches = re.match(r'.+src="(http.+/(\d+.jpg)).+', str(img))
-    filename = matches.group(1)
-    saved_filename = 'comix/static/bigImages/' + matches.group(2)
-    urllib.request.urlretrieve(filename, saved_filename)
-    # Now create thumbnail
-    size = (100, 156)
-    thumb_filename = 'comix/static/thumbnails/' + matches.group(2)
-    im = Image.open(saved_filename)
-    im.thumbnail(size)
-    im.save(thumb_filename, "JPEG")
+    print(page_list)
 
-scrape_image(26679)
+show_page_list(4, 2)
+
+show_page_list(5, 5)
+show_page_list(5, 4)
+show_page_list(5, 3)
+show_page_list(5, 2)
+
+show_page_list(8, 1)
+show_page_list(8, 4)
+show_page_list(8, 5)
+show_page_list(8, 6)
+show_page_list(8, 7)
+show_page_list(8, 8)
+

@@ -123,10 +123,26 @@ class IssueList(View):
 
         try:
             page = paginator.page(page_no)
+            page_no = int(page_no)
         except PageNotAnInteger:
             page = paginator.page(1)
+            page_no = 1
         except EmptyPage:
             page = paginator.page(paginator.num_pages)
+            page_no = paginator.num_pages
+
+        page_list = list(range(1, paginator.num_pages + 1))
+        if paginator.num_pages - page_no > 2 and paginator.num_pages > 4:
+            if page_no == 1:
+                page_list[3:paginator.num_pages - 1] = ['...']
+            else:
+                page_list[page_no + 1:paginator.num_pages - 1] = ['...']
+        if page_no > 3 and paginator.num_pages > 4:
+            if paginator.num_pages - page_no < 2:
+                page_list[1:paginator.num_pages - 3] = ['...']
+            else:
+                page_list[1:page_no - 2] = ['...']
+
 
         is_home = False
         if request.path == '/' and page_no == None:
@@ -146,6 +162,7 @@ class IssueList(View):
                    'wish_list_issues': wish_list_issues,
                    'per_page': per_page,
                    'is_home': is_home,
+                   'page_list': page_list,
                    }
         return render(
             request, self.template_name, context

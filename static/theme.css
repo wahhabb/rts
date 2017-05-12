@@ -510,6 +510,26 @@ h5.card-header {
 #gotopage {
   width: 5rem;
 }
+.pagination {
+  font-size: 1.3em;
+  background-color: #f0f0f0;
+}
+.pagination a {
+  text-decoration: none;
+  padding: 6px;
+}
+.pagination a:hover {
+  padding: 5px;
+  border: 1px solid #2d3092;
+  color: #fdc035;
+  background-color: white;
+}
+.pagination .curpage {
+  padding: 6px;
+}
+.gray {
+  color: #aaa;
+}
 #per_page {
   margin-bottom: 1em;
 }

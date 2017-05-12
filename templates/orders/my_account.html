@@ -11,7 +11,17 @@
     <div class="col-1 column">
     </div>
     <div class="col-10 column">
-    <h3>Account Information</h3>
+    {% if needs_login %}
+        <h3>Account Information</h3>
+        <p>Please <a href="{%  url 'login' %}?next={% url 'want_list' %}" class="btn btn-primary">Log In</a>
+        to see your Account Information, or <a href="{% url 'registration_register' %}?next={{ request.get_full_path|urlencode }}"
+           class="btn btn-primary">Sign Up
+            </a>
+        to be save your information.</p>
+        <p>By creating an account you will be able to check out faster, be up to date on an order’s
+            status, and keep track of orders you have previously&nbsp;made.</p>
+    {% else %}
+    <h3>Account Information for {{ user.get_username }}</h3>
     {% if updated %}
         <p class="green">Account Information successfully updated!</p>
     {% endif %}
@@ -60,6 +70,8 @@
         </table>
     </form>
     {% endif %}
+    {% endif %}
+
     </div>
     <div class="col-1 column">
     </div>
