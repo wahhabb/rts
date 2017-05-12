@@ -120,6 +120,9 @@ class IssueList(View):
 
         paginator = Paginator(issues, per_page_ct)
         page_no = request.GET.get(self.page_kwarg)
+        is_home = False
+        if request.path == '/' and page_no == None:
+            is_home = True
 
         try:
             page = paginator.page(page_no)
@@ -142,11 +145,6 @@ class IssueList(View):
                 page_list[1:paginator.num_pages - 3] = ['...']
             else:
                 page_list[1:page_no - 2] = ['...']
-
-
-        is_home = False
-        if request.path == '/' and page_no == None:
-            is_home = True
 
         context = {'issues': page,
                    'paginator': paginator,
