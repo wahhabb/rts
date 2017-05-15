@@ -174,12 +174,12 @@ class ProfileCreate(View):
                 new_profile = bound_form.save(commit=False)
                 new_profile.user = request.user
                 new_profile.save()
-                return redirect('place_order')
+                return redirect('review_order')
             else:
                 # save anonymous user to session data
                 new_profile = bound_form.save(commit=False)
                 request.session[ANONYMOUS_PROFILE] = serializers.serialize('json', [ new_profile, ])
-                return redirect('place_order')
+                return redirect('review_order')
         else:
             return render(request, self.template_name, {'form': bound_form})
 
