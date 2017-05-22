@@ -146,7 +146,9 @@ class IssueList(View):
             else:
                 page_list[1:page_no - 2] = ['...']
 
-        context = {'issues': page,
+        context = {
+                    'page': page,
+                    'issues': page,
                    'paginator': paginator,
                    'is_paginated': page.has_other_pages(),
                    'genres': genres,

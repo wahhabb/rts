@@ -58,8 +58,11 @@
                        onclick="add_to_cart('{{ issue.catalog_id }}', this)">Add to Cart</a>
                 {% endif %}
 
-        </div>
+       </div>
         {% empty %}
             <h4>Sorry, no items found that match your request.</h4>
         {% endfor %}
+             {% if issues.has_next %}
+                <a id="linknext" href="?page={{ issues.next_page_number }}{{ query_string }}">Next Page >></a>
+            {% endif %}
     </div>
