@@ -21,7 +21,7 @@ table {
 thead {
   background: @theme-gray;
 }
-th {
+thead th {
   padding: 6px 2em;
   text-transform: uppercase;
 
@@ -101,7 +101,7 @@ a#cart {
 #search-box {
   width: 369px;
   height: 38px;
-  border: solid 1px @theme-red;
+  border: solid 1px @accent-color;
   border-left: none;
   margin-top: -4px;
   margin-left: -4px;
@@ -115,7 +115,7 @@ a#cart {
   vertical-align: bottom;
   width:42px;
   height: 38px;
-  border: solid 1px @theme-red;
+  border: solid 1px @accent-color;
   border-left: none;
   cursor: pointer;
   background: @accent-color url("/static/search.svg") no-repeat 12px 9px;
@@ -146,7 +146,7 @@ a #cart-count {
   padding: 9px 18px 7px 15px;
   position: relative;
   margin-top: 33px;
-  border: solid 1px @theme-red;
+  border: solid 1px @accent-color;
   border-right: none;
   cursor: pointer;
 
@@ -275,6 +275,16 @@ a #cart-count {
 #to_paypal {
   display: none;
 }
+#dopost {
+  cursor: pointer;
+  border: 1px solid white;
+  padding: 1px;
+  background: @theme-gray;
+}
+#dopost:hover {
+  border: 1px solid @theme-blue;
+  background: darken(@theme-gray, 6%);
+}
 #meetrts {
   font-family: "Open Sans Condensed", sans-serif;
   font-weight: 700;
@@ -342,6 +352,9 @@ section.navbar-section:first-of-type {
   padding-right: 0;
 }
 
+.mouse {
+  font-size: 0.8em;
+}
 .smaller {
   font-size: 80%;
 }
@@ -486,7 +499,7 @@ h5.card-header {
   left: 8%;
   padding: .7rem 1.1rem;
 }
-.btn.want-list {
+.btn.wish-list {
   position: absolute;
   bottom: 16px;
   right: 8%;
@@ -494,7 +507,7 @@ h5.card-header {
   background: #999;
   border-color: #666;
 }
-.btn.btn-primary.want-list-detail {
+.btn.btn-primary.wish-list-detail {
   background: #999;
   border-color: #666;
 }
@@ -525,6 +538,7 @@ h5.card-header {
 .pagination {
   font-size: 1.3em;
   background-color: lighten(@theme-gray, 5%);
+  width: 98%;
 }
 .pagination a {
   text-decoration: none;
@@ -552,6 +566,7 @@ h5.card-header {
 fieldset.checkout {
   padding-bottom: 15px;
   margin-bottom: 15px;
+  border: 1px solid @accent-color;
 }
 fieldset.checkout legend {
   margin-left: 1.3em;
@@ -627,10 +642,9 @@ fieldset.checkout legend {
 #create_account input {
   margin-right: 20px;
 }
-#get_catalog .col-10, #about .col-10, #contact .col-10, #my_account .col-10, #place_order .col-10,
-  #order_history .col-10, #photojournals .col-10, #shopping_cart .col-10, #checkout .col-10 {
+.boxed {
   padding: 20px 40px;
-  border-radius: 2em;
+  //border-radius: 5px; /* Was 2em */
   border: 2px solid @accent-color;
 }
 #order_history {
@@ -672,6 +686,12 @@ fieldset.checkout legend {
 .green {
   color: #30ae40;
   font-size: 1.3em;
+}
+.flag {
+  width: 2.2em;
+  height: 2.2em;
+  float: left;
+  margin: .5em 1em 0 0;
 }
   #close-icon {
     right: 5px;

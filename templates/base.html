@@ -34,7 +34,7 @@
                 <div id="login">
                     {% if user.is_authenticated %}
                         <span id="welcome">Welcome, {{ user.get_username }}</span>
-                        <a href="{%  url 'logout' %}">Log Out</a>
+                        <a href="{%  url 'logout' %}">Sign Out</a>
                     {% else %}
                         <span>Welcome!</span>
                         {% if not 'login' in request.path %}
@@ -42,11 +42,11 @@
                                 <a href="{%  url 'login' %}">Sign-in</a>
                             {% else %}
                                 <a href="{%  url 'login' %}?next={{ request.get_full_path|urlencode }}">
-                                    Sign-in
+                                    Sign In
                                 </a>
                             {% endif %}
                             <a href="{% url 'registration_register' %}?next={{ request.get_full_path|urlencode }}">
-                                Register
+                                Create Account
                             </a>
                         {% endif %}
                    {% endif %}
@@ -126,7 +126,7 @@
         <li id="myrts"><a href="#/">My RTS</a>
             <ul>
                 <li><a href="{% url 'my_account' %}">Your Account</a></li>
-                <li><a href="{% url 'want_list' %}">Want List</a></li>
+                <li><a href="{% url 'wish_list' %}">Want List</a></li>
                 <li><a href="{% url 'order_history' %}">Your Orders</a></li>
             {% if user.is_staff %}
                 <li><a href="{% url 'order_update' %}">Update Orders<br>(Admin only)</a></li>
@@ -157,12 +157,33 @@
             </main>
         </div><!-- wrapper -->
         <footer>
-            <p>
-                &copy; 2017 RTS Unlimited
-            </p>
-            <p>
-                Web design and development by Kay and Wahhab Baldwin
-            </p>
+            <div class="columns">
+                <div class="col-1 column">
+                </div>
+                <div class="col-2 column">
+                    <p>
+                        &copy; 2017 RTS Unlimited
+                    </p>
+                    <p class="mouse">
+                        Cover images copyright their respective owners.
+                    </p>
+                </div>
+                <div class="col-6 column">
+                    <p>
+                        <b>Privacy Policy:</b> We respect your privacy. We will never sell, rent, or loan your
+                        personal information to another company. From time to time, we may send e-mails,
+                        newsletters, catalogs and other communications regarding our products, services,
+                        and events. You may opt out at any&nbsp;time.
+                    </p>
+                </div>
+                <div class="col-2 column">
+                    <p class="mouse">
+                        Web design and development by Kay and Wahhab Baldwin
+                    </p>
+                </div>
+                <div class="col-1 column">
+                </div>
+            </div>
         </footer>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -207,9 +228,9 @@
             prev_order = order;
             var qs = "{{ query_string|safe }}";
             if (qs.search(/(.+)&sort=.+(&*.*)/) > -1) {
-                window.location = 'issues/?page=1' + qs.replace(/(.+)&sort=[^&]+(.*)/, '$1&sort=' + order);
+                window.location = '/issues/?page=1' + qs.replace(/(.+)&sort=[^&]+(.*)/, '$1&sort=' + order);
             } else {
-                window.location = 'issues/?page=1' + qs + '&sort=' + order;
+                window.location = '/issues/?page=1' + qs + '&sort=' + order;
             }
         }
 // SmartMenus init

@@ -3,15 +3,15 @@
 {% load checkout_tags %}
 
 {% block title %}
-{{ block.super }} - Place Order
+{{ block.super }} - Review Order
 {% endblock %}
 
 {% block content %}
     {% load static %}
-<section  class="columns" id="place_order">
+<section  class="columns" id="reveiw_order">
     <div class="col-1 column">
     </div>
-    <div class="col-10 column">
+    <div class="col-10 column boxed">
         <table id="buy_steps">
         <tr>
             <td>&nbsp;</td>
@@ -65,7 +65,7 @@
 		</thead>
 		<tfoot>
 			<tr>
-				<th class="align-right" colspan="5">
+				<th class="align-right" colspan="4">
 					Cart Subtotal:
 				</th>
 				<th class="align-right">
@@ -73,7 +73,7 @@
 				</th>
 			</tr>
 			<tr>
-				<th class="align-right" colspan="5">
+				<th class="align-right" colspan="4">
 					Shipping:
 				</th>
 				<th class="align-right">
@@ -81,14 +81,14 @@
 				</th>
 			</tr>
 			<tr>
-				<th class="align-right" colspan="5">
-					Total:
+				<th class="align-right" colspan="4">
+					TOTAL:
 				</th>
 				<th class="align-right">
 					{{ cart_total|currency }}
 				</th>
 			</tr>
-            <th class="align-left mixed" colspan="4">
+            <th class="align-left" colspan="4">
           <form action="{{ paypal_url }}" method="post" id="registerForm" >
 		  <input type="hidden" name="cmd" value="_cart">
 		  <input type="hidden" name="upload" value="1">
@@ -127,7 +127,9 @@
                             Volume {{ item.product.volume }} #
                         {% endif %}{{ item.product.number }}">
            {% endfor %}
-                <p class="red">You will be taken to PayPal to make payment. You do not need a PayPal&nbsp;account.</p>
+                <h4 class="red"><img src="{% static 'comix/redstar.png' %}" class="flag"> You will be taken to PayPal
+                    to make payment. PayPal is a SECURE website that will accept credit card payment whether or not
+                    you have a PayPal account.</h4>
                 <p>Please note: all orders are subject to availability. We do a lot of conventions and
                     may not have had time to update our database to indicate all sold&nbsp;items. </p>
 				</th>
@@ -136,7 +138,8 @@
                 </form>
             <form action="." method="post">
                 {% csrf_token %}
-                <button type="submit" class="btn-primary btn" id="dopost">Continue</button>
+{#                <button type="submit" class="btn-primary btn" id="dopost">Continue</button>#}
+                <button type="submit"  id="dopost"><img src="{% static 'paypal.png'%}"></button>
             </form>
             </th>
 			</tr>

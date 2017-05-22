@@ -11,15 +11,15 @@
     <h1>Want List</h1>
 
     {% if needs_login %}
-    <p>Please <a href="{%  url 'login' %}?next={% url 'want_list' %}" class="btn btn-primary">Log In</a>
-    to see your Want List, or <a href="{% url 'registration_register' %}?next={{ request.get_full_path|urlencode }}"
-       class="btn btn-primary">Sign Up
-        </a>
-    to be able to save items to your want list.</p>
-    <p>By creating an account you will be able to shop faster, be up to date on an order’s
-        status, and keep track of the orders you have previously made.</p>
-    {% else %}
-	<table summary="Your Want List" id="shopping_cart" class="cart-table">
+        <p>Please <a href="{%  url 'login' %}?next={% url 'wish_list' %}" class="btn btn-primary">Sign In</a>
+        to see your Account Information, or <a href="{% url 'registration_register' %}?next={{ request.get_full_path|urlencode }}"
+           class="btn btn-primary">Create Account
+            </a>
+        to be save your information.</p>
+        <p>By creating an account you will be able to check out faster, be up to date on an order’s
+            status, and keep track of orders you have previously&nbsp;made.</p>
+   {% else %}
+	<table summary="Your Wish List" id="shopping_cart" class="cart-table">
 		<thead>
 			<tr>
 				<th scope="col">Item</th>
@@ -47,7 +47,7 @@
 		{% else %}
 		      <tr>
 					<td colspan="6" style="height:30px;">
-						Your want list is empty.
+						Your wish list is empty.
 					</td>
 				</tr>
 		{% endif %}

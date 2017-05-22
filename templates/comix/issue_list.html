@@ -78,11 +78,13 @@
             <input type="radio" {% if sort_order == 'price-up' %}  checked {% endif %}
                    onclick="sortby('price-up')" name="sort" value="price" id="price-up"> Price Low to High &nbsp;
         </form>
+        {% include 'comix/pagination.html' %}
         {% if request.session.per_page == '200L' %}
             {% include 'comix/issue_list_list.html' %}
         {% else %}
             {% include 'comix/issue_list_items.html' %}
         {% endif %}
+        {% include 'comix/pagination.html' %}
         </div>
         </div>
 
@@ -98,44 +100,44 @@
     -->
 
     </section>
-    {% if is_paginated %}
-        <div class="center-text">
-        <ul class="pagination">
-            {% if issues.has_previous %}
-            <li>
-                <a href="?page={{ issues.previous_page_number }}{{ query_string }}"><< Previous</a>
-            </li>
-            {% else %}
-                <li class="gray"><< Previous</li>
-            {% endif %}
-            {% for i in page_list %}
-                {% if i == '...' %}
-                    <li>...</li>
-                {% else %}
-                    <li>
-                        {% if i == issues.number %}
-                            <b class="curpage">
-                        {% else %}
-                            <a href="?page={{ i }}{{ query_string }}">
-                        {% endif %}
-                            {{ i }}
-                        {% if i == issues.number %}
-                            </b>
-                        {% else %}
-                            </a>
-                        {% endif %}
-                    </li>
-                {% endif %}
-            {% endfor %}
-            {% if issues.has_next %}
-            <li>
-                <a href="?page={{ issues.next_page_number }}{{ query_string }}">Next >></a>
-            {% else %}
-                <li class="gray">Next >></li>
-            {% endif %}
-        </ul>
-        </div>
-    {% endif %}
+{#    {% if is_paginated %}#}
+{#        <div class="center-text">#}
+{#        <ul class="pagination">#}
+{#            {% if issues.has_previous %}#}
+{#            <li>#}
+{#                <a href="?page={{ issues.previous_page_number }}{{ query_string }}"><< Previous</a>#}
+{#            </li>#}
+{#            {% else %}#}
+{#                <li class="gray"><< Previous</li>#}
+{#            {% endif %}#}
+{#            {% for i in page_list %}#}
+{#                {% if i == '...' %}#}
+{#                    <li>...</li>#}
+{#                {% else %}#}
+{#                    <li>#}
+{#                        {% if i == issues.number %}#}
+{#                            <b class="curpage">#}
+{#                        {% else %}#}
+{#                            <a href="?page={{ i }}{{ query_string }}">#}
+{#                        {% endif %}#}
+{#                            {{ i }}#}
+{#                        {% if i == issues.number %}#}
+{#                            </b>#}
+{#                        {% else %}#}
+{#                            </a>#}
+{#                        {% endif %}#}
+{#                    </li>#}
+{#                {% endif %}#}
+{#            {% endfor %}#}
+{#            {% if issues.has_next %}#}
+{#            <li>#}
+{#                <a href="?page={{ issues.next_page_number }}{{ query_string }}">Next >></a>#}
+{#            {% else %}#}
+{#                <li class="gray">Next >></li>#}
+{#            {% endif %}#}
+{#        </ul>#}
+{#        </div>#}
+{#    {% endif %}#}
 
 {#    <div>{% if is_paginated %}{% load paginator %}{% paginator 3 %}{% endif %}</div>#}
 

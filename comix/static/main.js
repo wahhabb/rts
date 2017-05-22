@@ -35,11 +35,11 @@ function add_to_wish_list(issue_id, field) {
             console.log(json);
             console.log("success--wish_list_add");
             if (json['not_added']) {
-                alert('Please log in or sign up to save to Want List')
+                alert('Please sign in or register to save to Wish List')
             } else {
-                $('#added_to_cart').html('Added to Want List').slideDown(400).delay(1400).hide(200);
+                $('#added_to_cart').html('Added to Wish List').slideDown(400).delay(1400).hide(200);
+                $(field).removeClass("btn-primary").addClass('non-btn').html('In Wish List');
             }
-            $(field).removeClass("btn-primary").addClass('non-btn').html('In Want List');
         }
     });
 }

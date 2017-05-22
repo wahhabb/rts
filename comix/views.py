@@ -105,10 +105,10 @@ class IssueList(View):
         sort_seq = {'price-up': 'price', 'price-down': '-price', None: 'alpha'}
         if (sort_order == 'alpha') or (sort_order == None):
             issues = issues.order_by('gcd_series__sort_name', 'gcd_series__year_began', 'volume', 'number',
-                                     'hrn_number', 'edition', 'inserts', 'issue_text', 'numerical_grade', 'price')
+                                     'hrn_number', 'edition', 'inserts', 'issue_text', '-numerical_grade', '-price')
             if issues_following != None:
                 issues_following = issues_following.order_by('gcd_series__sort_name', 'gcd_series__year_began', 'volume', 'number',
-                                     'hrn_number', 'edition', 'inserts', 'issue_text', 'numerical_grade', 'price')
+                                     'hrn_number', 'edition', 'inserts', 'issue_text', '-numerical_grade', '-price')
         else:
             issues = issues.order_by(sort_seq[sort_order])
             if issues_following != None:
