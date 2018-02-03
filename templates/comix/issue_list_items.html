@@ -5,14 +5,16 @@
             <div class="card-header">
                 <div class="card-image">
                     <a href="{{ issue.get_absolute_url }}">
-                        <img src="/static/thumbnails/{{ issue.cover_image }}"
-                             alt="Cover of {{ issue.gcd_series.name }} #{{ issue.number }}"
+{#                        <img src="/static/thumbnails/{{ issue.cover_image }}"#}
+                        {{ issue.file_name.all.0 }}
+                        <img src="/static/thumbnails/{{ issue.images.all.0.file_name }}"
+                             alt="Cover of {{ issue.long_title }} #{{ issue.number }}"
                              class="img-responsive centered">
                     </a>
                 </div>
             </div>
             <div class="card-body" onclick="location.href='{{ issue.get_absolute_url }}';">
-                <p class="center-text">{{ issue.title }}
+                <p class="center-text">{{ issue.long_title }}
                 </p>
                 <p class="center-text">{{ issue.publisher_name }}</p>
                {% if issue.volume > 0 %}
@@ -23,11 +25,7 @@
                 <p><span>Grade:</span> {{ issue.grade }}</p>
                 <p><span class="price">Price:</span>${{ issue.price }}</p>
                 <p><span>Date:</span>
-                    {% if issue.indicia_date > '' %}
-                    {{ issue.indicia_date }}
-                    {% else %}
-                    {{ issue.publication_date }}
-                    {% endif %}</p>
+                {{ issue.indicia_date }}
                 {% if issue.notes_preview > "" %}
                     <p class="center-text">{{ issue.notes_preview }}
                     {% if issue.notes_preview|length > 43 %}
@@ -35,14 +33,6 @@
                     {% endif %}
                     </p>
                 {% endif %}
-{#                {% if issue.gcd_notes > "" %}#}
-{#                    <p><span>GCD Notes:</span> {{ issue.gcd_notes_preview }}#}
-{#                    {% if issue.gcd_notes_preview|length > 97 %}#}
-{#                        (<a href="{{ issue.get_absolute_url }}">more</a>)#}
-{#                    {% endif %}#}
-{#                    </p>#}
-{#                {% endif %}#}
-{#                <p><span>Catalog #</span> {{ issue.catalog_id }}</p>#}
             </div>
                 {% if issue in wish_list_issues %}
                     <span class="btn non-btn wish-list">In Wish List</span>

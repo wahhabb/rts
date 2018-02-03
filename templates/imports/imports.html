@@ -1,24 +1,49 @@
 {% extends parent_template|default:"base.html" %}
 {% block title %}
-{{ block.super }} - Fix Test
+{{ block.super }} - Import from Excel
 {% endblock %}
 {% block content %}
     {% load static %}
     <section id="imports" class="columns">
         <div class="col-1 column">
         </div>
-        <div class="col-10 column">    <h5>Import Problems</h5>
-        <table>
-    {% for error in errors %}
-        <tr>
-        {% for subitem in error %}
-           <td>{{ subitem }}</td>
-        {% endfor %}
-        </tr>
-    {% endfor %}
-    </table>
-        </div>
+        <div class="col-10 column">
+            {% if type_error %}
+            <h2>ERROR: Could not load spreadsheet</h2>
+            <p>File type must end in .xlxs</p>
+            <p>Use BACK button and reselect file</p>
+            {% endif %}
+            {% if display %}
+            <form method="POST" class="post-form" enctype="multipart/form-data">
+                {% csrf_token %}
+            <p>Please select a spreadsheet holding comics to add or update to database.</p>
+            {{ form.as_p }}
+            <button type="submit" id="submit" class="save btn btn-default">Begin Import</button>
+            </form>
+                <p id="loading" style="display: none">LOADING...<br>
+                Please do not interrupt.</p>
+            {% endif %}
+            {% if not display and not type_error %}
+            <h5>Import Complete!</h5>
+            <p>Uploaded {{ record_ct }} issues.</p>
+            {% endif %}
+{#        <div class="col-10 column">    <h5>Import Problems</h5>#}
+{#        <table>#}
+{#    {% for error in errors %}#}
+{#        <tr>#}
+{#        {% for subitem in error %}#}
+{#           <td>{{ subitem }}</td>#}
+{#        {% endfor %}#}
+{#        </tr>#}
+{#    {% endfor %}#}
+{#    </table>#}
+{#        </div>#}
         <div class="col-1 column">
         </div>
     </section>
+    <script>
+        $('#submit').click(function () {
+            $('#loading').show();
+        });
+    </script>
 {% endblock %}

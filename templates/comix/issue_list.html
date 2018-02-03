@@ -43,7 +43,7 @@
             </tr>
             <tr>
                 <td><img src="{% static 'comix/redstar.png' %}"></td>
-                <td>Get Our Full-Color Catalog</td>
+                <td>Get Our <a href="get-catalog/">Full-Color Catalog</a></td>
             </tr>
         </table>
     </div>
@@ -114,11 +114,16 @@ function last_row() {
     max_width = $cards.last().css('width');
     cur_width = $cards.first().css('width');
     $cards.slice(-8).css('max-width', cur_width);
-    linkleft = $cards.last().position().left + parseInt(cur_width) + 40;
-    if (window.innerWidth > linkleft + 50) {
-        $('#linknext').show().css({'top': $cards.last().position().top + 100, 'left': linkleft});
-    } else {
-        $('#linknext').hide();
+    try {
+        linkleft = $cards.last().position().left + parseInt(cur_width) + 40;
+        if (window.innerWidth > linkleft + 50) {
+            $('#linknext').show().css({'top': $cards.last().position().top + 100, 'left': linkleft});
+        } else {
+            $('#linknext').hide();
+        }
+    }
+    catch(err) {
+
     }
 
 }

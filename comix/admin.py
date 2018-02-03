@@ -1,33 +1,32 @@
 from django.contrib import admin
 
 # Register your models here.
-from comix.models import Genre, Issue, Series, Publisher, Tag
-
+from comix.models import Genre, Issue, Tag
 admin.site.register(Genre)
-admin.site.register(Series)
-admin.site.register(Publisher)
 admin.site.register(Tag)
 
 
 admin.site.site_header = "RTS Comics Admin"
 admin.site.site_title = "RTS Comics Admin"
 
+#   TODO: Missing fields. Either fix or delete admin feature!!!
+
 @admin.register(Issue)
 class IssueAdmin(admin.ModelAdmin):
     list_display = ('gcd_id',
         'catalog_id',
-        'gcd_series',
+        # 'gcd_series',
         'in_gcd_flag',
         'volume',
         'number',
         'issue_text',
         'edition',
-        'publication_date',
-        'gcd_notes',
+#        'publication_date',
+#        'gcd_notes',
         'notes',
         'grade',
         'grade_notes',
-        'cover_image',
+#        'cover_image',
         'image_scanned',
         'indicia_date',
         'inserts',
@@ -36,7 +35,7 @@ class IssueAdmin(admin.ModelAdmin):
         'genre',
         'price',
         'quantity',
-        'status',
+#        'status',
         'sold_date')
     list_filter = ('number',)
     search_fields = ('catalog_id',)

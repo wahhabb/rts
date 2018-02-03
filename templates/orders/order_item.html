@@ -1,10 +1,10 @@
 {% load catalog_filters %}
 
     <tr>
-        <td><img class="thumb" src = "/static/thumbnails/{{ item.product.cover_image }}"></td>
+        <td><img class="thumb" src = "/static/thumbnails/{{ item.product.images.all.0.file_name }}"></td>
         <td>
             <a href="{{ item.get_absolute_url }}" class="cart">
-                {{ item.product.title }}
+                {{ item.product.long_title }}
             {% if item.volume > 0 %}
                 <span>Volume #</span> {{ item.product.volume }}
             {% endif %}

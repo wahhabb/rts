@@ -3,13 +3,13 @@
 # Translators:
 # Jannis Leidel <jannis@leidel.info>, 2011
 # Vláďa Macek <macek@sandbox.cz>, 2012-2014
-# Vláďa Macek <macek@sandbox.cz>, 2015
+# Vláďa Macek <macek@sandbox.cz>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: django\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-17 23:12+0200\n"
-"PO-Revision-Date: 2016-05-21 09:51+0000\n"
+"POT-Creation-Date: 2017-01-19 16:49+0100\n"
+"PO-Revision-Date: 2017-09-19 16:40+0000\n"
 "Last-Translator: Jannis Leidel <jannis@leidel.info>\n"
 "Language-Team: Czech (http://www.transifex.com/django/django/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -139,7 +139,7 @@ msgid "Arguments"
 msgstr "Argumenty"
 
 msgid "Back to Model documentation"
-msgstr ""
+msgstr "Zpět na popis modelů"
 
 msgid "Model documentation"
 msgstr "Dokumentace modelů"
@@ -214,7 +214,7 @@ msgid "Templates:"
 msgstr "Šablony:"
 
 msgid "Back to View documentation"
-msgstr ""
+msgstr "Zpět na popis pohledů"
 
 msgid "View documentation"
 msgstr "Dokumentace pohledů"
@@ -241,13 +241,6 @@ msgstr ""
 "\n"
 "Funkce pohledu: <code>%(full_name)s</code>. Název: <code>%(url_name)s</"
 "code>.\n"
-
-msgid "Boolean (Either True or False)"
-msgstr "Pravdivost (buď Ano (True), nebo Ne (False))"
-
-#, python-format
-msgid "Field of type: %(field_type)s"
-msgstr "Pole typu: %(field_type)s"
 
 msgid "tag:"
 msgstr "tag:"

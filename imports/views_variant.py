@@ -52,82 +52,82 @@ def debug(str1, str2=''):
     print(str(str1), str(str2))
 
 
-class FindVariantView(View):
-    template_name = 'imports/variants.html'
-    gcd_series_recs = None
-
-    def get(self, request):
-        return render(request, self.template_name, {})
-
-    def post(self, request):
-        useimg = request.POST.get('useimg', '')
-        if useimg == '':    # We're getting first submit to show images
-            images = []
-            error = ''
-            cat_id = request.POST['catalog-no']
-            try:
-                issue = Issue.objects.get(catalog_id=cat_id)
-                if not issue.variants > "":
-                    error = "No variants on issue"
-                else:
-                    images = scrape_images(issue.gcd_id)
-                    debug(images)
-
-            except ObjectDoesNotExist:
-                error = "Not Found"
-                issue = cat_id
-
-
-            context = {
-                'title': str(issue),
-                'error': error,
-                'images': images,
-                'cat_id': cat_id,
-            }
-        else:
-            # User clicked so select an image,so update it on record and clear variant field
-            issue = Issue.objects.get(catalog_id=request.POST.get('usecat'))
-            issue.cover_image = useimg.split('/')[3] # strip off name.jpg
-            issue.variants = ''
-            issue.save()
-            context = {
-                'title': str(issue) + ' was saved!',
-                'error': '',
-                'images': [],
-                'cat_id': '',
-            }
-
-
-        return render(
-            request, self.template_name, context
-        )
-
-
-# Variant images must be loaded on a test machine, pushed to github, pulled to the production machine, and then
-# collectstatic run.
-class LoadVariantsView(View):
-    template_name = 'imports/variants.html'
-    gcd_series_recs = None
-
-    def get(self, request):
-        images = []
-        error = ''
-        # User clicked so select an image,so update it on record and clear variant field
-        issues = Issue.objects.filter(variants__isnull=False)
-        for issue in issues:
-            images = scrape_images(issue.gcd_id)
-            debug(images)
-            issue.variants = 'V'
-            issue.save()
-            context = {
-                'title': 'Success!',
-                'error': '',
-                'images': [],
-                'cat_id': '',
-            }
-
-
-        return render(
-            request, self.template_name, context
-        )
-
+# class FindVariantView(View):
+#     template_name = 'imports/variants.html'
+#     gcd_series_recs = None
+#
+#     def get(self, request):
+#         return render(request, self.template_name, {})
+#
+#     def post(self, request):
+#         useimg = request.POST.get('useimg', '')
+#         if useimg == '':    # We're getting first submit to show images
+#             images = []
+#             error = ''
+#             cat_id = request.POST['catalog-no']
+#             try:
+#                 issue = Issue.objects.get(catalog_id=cat_id)
+#                 if not issue.variants > "":
+#                     error = "No variants on issue"
+#                 else:
+#                     images = scrape_images(issue.gcd_id)
+#                     debug(images)
+#
+#             except ObjectDoesNotExist:
+#                 error = "Not Found"
+#                 issue = cat_id
+#
+#
+#             context = {
+#                 'title': str(issue),
+#                 'error': error,
+#                 'images': images,
+#                 'cat_id': cat_id,
+#             }
+#         else:
+#             # User clicked so select an image,so update it on record and clear variant field
+#             issue = Issue.objects.get(catalog_id=request.POST.get('usecat'))
+#             issue.cover_image = useimg.split('/')[3] # strip off name.jpg
+#             issue.variants = ''
+#             issue.save()
+#             context = {
+#                 'title': str(issue) + ' was saved!',
+#                 'error': '',
+#                 'images': [],
+#                 'cat_id': '',
+#             }
+#
+#
+#         return render(
+#             request, self.template_name, context
+#         )
+#
+#
+# # Variant images must be loaded on a test machine, pushed to github, pulled to the production machine, and then
+# # collectstatic run.
+# class LoadVariantsView(View):
+#     template_name = 'imports/variants.html'
+#     gcd_series_recs = None
+#
+#     def get(self, request):
+#         images = []
+#         error = ''
+#         # User clicked so select an image,so update it on record and clear variant field
+#         issues = Issue.objects.filter(variants__isnull=False)
+#         for issue in issues:
+#             images = scrape_images(issue.gcd_id)
+#             debug(images)
+#             issue.variants = 'V'
+#             issue.save()
+#             context = {
+#                 'title': 'Success!',
+#                 'error': '',
+#                 'images': [],
+#                 'cat_id': '',
+#             }
+#
+#
+#         return render(
+#             request, self.template_name, context
+#         )
+#

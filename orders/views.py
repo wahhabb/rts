@@ -226,13 +226,9 @@ class OrderUpdate(View):
             for issue_in_order in order_issues:
                 issue = issue_in_order.issue
                 if issue.sold_date is not None:
-                    issue.sold_date = None
-                    issue.status = 'available'
-                    issue.quantity = issue_in_order.quantity
-                    issue.save()
-                else:
-                    issue.quantity += issue_in_order.quantity
-                    issue.save()
+                    issue.sold_date = None  # TODO: recover last sold date? Leave unchanged?
+                issue.quantity += issue_in_order.quantity
+                issue.save()
                 issue_in_order.delete()
             Order.objects.get(id=cancel_no).delete()
 
@@ -241,14 +237,10 @@ class OrderUpdate(View):
         if cancel_item is not None:
             issue_in_order = IssueInOrder.objects.get(id=cancel_item)
             issue = issue_in_order.issue
-            if issue.sold_date is not None:
+            if issue.sold_date is not None: # TODO: recover last sold date? Leave unchanged?
                 issue.sold_date = None
-                issue.status = 'available'
-                issue.quantity = issue_in_order.quantity
-                issue.save()
-            else:
-                issue.quantity += issue_in_order.quantity
-                issue.save()
+            issue.quantity += issue_in_order.quantity
+            issue.save()
             issue_in_order.delete()
 
         # Mark order as shipped
@@ -409,16 +401,16 @@ class ReviewOrder(View):
                             ' Unit Price: ' + str(item.price) + '</p>'
 
             if settings.DEBUG:
-                f = 'comix/static/thumbnails/' + item.product.cover_image
+                f = 'comix/static/thumbnails/' + item.product.images.all()[0].file_name
             else:
-                f = settings.STATIC_ROOT + '/thumbnails/' + item.product.cover_image
+                f = settings.STATIC_ROOT + '/thumbnails/' + item.product.images.all()[0].file_name
             fp = open(f, 'rb')
             msg_img = MIMEImage(fp.read())
             fp.close()
-            msg_img.add_header('Content-ID', '<{}>'.format(item.product.cover_image))
+            msg_img.add_header('Content-ID', '<{}>'.format(item.product.images.all()[0].file_name))
             msg.attach(msg_img)
             html_content += '<p><img src="cid:' + \
-                            item.product.cover_image + '" /></p>'
+                            item.product.images.all()[0].file_name + '" /></p>'
         html_content += '</body>'
         msg.attach_alternative(html_content, "text/html")
         msg.mixed_subtype = 'related'
@@ -480,16 +472,16 @@ class CompleteOrder(View):
             html_content += '<p>' + str(item.product) + '<br>Qty: ' + str(item.quantity) + \
                             ' Unit Price: ' + str(item.price) + '</p>'
             if settings.DEBUG:
-                f = 'comix/static/thumbnails/' + item.product.cover_image
+                f = 'comix/static/thumbnails/' + item.product.images.all()[0].file_name
             else:
-                f = settings.STATIC_ROOT + '/thumbnails/' + item.product.cover_image
+                f = settings.STATIC_ROOT + '/thumbnails/' + item.product.images.all()[0].file_name
             fp = open(f, 'rb')
             msg_img = MIMEImage(fp.read())
             fp.close()
-            msg_img.add_header('Content-ID', '<{}>'.format(item.product.cover_image))
+            msg_img.add_header('Content-ID', '<{}>'.format(item.product.images.all()[0].file_name))
             msg.attach(msg_img)
             html_content += '<p><img src="cid:' + \
-                            item.product.cover_image + '" /></p>'
+                            item.product.images.all()[0].file_name + '" /></p>'
         html_content += '</body>'
         msg.attach_alternative(html_content, "text/html")
         msg.mixed_subtype = 'related'
@@ -530,6 +522,7 @@ class AccountUpdate(View):
             'form': bound_form,
             'profile': profile,
             'updated': updated,
+            'posting': True,
         }
         return render(request, self.template_name, context)
 

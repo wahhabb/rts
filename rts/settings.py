@@ -25,7 +25,7 @@ SECRET_KEY = '&!ir31+b2wb_!426i%c*k=8%$syh7bc5c_%$!widorzmbd++@b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.rtscomics.com']
+ALLOWED_HOSTS = ['www.rtscomics.com', 'localhost', '127.0.0.1']
 
 # Site and SEO Information
 SITE_NAME = 'RTS Comics'
@@ -34,7 +34,7 @@ META_DESCRIPTION = 'Comic collectors helping comic collectors since 1986. Your b
 if DEBUG:
     SITE_URL = 'http://127.0.0.1:8000'
 else:
-    SITE_URL = 'http://wahhabb.pythonanywhere.com'
+    SITE_URL = 'http://rtscomics.com'
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 # Application definition
@@ -155,10 +155,12 @@ USE_TZ = True
 if DEBUG:
     STATIC_URL = '/static/'
     STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+    MEDIA_ROOT = (os.path.join(BASE_DIR, "uploads"),)
 else:
     STATIC_URL = '/static/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'static_all')
     STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+    MEDIA_ROOT = (os.path.join(BASE_DIR, "uploads"),)
 
 LOGIN_REDIRECT_URL = '/issues/'
 

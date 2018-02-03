@@ -10,7 +10,7 @@ import re, string
 from itertools import chain
 
 
-from comix.models import Genre, Issue, Publisher, Tag, Series, PubCount
+from comix.models import Genre, Issue, Tag, PubCount
 from orders.cart import get_cart_issues, get_cart_items, get_wish_list_issues
 import logging
 
@@ -62,8 +62,8 @@ class IssueList(View):
         sort_order = self.request.GET.get('sort')
         search_text = self.request.GET.get('search')
         tag_slug = self.request.GET.get('tag')
-        issues = Issue.objects.all().filter(status='available')
-        issues = issues.filter(Q(variants__isnull=True) | Q(variants='')) # V means has variants but selected
+        issues = Issue.objects.all().filter(quantity__gt=0)
+#        issues = issues.filter(Q(variants__isnull=True) | Q(variants='')) # V means has variants but selected
         tags = Tag.objects.all()
         query_string = ""
         cart_issues = get_cart_issues(request)
@@ -91,11 +91,11 @@ class IssueList(View):
             publisher_text = None
 
         if search_text != None:
-            issues1 = issues.filter(gcd_series_id__name__icontains=search_text)
+            issues1 = issues.filter(title__icontains=search_text)
             issues_following = issues.filter(Q(tags__name__icontains=search_text) |
                                    Q(publisher_name__icontains=search_text) |
                                    Q(notes__icontains=search_text))
-            issues_following = issues_following.exclude(gcd_series_id__name__icontains=search_text)
+            issues_following = issues_following.exclude(title__icontains=search_text)
             issues = issues1
             query_string += "&search=" + search_text
             log.debug("Search: " + search_text)
@@ -104,10 +104,10 @@ class IssueList(View):
             query_string += "&sort=" + sort_order
         sort_seq = {'price-up': 'price', 'price-down': '-price', None: 'alpha'}
         if (sort_order == 'alpha') or (sort_order == None):
-            issues = issues.order_by('gcd_series__sort_name', 'gcd_series__year_began', 'volume', 'number',
+            issues = issues.order_by('sort_title', 'year_begun', 'volume', 'number',
                                      'hrn_number', 'edition', 'inserts', 'issue_text', '-numerical_grade', '-price')
             if issues_following != None:
-                issues_following = issues_following.order_by('gcd_series__sort_name', 'gcd_series__year_began', 'volume', 'number',
+                issues_following = issues_following.order_by('sort_title', 'year_begun', 'volume', 'number',
                                      'hrn_number', 'edition', 'inserts', 'issue_text', '-numerical_grade', '-price')
         else:
             issues = issues.order_by(sort_seq[sort_order])
@@ -184,15 +184,14 @@ def issue_detail(request, cat_id):
     cart_items = get_cart_items(request)
     cart_item_count = cart_items.count()
     wish_list_issues = get_wish_list_issues(request)
-    context = Context({'issue': issue,
-                       'series': issue.gcd_series,
+    context = {'issue': issue,
                        'genres': genres,
                        'tags': tags,
                        'cart_item_count': cart_item_count,
                        'cart_issues': cart_issues,
                        'wish_list_issues': wish_list_issues,
                        'user': request.user,
-                       })
+                       }
     return HttpResponse(template.render(context))
 
 
@@ -236,13 +235,12 @@ class SearchAutocompleteView(View):
         if request.is_ajax():
             q = request.GET.get('term', '').lower()
             foundset = set()
+            titlematches = Issue.objects.filter(title__icontains=q)
+            for issue in titlematches:
+                foundset.add(string.capwords(issue.title))
             publishers = PubCount.objects.filter(name__icontains=q)
             for publisher in publishers:
                 foundset.add(string.capwords(publisher.name))
-            titles = Series.objects.filter(name__icontains=q)
-            results = []
-            for title in titles:
-                foundset.add(string.capwords(title.name))
             tags = Tag.objects.filter(name__icontains=q)
             for tag in tags:
                 foundset.add(string.capwords(tag.name))
@@ -254,10 +252,10 @@ class SearchAutocompleteView(View):
                 for note in notes:
                     res = re.search(r'(' + q + r'.*?)(?:\W|$)', note.notes, re.I).group(1)   # extend to end of word
                     foundset.add(string.capwords(res))
-                notes = Issue.objects.filter(gcd_notes__icontains=q)
-                for note in notes:
-                    res = re.search(r'(' + q + r'.*?)(?:\W|$)', note.gcd_notes, re.I).group(1)   # extend to end of word
-                    foundset.add(string.capwords(res))
+                # notes = Issue.objects.filter(gcd_notes__icontains=q)
+                # for note in notes:
+                #     res = re.search(r'(' + q + r'.*?)(?:\W|$)', note.gcd_notes, re.I).group(1)   # extend to end of word
+                #     foundset.add(string.capwords(res))
             results = sorted(foundset, key=len)
         else:
             results='fail'

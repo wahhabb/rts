@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th scope="col">Issue (click for details)</th>
-            <th scope="col">Date #</th>
+            <th scope="col">Date</th>
             <th scope="col">Grade</th>
             <th scope="col">Price</th>
             <th scope="col"></th>
@@ -17,7 +17,7 @@
                 <span>Volume #</span> {{ issue.volume }}
             {% endif %}
             <span>#</span> {{ issue.show_number }}</a></td>
-            <td>{{ issue.publication_date }}</td>
+            <td>{{ issue.indicia_date }}</td>
             <td>{{ issue.grade }}</td>
             <td>${{ issue.price }}</td>
             <td><a href="#/" onclick="add_to_wish_list('{{ issue.pk }}')">Add to Wish List</a></td>

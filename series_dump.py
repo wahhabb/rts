@@ -10,7 +10,7 @@ dbname = "rts_db"
 db = MySQLdb.connect(host=host, user=user, passwd=passwd, db=dbname)
 cursor = db.cursor()
 
-sql = "SELECT s.id, s.name, sort_name, publisher_id, p.name, s.year_began FROM gcd_series s " \
+sql = "SELECT s.id, s.name, sort_title, publisher_id, p.name, s.year_began FROM gcd_series s " \
       "INNER JOIN gcd_publisher p ON s.publisher_id = p.id WHERE s.country_id = 225 ORDER BY s.name;"
 
 cursor.execute(sql)

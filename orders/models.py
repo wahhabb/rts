@@ -1,5 +1,5 @@
 from django.db import models
-from comix.models import Issue, Series
+from comix.models import Issue
 from django.contrib.auth.models import User
 from localflavor.us.models import USStateField
 
@@ -9,7 +9,7 @@ class CartItem(models.Model):
     cart_id = models.CharField(max_length=50, db_index=True)
     date_added = models.DateTimeField(auto_now_add=True)
     quantity = models.IntegerField(default=1)
-    product = models.ForeignKey(Issue, unique=False)
+    product = models.ForeignKey(Issue, unique=False, on_delete=models.PROTECT)
 
     class Meta:
         db_table = 'cart_items'
@@ -55,14 +55,14 @@ class BaseOrderInfo(models.Model):
 
 
 class UserProfile(BaseOrderInfo):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, on_delete=models.PROTECT)
 
     def __str__(self):
         return 'User Profile for: ' + self.user.username
 
 
 class Order(BaseOrderInfo):
-    user = models.ForeignKey(User, null=True)
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     cart_id = models.CharField(max_length=50)
     date_placed = models.DateTimeField(auto_now_add=True)
     date_shipped = models.DateTimeField(null=True)
@@ -94,18 +94,18 @@ class Order(BaseOrderInfo):
 
 
 class IssueInOrder(models.Model):
-    order = models.ForeignKey(Order)
+    order = models.ForeignKey(Order, on_delete=models.PROTECT)
     sale_price = models.DecimalField(max_digits=7, decimal_places=2)
     quantity = models.PositiveIntegerField()
-    issue = models.ForeignKey(Issue)
+    issue = models.ForeignKey(Issue, on_delete=models.PROTECT)
 
     def total(self):
         return self.sale_price * self.quantity
 
 
 class WishList(models.Model):
-    issue = models.ForeignKey(Issue)
-    user = models.ForeignKey(User)
+    issue = models.ForeignKey(Issue, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

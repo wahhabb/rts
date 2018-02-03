@@ -2,7 +2,7 @@
 
     <tr>
         <td>
-            <img class="thumb" src="/static/thumbnails/{{ item.issue.cover_image }}">
+            <img class="thumb" src="/static/thumbnails/{{ item.issue.images.all.0.file_name }}">
         </td>
         <td>
             <a href="{{ item.issue.get_absolute_url }}" class="cart">
