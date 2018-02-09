@@ -104,8 +104,8 @@ class ImportExcelView(View):
         row = 1
         while make_string(sheet['A' + str(row + 1)].value) > '':
             row += 1
-            if row > 6:
-                break   # ToDo: remove, just for testing
+            # if row > 6:
+            #     break   # ToDo: remove, just for testing
             s_row = str(row)
             if row % 1000 == 0:
                 print(s_row)
