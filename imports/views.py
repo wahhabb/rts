@@ -7,6 +7,7 @@ from comix.models import Issue, PubCount
 from decimal import *
 from .forms import UploadFileForm
 from django.http import HttpResponseRedirect
+from rts.settings import MEDIA_ROOT
 
 
 logger = logging.getLogger(__name__)
@@ -60,8 +61,6 @@ def make_string(field):
         return str(field)
 
 
-
-
 class ImportExcelView(View):
     template_name = 'imports/imports.html'
     gcd_series_recs = None
@@ -82,12 +81,14 @@ class ImportExcelView(View):
             return HttpResponseRedirect('/')
 
         print(request.FILES['file'].name)
-        with open('uploads/imports/' + request.FILES['file'].name, 'wb+') as destination:
+        save_path = os.path.join(MEDIA_ROOT[0], 'imports/' + request.FILES['file'].name)
+        print("save_path", save_path)
+        with open(save_path, 'wb+') as destination:
             for chunk in request.FILES['file'].chunks():
                 destination.write(chunk)
 
         try:
-            wb = load_workbook(filename="uploads/imports/" + request.FILES['file'].name)
+            wb = load_workbook(filename=save_path)
         except:
             context = {
                        'display': True,
