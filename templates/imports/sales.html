@@ -1,0 +1,53 @@
+{% extends parent_template|default:"base.html" %}
+{% block title %}
+{{ block.super }} - Show Sold Issues
+{% endblock %}
+{% block content %}
+    {% load static %}
+    <section id="imports" class="columns">
+        <div class="col-1 column">
+        </div>
+        <div class="col-10 column">
+            <form action="" method="post">
+            {% csrf_token %}
+            <h5>Show all sales since</h5>
+            <input type="text" name="startdate" id="startdate"
+                    value="{{ last_report_date.month }}/{{ last_report_date.day }}/{{ last_report_date.year }}">
+                <p>(Must be in format M/D/Y with 4-digit year)</p>
+                <button class="btn btn-primary" type="submit">Submit</button>
+                {% if date_error %}
+                <h5 class="error">Please enter a valid date.</h5>
+                {% endif %}
+                {% if success %}
+                <h5>Success!</h5>
+                    <table>
+                    <tr>
+                        <th>Catalog ID</th>
+                        <th>Title</th>
+                        <th>Vol.</th>
+                        <th>Issue #</th>
+                        <th>Qty. left</th>
+                        <th>Last Sale</th>
+                    </tr>
+                    {% for sold_item in solds %}
+                    <tr>
+                    <td>{{ sold_item.catalog_id }}</td>
+                    <td>{{ sold_item.title }}</td>
+                    <td>{{ sold_item.volume }}</td>
+                    <td>{{ sold_item.number }}</td>
+                    <td>{{ sold_item.quantity }}</td>
+                    <td>{{ sold_item.sold_date.month }}/{{ sold_item.sold_date.day }}/{{ sold_item.sold_date.year }}</td>
+                    </tr>
+                    {% endfor %}
+                    </table>
+                {% endif %}
+            </form>
+        <div class="col-1 column">
+        </div>
+    </section>
+    <script>
+        $('#submit').click(function () {
+            $('#loading').show();
+        });
+    </script>
+{% endblock %}

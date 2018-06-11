@@ -9,6 +9,9 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+class SalesReports(models.Model):
+    last_report = models.DateTimeField(auto_now_add=True)
+
 class GcdBrand(models.Model):
     name = models.CharField(max_length=255)
     parent = models.ForeignKey('GcdPublisher', models.DO_NOTHING, blank=True, null=True)

@@ -1,0 +1,33 @@
+{% load staticfiles %}
+{% load static %}
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>RTS Comics</title>
+<style>
+body {
+	text-align: center;
+	font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+h1 {
+	font-size:28px;
+	t
+}
+h2 {
+
+	font-size:20px;
+}
+</style>
+</head>
+
+<body>
+	<img src="{% static 'logo.png' %}">
+    <h1>RTS Comics</h1>
+    <h2>Under Construction</h2>
+        <p>We look forward to serving you when our new website is done.<br>
+        In the meantime, you can contact us for your comic book needs at<br>
+        <a href="mailto:RTSUnlimitedInc@gmail.com">RTSUnlimitedInc@gmail.com</a></p>
+        <img src="{% static 'construction.jpg' %}">
+</body>
+</html>

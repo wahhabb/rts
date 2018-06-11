@@ -225,8 +225,8 @@ class OrderUpdate(View):
             order_issues = IssueInOrder.objects.filter(order_id=cancel_no)
             for issue_in_order in order_issues:
                 issue = issue_in_order.issue
-                if issue.sold_date is not None:
-                    issue.sold_date = None  # TODO: recover last sold date? Leave unchanged?
+                # if issue.sold_date is not None:
+                #     issue.sold_date = None  # TODO: recover last sold date? Leave unchanged?
                 issue.quantity += issue_in_order.quantity
                 issue.save()
                 issue_in_order.delete()
@@ -386,7 +386,7 @@ class ReviewOrder(View):
                 product.status = 'sold'
             product.save()
         subject = 'RTSComics: Order being placed'
-        from_email = 'info@rtscomics.com'
+        from_email = 'orders@rtscomics.com'
         to_list = ['info@rtscomics.com']
         text_content = 'Use an email program that reads HTML!'
         msg = EmailMultiAlternatives(subject, text_content, from_email, to_list)

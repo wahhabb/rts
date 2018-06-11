@@ -208,6 +208,10 @@ class StaticPageMixin:
         )
 
 
+class UnderConstructionPage(StaticPageMixin, View):
+    template_name = 'under_construction.html'
+
+
 class AboutPage(StaticPageMixin, View):
     template_name = 'comix/about.html'
 

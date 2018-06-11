@@ -3,12 +3,13 @@ from django.views.generic.list import  View
 import logging
 import os.path
 from openpyxl import load_workbook, Workbook
-from comix.models import Issue, PubCount
+from comix.models import Issue
 from decimal import *
 from .forms import UploadFileForm
 from django.http import HttpResponseRedirect
 from rts.settings import MEDIA_ROOT
-
+from imports.models import SalesReports
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 min_custom = 10000000
@@ -59,6 +60,37 @@ def make_string(field):
         return field
     else:
         return str(field)
+
+class ShowSalesView(View):
+    template_name = 'imports/sales.html'
+
+    def get(self, request):
+        last_report = SalesReports.objects.first()
+        return render(request, self.template_name,
+                      {'last_report_date': last_report.last_report,}
+                      )
+
+    def post(self, request):
+        last_report = SalesReports.objects.first()
+        startdate = self.request.POST.get('startdate')
+        mdy = startdate.split('/')
+        try:
+            start_date = datetime(int(mdy[2]), int(mdy[0]), int(mdy[1]))
+        except:
+            return render(request, self.template_name,
+                          {'last_report_date': last_report.last_report,
+                           'date_error': True
+                           }
+                          )
+        solds = Issue.objects.filter(sold_date__gt=start_date)
+        new_sales_report = SalesReports()
+        new_sales_report.save()
+        return render(request, self.template_name,
+                      {'last_report_date': start_date,
+                       'success': True,
+                       'solds': solds,
+                       }
+                      )
 
 
 class ImportExcelView(View):

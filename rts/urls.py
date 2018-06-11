@@ -25,8 +25,9 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.generic import TemplateView
 
 from contact import urls as contact_urls
-from imports.views import ImportExcelView
+from imports.views import ImportExcelView, ShowSalesView
 from orders.views import AccountUpdate
+from comix.views import UnderConstructionPage
 
 # Allow registration to return to page it came from
 @method_decorator(csrf_protect, name="dispatch")
@@ -37,6 +38,10 @@ class MyRegistrationView(RegistrationView):
 
 
 urlpatterns = [
+    # TEMPORARY: make site point to Under Construction
+    url(r'^.?', UnderConstructionPage.as_view(), name="under_contruction"),
+
+
     url(r'^admin/', admin.site.urls),
 
     url(r'^', include('comix.urls')),
@@ -95,6 +100,7 @@ urlpatterns = [
     # url(r'^fixtest/$', TblComicsImportView.as_view(), name='publisher_fix'),
 
     url(r'^importexcel/$', ImportExcelView.as_view(), name='import_excel'),
+    url(r'^showsales/$', ShowSalesView.as_view(), name='show_sales'),
 
     url(r'^robots.txt$', TemplateView.as_view(template_name="robots.txt", content_type="text/plain"), name="robots_file"),
     url(r'^sitemap.txt$', TemplateView.as_view(template_name='sitemap.txt', content_type='text/plain'), name="sitemap"),

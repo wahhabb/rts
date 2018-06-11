@@ -166,10 +166,10 @@ LOGIN_REDIRECT_URL = '/issues/'
 
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'mercury.linksky126.com'
+EMAIL_HOST = 'mail.rtsunlimited.com'
 EMAIL_HOST_USER = 'orders@rtsunlimited.com'
 EMAIL_HOST_PASSWORD = 's%P3#cj9V'
-DEFAULT_FROM_EMAIL = 'no-reply@rtscomics.com'
+DEFAULT_FROM_EMAIL = 'orders@rtsunlimited.com'
 
 MANAGERS = (
     ('Webmaster', 'wahhab@deepwebworks.com'),
