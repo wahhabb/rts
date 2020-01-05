@@ -39,10 +39,9 @@ class MyRegistrationView(RegistrationView):
 
 urlpatterns = [
     # TEMPORARY: make site point to Under Construction
-    url(r'^.?', UnderConstructionPage.as_view(), name="under_contruction"),
+    # url(r'^.?', UnderConstructionPage.as_view(), name="under_contruction"),
 
-
-    url(r'^admin/', admin.site.urls),
+     url(r'^admin/', admin.site.urls),
 
     url(r'^', include('comix.urls')),
 

@@ -57,16 +57,17 @@
                 <div id="show-menu"><a href="#" onclick="show_menu();" class="box-shadow-menu"><img src="{% static 'icon-menu.png' %}" > Menu</a></div>
               <a href="/" class="logo"><img src="{% static 'logo.png' %}"></a> <!-- ToDo: fix hardcoded link -->
             <section id="search_block">
-                <div id="browse" class="inline-block">BROWSE <span class="sub-arrow">+</span>
-                    <div>
-                        <a href="/issues/">Browse All</a>
-                        <a href="/publishers/">By Publisher</a>
-                    </div>
-                </div>
-                <input id="search-box" type="text" class="form-input input-inline"
-                       placeholder="Title, Publisher, Keyword, ...">
+{#    TEMPORARY!! REMOVE SEARCH FOR PHOTO-JOURNALS ONLY  TODO:          #}
+{#                <div id="browse" class="inline-block">BROWSE <span class="sub-arrow">+</span>#}
+{#                    <div>#}
+{#                        <a href="/issues/">Browse All</a>#}
+{#                        <a href="/publishers/">By Publisher</a>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <input id="search-box" type="text" class="form-input input-inline"#}
+{#                       placeholder="Title, Publisher, Keyword, ...">#}
 {#                <a href="javascript:dosearch()" id="search-btn"><img src="{% static 'search.svg' %}"></a>#}
-                <a href="javascript:dosearch()" id="search-btn"></a>
+{#                <a href="javascript:dosearch()" id="search-btn"></a>#}
                 <img src="{%  static 'tagline.svg' %}" id="tagline"
                      alt="Collectors Helping Collectors Since 1984">
             </section>
@@ -162,7 +163,7 @@
                 </div>
                 <div class="col-2 column">
                     <p>
-                        &copy; 2018 RTS Unlimited
+                        &copy; 2020 RTS Unlimited
                     </p>
                     <p class="mouse">
                         Cover images copyright their respective owners.

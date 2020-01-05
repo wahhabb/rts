@@ -2,6 +2,10 @@ from django.conf.urls import url
 from comix.views import *
 
 urlpatterns = [
+
+# TEMPORARY: Make home point to PhotoJournals
+    url(r'^$', PhotoJournalPage.as_view(), name='photojournals'),
+
     url(r'^$', IssueList.as_view(), name='issue_list'),
 
     url(r'^genres/$', GenreListView.as_view(),

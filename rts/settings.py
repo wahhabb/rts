@@ -34,8 +34,10 @@ META_DESCRIPTION = 'Comic collectors helping comic collectors since 1986. Your b
 if DEBUG:
     SITE_URL = 'http://127.0.0.1:8000'
 else:
-    SITE_URL = 'http://rtscomics.com'
+    SITE_URL = 'https://rtscomics.com'
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
 
 # Application definition
 
