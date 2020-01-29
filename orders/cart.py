@@ -94,11 +94,11 @@ def shipping_charge(request):
     cart_products = get_cart_items(request)
     for cart_item in cart_products:
         ship_total += decimal.Decimal(0.25)
-        if cart_item.product.catalog_id == 6047:    # check for Photo-Journals
+        if cart_item.product.catalog_id == 'PJ-1-4':    # check for Photo-Journals
             return decimal.Decimal(16)
-        if cart_item.product.catalog_id in [6045, 6046]:
+        if cart_item.product.catalog_id in ['PJ-1&2', 'PJ-3&4']:
             return decimal.Decimal(10)
-        if cart_item.product.catalog_id in [6048, 6049, 6050, 6051]:
+        if cart_item.product.catalog_id in ['PJ-1', 'PJ-2', 'PJ-3', 'PJ-4']:
             return decimal.Decimal(7)
     return ship_total
 
