@@ -9,6 +9,8 @@ from django.views.generic.list import View
 from django.core.mail import EmailMultiAlternatives
 from email.mime.image import MIMEImage
 from django.utils import timezone
+import logging
+from usps import USPSApi, Address
 
 from orders.cart import *
 from orders.cart import _cart_id
@@ -17,6 +19,7 @@ from orders.forms import ProfileForm
 ANONYMOUS_PROFILE = 'anonymous_profile'
 ANONYMOUS_USER = 99999
 
+log = logging.getLogger(__name__)
 
 class ShowCart(View):
     ''' View Shopping Cart '''
@@ -132,6 +135,7 @@ def add_to_cart(request):
     else:
         return JsonResponse({"nothing to see": "this shouldn't happen"})
 
+
 # Wish List is AJAX call from main.js
 @csrf_exempt
 def wish_list_add(request):
@@ -169,17 +173,55 @@ class ProfileCreate(View):
 
     def post(self, request):
         bound_form = self.form_class(request.POST)
+        p1 = '060DE'
+        p2 = 'EPW7093'
         if bound_form.is_valid():
-            if request.user.is_authenticated:
+
+            address = Address(
+                name = "temporary",
+                address_1 = bound_form.cleaned_data['address1'],
+                address_2 = bound_form.cleaned_data['address2'],
+                city=bound_form.cleaned_data['city'],
+                state= bound_form.cleaned_data['state'],
+                zipcode=bound_form.cleaned_data['zip'],
+            )
+            usps = USPSApi(p1+p2)
+            try:
+                validation = usps.validate_address(address)
+                log.debug(validation.result)
+
+                try:
+                    error_message = validation.result['AddressValidateResponse']['Address']['Error']['Description']
+                    error_message += ". Please correct or call us at (303)403-1840"
+                    return render(request, self.template_name, {'form': bound_form, 'error_message': error_message})
+                except:
+                    address1 = validation.result['AddressValidateResponse']['Address']['Address1'].title()
+                    address2 = validation.result['AddressValidateResponse']['Address']['Address2'].title()
+                    city = validation.result['AddressValidateResponse']['Address']['City'].title()
+                    if address1 == '-':
+                        address1 = ''
+                    if address2 == '-':
+                        address2 = ''
+                    zip4 = validation.result['AddressValidateResponse']['Address']['Zip4']
+                    zip5 = validation.result['AddressValidateResponse']['Address']['Zip5']
+                    new_zip = zip5 + '-' + zip4
+
                 new_profile = bound_form.save(commit=False)
+                new_profile.zip = new_zip
+                new_profile.address1 = address1
+                new_profile.address2 = address2
+                new_profile.city = city
+            except:
+                new_profile = bound_form.save(commit=False)
+                log.debug("address validation failedd")
+            if request.user.is_authenticated:
                 new_profile.user = request.user
                 new_profile.save()
-                return redirect('review_order')
             else:
                 # save anonymous user to session data
-                new_profile = bound_form.save(commit=False)
                 request.session[ANONYMOUS_PROFILE] = serializers.serialize('json', [ new_profile, ])
-                return redirect('review_order')
+
+            return redirect('review_order')
         else:
             return render(request, self.template_name, {'form': bound_form})
 
@@ -330,6 +372,7 @@ class ReviewOrder(View):
                     profile = obj.object
                 if not request.user.is_authenticated:
                     profile.user = User.objects.get(pk=ANONYMOUS_USER)
+        do_not_ship = (profile.state in ['HI', 'AK', 'PR', 'AS', 'GU', 'MP', 'VI'])
 
         context = {'cart_item_count': cart_item_count,
                            'cart_items': cart_issues,
@@ -341,6 +384,7 @@ class ReviewOrder(View):
                             'cart_total': subtotal + shipping,
                             'site_name': settings.SITE_URL,
                             'go_to_paypal': 0,
+                            'do_not_ship': do_not_ship,
                    }
         return render(
             request, self.template_name, context

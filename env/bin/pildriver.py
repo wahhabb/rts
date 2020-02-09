@@ -1,4 +1,4 @@
-#!/Users/wahhab/Sites/rts/env/bin/python3.5
+#!/Users/wahhab/Sites/rts/env/bin/python
 """PILdriver, an image-processing calculator using PIL.
 
 An instance of class PILDriver is essentially a software stack machine

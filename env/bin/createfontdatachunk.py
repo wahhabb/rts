@@ -1,4 +1,4 @@
-#!/Users/wahhab/Sites/rts/env/bin/python3.5
+#!/Users/wahhab/Sites/rts/env/bin/python
 from __future__ import print_function
 import base64
 import os

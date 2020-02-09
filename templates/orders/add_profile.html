@@ -59,6 +59,11 @@
 
         <fieldset class="checkout">
             <legend>Shipping Information</legend>
+            <div id="countries">
+                <input type="radio" name="country" value="USA" checked> &nbspU.S.A. &nbsp
+                <input type="radio" name="country" value="Other"> &nbsp;Other Country
+            </div>
+
             <table>
                 {% form_table_row form.first_name %}
                 {% form_table_row form.last_name %}
@@ -68,10 +73,18 @@
                 {% form_table_row form.state %}
                 {% form_table_row form.zip %}
             </table>
+            <div class="hidden message">
+                <h4 class="red">Save Money!<br>
+                    We ship to the 48 continguous U.S. states from this website.
+                    In order to lower your shipping costs, please order your products
+                    from our <a href="https://www.ebay.com/usr/rtsunlimited?_trksid=p2047675.l2559">Ebay Store</a>
+                    or <a href="/contact/">Contact Us.</a>
+                </h4>
+            </div>
         </fieldset>
         <table>
             <tr>
-                <th colspan="2"><input type="submit" value="Continue" class="btn btn-primary"></th>
+                <th colspan="2"><input type="submit" value="Continue" class="btn btn-primary submit"></th>
             </tr>
         </table>
         <p>You will have an opportunity to review your order before paying.</p>
@@ -80,5 +93,21 @@
     <div class="col-1 column">
     </div>
     </section>
+
+    <script>
+         $(document).ready(function(){
+            $('#countries').change(function(){
+                if ($("input[name='country']:checked").val() == 'Other') {
+                    $(".checkout table").hide();
+                    $(".message").show();
+                    $(".submit").addClass('disabled');
+                } else {
+                    $(".checkout table").show();
+                    $(".message").hide();
+                    $(".submit").removeClass('disabled');
+                }
+            });
+         });
+    </script>
 {% endblock %}
 

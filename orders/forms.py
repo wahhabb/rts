@@ -1,5 +1,5 @@
 from django import forms
-from localflavor.us.forms import USPhoneNumberField, USStateSelect
+from localflavor.us.forms import USStateSelect
 from orders.models import UserProfile
 import re
 
@@ -18,8 +18,8 @@ class ProfileForm(forms.ModelForm):
         # override default attributes
         for field in self.fields:
             self.fields[field].widget.attrs['size'] = '30'
-#        self.fields['state'].widget.attrs['size'] = '3'
-        self.fields['zip'].widget.attrs['size'] = '6'
+        self.fields['state'].widget.attrs['size'] = '3'
+        self.fields['zip'].widget.attrs['size'] = '10'
         self.fields['state'].widget.attrs['size'] = '1'
 
     class Meta:

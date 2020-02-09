@@ -5,6 +5,7 @@ urlpatterns = [
 
 # TEMPORARY: Make home point to PhotoJournals
     url(r'^$', PhotoJournalPage.as_view(), name='photojournals'),
+    url(r'^issues/$', PhotoJournalPage.as_view(), name='photojournals'),  # delete both to show issues
 
     url(r'^$', IssueList.as_view(), name='issue_list'),
 

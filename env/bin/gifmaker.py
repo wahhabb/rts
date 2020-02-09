@@ -1,4 +1,4 @@
-#!/Users/wahhab/Sites/rts/env/bin/python3.5
+#!/Users/wahhab/Sites/rts/env/bin/python
 #
 # The Python Imaging Library
 # $Id$

@@ -225,5 +225,9 @@ LOGGING = {
             'handlers': ['default'],
             'level': 'DEBUG',
         },
+        'orders': {
+            'handlers': ['default'],
+            'level': 'DEBUG',
+        },
     }
 }
