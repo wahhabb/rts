@@ -41,50 +41,48 @@ urlpatterns = [
     # TEMPORARY: make site point to Under Construction
     # url(r'^.?', UnderConstructionPage.as_view(), name="under_contruction"),
 
-     url(r'^admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
 
     url(r'^', include('comix.urls')),
 
-    url(r'^login/$', auth_views.login, {'template_name': 'user/login.html'}, name='login'),
+    # url(r'^login/$', auth_views.login, {'template_name': 'user/login.html'}, name='login'),
+    #
+    # url(r'^logout/$', auth_views.logout, {'template_name': 'user/logout.html'}, name='logout'),
 
-    url(r'^logout/$', auth_views.logout, {'template_name': 'user/logout.html'}, name='logout'),
+    url(r'^login/$', auth_views.LoginView.as_view(template_name='user/login.html'), name='login'),
 
-#    url(r'^password_change/$', auth_views.password_change, {'template_name': 'registration/password_change.html'}, name='password_change'),
-#    url(r'^password_change/done/$' [name='password_change_done']
+    url(r'^logout/$', auth_views.LogoutView.as_view(template_name='user/logout.html'), name='logout'),
+
+       # url(r'^password_change/$', auth_views.PasswordChange.as_view(template_name='registration/password_change.html'),
+       #     name='password_change'),
+       # url(r'^password_change/done/$', name='password_change_done'),
 
 
     url(r'^reset/$',
-        auth_views.password_reset,
-        {'template_name':
-             'user/password_reset_form.html',
-         'email_template_name':
-             'user/password_reset_email.html',
-         'subject_template_name':
-             'user/password_reset_email_subject.txt',
-         'post_reset_redirect': reverse_lazy(
-             'pw_reset_sent')},
+        auth_views.PasswordResetView.as_view(
+            template_name='user/password_reset_form.html',
+            email_template_name='user/password_reset_email.html',
+            subject_template_name='user/password_reset_email_subject.txt',
+            extra_context={'post_reset_redirect=reverse_lazy': 'pw_reset_sent'}),
         name='pw_reset_start'),
     url(r'^reset/sent/$',
-        auth_views.password_reset_done,
-        {'template_name':
-             'user/password_reset_sent.html'},
-        name='pw_reset_sent'),
+        auth_views.PasswordResetDoneView.as_view(
+            template_name='user/password_reset_sent.html'),
+        name='password_reset_done'),
     url(r'^reset/'
         r'(?P<uidb64>[0-9A-Za-z_\-]+)/'
         r'(?P<token>[0-9A-Za-z]{1,13}'
         r'-[0-9A-Za-z]{1,20})/$',
-        auth_views.password_reset_confirm,
-        {'template_name':
-             'user/password_reset_confirm.html',
-         'post_reset_redirect': reverse_lazy(
-             'pw_reset_complete')},
+        auth_views.PasswordResetConfirmView.as_view(
+            template_name='user/password_reset_confirm.html',
+            extra_context={'post_reset_redirect': reverse_lazy('pw_reset_complete')}
+        ),
         name='pw_reset_confirm'),
     url(r'reset/done/$',
-        auth_views.password_reset_complete,
-        {'template_name':
-             'user/password_reset_complete.html',
-         'extra_context':
-             {'form': AuthenticationForm}},
+        auth_views.PasswordResetCompleteView.as_view(
+            template_name='user/password_reset_complete.html',
+            extra_context={'form': AuthenticationForm}
+        ),
         name='pw_reset_complete'),
 
     url('^accounts/register', MyRegistrationView.as_view(), name='registration_register'),

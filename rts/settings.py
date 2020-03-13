@@ -166,12 +166,28 @@ else:
 
 LOGIN_REDIRECT_URL = '/issues/'
 
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'mail.rtsunlimited.com'
-EMAIL_HOST_USER = 'orders@rtsunlimited.com'
-EMAIL_HOST_PASSWORD = 's%P3#cj9V'
-DEFAULT_FROM_EMAIL = 'orders@rtsunlimited.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'mail.rtsunlimited.com'
+# EMAIL_HOST_USER = 'orders@rtsunlimited.com'
+# EMAIL_HOST_PASSWORD = 's%P3#cj9V'
+# DEFAULT_FROM_EMAIL = 'orders@rtsunlimited.com'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'wahhabb@gmail.com'
+# EMAIL_HOST_PASSWORD = 'Goog2265^'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.lbcole.com'
+EMAIL_USE_SSL = True
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'donotreply@lbcole.com'
+EMAIL_HOST_PASSWORD = 'cxQ3&g274sz'
+
+DEFAULT_FROM_EMAIL = 'donotreply@lbcole.com'
 
 MANAGERS = (
     ('Webmaster', 'wahhab@deepwebworks.com'),

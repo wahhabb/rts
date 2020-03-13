@@ -430,7 +430,7 @@ class ReviewOrder(View):
                 product.status = 'sold'
             product.save()
         subject = 'RTSComics: Order being placed'
-        from_email = 'orders@rtscomics.com'
+        from_email = 'donotreply@lbcole.com'
         to_list = ['info@rtscomics.com']
         text_content = 'Use an email program that reads HTML!'
         msg = EmailMultiAlternatives(subject, text_content, from_email, to_list)

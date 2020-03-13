@@ -3,7 +3,7 @@ from comix.views import *
 
 urlpatterns = [
 
-# TEMPORARY: Make home point to PhotoJournals
+# TODO TEMPORARY: Make home point to PhotoJournals
     url(r'^$', PhotoJournalPage.as_view(), name='photojournals'),
     url(r'^issues/$', PhotoJournalPage.as_view(), name='photojournals'),  # delete both to show issues
 
