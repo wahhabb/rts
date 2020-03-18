@@ -24,7 +24,7 @@ mongoengine==0.15.0
 monotonic==1.5
 mysqlclient==1.4.6
 openpyxl==2.4.0
-Pillow==3.3.1
+Pillow==7.0.0
 pyexcel==0.2.5
 pyexcel-io==0.2.3
 pyexcel-webio==0.0.7
@@ -33,13 +33,13 @@ pymongo==3.6.0
 python-mimeparse==1.6.0
 python-stdnum==1.13
 pytz==2017.3
-requests==2.18.4
+requests==2.23.0
 six==1.11.0
 soupsieve==1.9.5
 sqlparse==0.3.0
 texttable==0.8.4
-urllib3==1.22
+urllib3==1.25.8
 usps-api==0.3
-Werkzeug==0.14.1
+Werkzeug==1.0.0
 xlrd==1.0.0
 xmltodict==0.12.0
