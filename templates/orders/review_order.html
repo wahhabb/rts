@@ -2,13 +2,19 @@
 {% load catalog_filters %}
 {% load checkout_tags %}
 
+{% block head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'stripe.css' %}" />
+{% endblock %}
+
 {% block title %}
 {{ block.super }} - Review Order
 {% endblock %}
 
 {% block content %}
     {% load static %}
-<section  class="columns" id="reveiw_order">
+<section  class="columns" id="review_order">
     <div class="col-1 column">
     </div>
     <div class="col-10 column boxed">
@@ -32,26 +38,26 @@
     <h3>Review Order</h3>
 
         <div class="columns">
-        <div class="column col-6">
-            <h5>Contact Information:</h5>
-            <p>Email: {% form_table_row profile.email %}<br>
-                Telephone: {% form_table_row profile.phone %}</p>
-        </div>
+            <div class="column col-6">
+                <h5>Contact Information:</h5>
+                <p>Email: <span id="cust-email">{% form_table_row profile.email %}</span><br>
+                    Telephone: <span id="cust-phone">{% form_table_row profile.phone %}</span></p>
+            </div>
 
-        <div class="column col-6">
-            <h5>Shipping Information:</h5>
-            <p>{% form_table_row profile.first_name %}
-                {% form_table_row profile.last_name %}<br>
-            {% if profile.address1 %}
-                {% form_table_row profile.address1 %}<br>
-            {% endif %}
-            {% if profile.address2 %}
-                {% form_table_row profile.address2 %}<br>
-            {% endif %}
-                {% form_table_row profile.city %}
-                {% form_table_row profile.state %},
-                {% form_table_row profile.zip %}</p>
-        </div>
+            <div class="column col-6">
+                <h5>Shipping Information:</h5>
+{#                <p>{% form_table_row profile.first_name %} {% form_table_row profile.last_name %}<br>#}
+                <p id="cust-name">{{ cust_fullname }}</p>
+                {% if profile.address1 %}
+                    {% form_table_row profile.address1 %}<br>
+                {% endif %}
+                {% if profile.address2 %}
+                    {% form_table_row profile.address2 %}<br>
+                {% endif %}
+                    {% form_table_row profile.city %}
+                    {% form_table_row profile.state %},
+                    {% form_table_row profile.zip %}</p>
+            </div>
         </div>
 
     <h5>Order:</h5>
@@ -91,61 +97,6 @@
 					{{ cart_total|currency }}
 				</th>
 			</tr>
-            <th class="align-left" colspan="4">
-          <form action="{{ paypal_url }}" method="post" id="registerForm" >
-		  <input type="hidden" name="cmd" value="_cart">
-		  <input type="hidden" name="upload" value="1">
-		  <input type="hidden" name="business" value="{{ paypal_email }}">
-
-		  <input type="hidden" name="first_name" value="{{ profile.first_name }}">
-		  <input type="hidden" name="last_name" value="{{ profile.last_name }}">
-		  <input type="hidden" name="address1" value="{{ profile.address1 }}">
-		  <input type="hidden" name="address2" value="{{ profile.address2 }}">
-		  <input type="hidden" name="city" value="{{ profile.city }}">
-		  <input type="hidden" name="state" value="{{ profile.state }}">
-		  <input type="hidden" name="zip" value="{{ profile.zip }}">
-		  <input type="hidden" name="country" value="US">
-		  <input type="hidden" name="night_phone_c" value="{{ profile.phone }}">
-		  <input type="hidden" name="email" value="{{ profile.email }}">
-
-		  <input type="hidden" name="tax_cart" value="0">
-		  <input type="hidden" name="shipping_1" value="{{ shipping }}">
-		  <input type="hidden" name="return" value="{{ site_name }}{% url 'complete_order' %}">
-		  <input type="hidden" name="cancel_return" value="{{ site_name }}{% url 'show_cart' %}">
-		  <input type="hidden" name="currency_code" value="USD">
-{#		  <input type="hidden" name="notify_url" value="<?=HOST_URL?>/ipn.php">#}
-		  <input type="hidden" name="custom" value="{{ profile.user.id }}">
-          {% for item in cart_items %}
-              <input type="hidden" name="item_name_{{ forloop.counter }}"
-                     value="{{ item.product.title }}">
-              <input type="hidden" name="amount_{{ forloop.counter }}" value="{{ item.price }}">
-              <input type="hidden" name="quantity_{{ forloop.counter }}" value="{{ item.quantity }}">
-
-              <input type="hidden" name="on0_{{ forloop.counter }}" value="Catalog No.">
-              <input type="hidden" name="os0_{{ forloop.counter }}" value="{{ item.product.catalog_id }}">
-              <input type="hidden" name="on1_{{ forloop.counter }}" value="Grade">
-              <input type="hidden" name="os1_{{ forloop.counter }}" value="{{ item.product.grade }}">
-              <input type="hidden" name="on2_{{ forloop.counter }}" value="Issue No.">
-              <input type="hidden" name="os2_{{ forloop.counter }}" value="{% if item.product.volume > 0 %}
-                            Volume {{ item.product.volume }} #
-                        {% endif %}{{ item.product.number }}">
-           {% endfor %}
-                <h4 class="red"><img src="{% static 'comix/redstar.png' %}" class="flag"> You will be taken to PayPal
-                    to make payment. PayPal is a SECURE website that will accept credit card payment whether or not
-                    you have a PayPal account.</h4>
-                <p>Please note: all orders are subject to availability. We do a lot of conventions and
-                    may not have had time to update our database to indicate all sold&nbsp;items. </p>
-				</th>
-              <th class="align-right">
-                  <button type="submit" id="to_paypal">Go to PayPal</button>
-                </form>
-            <form action="." method="post">
-                {% csrf_token %}
-{#                <button type="submit" class="btn-primary btn" id="dopost">Continue</button>#}
-                <button type="submit"  id="dopost"><img src="{% static 'paypal.png'%}"></button>
-            </form>
-            </th>
-			</tr>
         {% else %}
             <h4 class="red">Save Money!<br>
                 We ship to the 48 continguous U.S. states from this website.
@@ -154,6 +105,7 @@
                 or <a href="/contact/">Contact Us.</a>
                 </h4>
             </div>
+      </div>
 
         {% endif %}
 		</tfoot>
@@ -163,17 +115,291 @@
 			{% endfor %}
 		</tbody>
 	</table>
+        {% if not do_not_ship %}
+          <h4>Please enter credit card information on our secure form:</h4>
+        <span id="clientsecret" style="display: none;">{{ client_secret }}</span>
+      <div class="cell example stripeform" id="cc-form">
+        <form action="." method="post" id="payment-form">
+            {% csrf_token %}
+{#          <div class="fieldset">#}
+{#            <input id="stripeform-name" data-tid="elements_examples.form.name_label" class="field" type="text" placeholder="Name" required="" autocomplete="name">#}
+{#            <input id="stripeform-email" data-tid="elements_examples.form.email_label" class="field half-width" type="email" placeholder="Email" required="" autocomplete="email">#}
+{#            <input id="stripeform-phone" data-tid="elements_examples.form.phone_label" class="field half-width" type="tel" placeholder="Phone" required="" autocomplete="tel">#}
+{#          </div>#}
+          <div class="fieldset">
+              <div class="white-caption">Credit Card #</div>
+            <div id="stripeform-card-number" class="field empty"></div>
+              <div class="white-caption third-width" >Expiration Date</div>
+              <div class="white-caption third-width" >CVC Code</div>
+              <div class="white-caption third-width" >Billing Zip</div>
+            <div id="stripeform-card-expiry" class="field empty third-width"></div>
+            <div id="stripeform-card-cvc" class="field empty third-width"></div>
+            <input id="stripeform-zip" data-tid="elements_examples.form.postal_code_placeholder" class="field empty third-width" placeholder="94107">
+          </div>
+          <button type="submit" data-tid="elements_examples.form.pay_button">Pay {{ cart_total|currency }}</button>
+          <div class="error" role="alert"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 17 17">
+              <path class="base" fill="#000" d="M8.5,17 C3.80557963,17 0,13.1944204 0,8.5 C0,3.80557963 3.80557963,0 8.5,0 C13.1944204,0 17,3.80557963 17,8.5 C17,13.1944204 13.1944204,17 8.5,17 Z"></path>
+              <path class="glyph" fill="#FFF" d="M8.5,7.29791847 L6.12604076,4.92395924 C5.79409512,4.59201359 5.25590488,4.59201359 4.92395924,4.92395924 C4.59201359,5.25590488 4.59201359,5.79409512 4.92395924,6.12604076 L7.29791847,8.5 L4.92395924,10.8739592 C4.59201359,11.2059049 4.59201359,11.7440951 4.92395924,12.0760408 C5.25590488,12.4079864 5.79409512,12.4079864 6.12604076,12.0760408 L8.5,9.70208153 L10.8739592,12.0760408 C11.2059049,12.4079864 11.7440951,12.4079864 12.0760408,12.0760408 C12.4079864,11.7440951 12.4079864,11.2059049 12.0760408,10.8739592 L9.70208153,8.5 L12.0760408,6.12604076 C12.4079864,5.79409512 12.4079864,5.25590488 12.0760408,4.92395924 C11.7440951,4.59201359 11.2059049,4.59201359 10.8739592,4.92395924 L8.5,7.29791847 L8.5,7.29791847 Z"></path>
+            </svg>
+            <span class="message"></span></div>
+        </form>
+        {% endif %}
 
 
     </div>
     <div class="col-1 column">
     </div>
 </section>
+    </div>
+
+    <div class="col-1 column">
+    </div>
+</section>
     <div id="scrim"></div>
     <div id="spinner">
         <h2>Your order is being processed...</h2>
+        <p>DO NOT HIT BACK OR CLOSE WINDOW</p>
         <img src="{% static "swirler.gif" %}">
     </div>
+
+
+<script>
+  'use strict';
+  var cardNumber;
+ var stripe = Stripe('pk_test_j7h1qvDbrUjiR69opC6dwHN400zDA9QHur');
+ var custName = document.querySelector('#cust-name');
+
+(function() {
+
+// Modified from example3.js on https://stripe.dev/elements-examples/
+
+     var elements = stripe.elements({
+        fonts: [
+          {
+            cssSrc: 'https://fonts.googleapis.com/css?family=Quicksand',
+          },
+        ],
+        // Stripe's examples are localized to specific languages, but if
+        // you wish to have Elements automatically detect your user's locale,
+        // use `locale: 'auto'` instead.
+        locale: window.__exampleLocale,
+      });
+  var elementStyles = {
+    base: {
+      color: '#fff',
+      fontWeight: 600,
+//      fontFamily: 'Quicksand, Open Sans, Segoe UI, sans-serif',
+      fontSize: '16px',
+      fontSmoothing: 'antialiased',
+
+      ':focus': {
+        color: '#424770',
+      },
+
+      '::placeholder': {
+        color: '#9BACC8',
+      },
+
+      ':focus::placeholder': {
+        color: '#CFD7DF',
+      },
+    },
+    invalid: {
+      color: '#fff',
+      ':focus': {
+        color: '#DA755A',
+      },
+      '::placeholder': {
+        color: '#FFCCA5',
+      },
+    },
+  };
+
+  var elementClasses = {
+    focus: 'focus',
+    empty: 'empty',
+    invalid: 'invalid',
+  };
+
+cardNumber = elements.create('cardNumber', {
+    style: elementStyles,
+    classes: elementClasses,
+  });
+  cardNumber.mount('#stripeform-card-number');
+
+  var cardExpiry = elements.create('cardExpiry', {
+    style: elementStyles,
+    classes: elementClasses,
+  });
+  cardExpiry.mount('#stripeform-card-expiry');
+
+  var cardCvc = elements.create('cardCvc', {
+    style: elementStyles,
+    classes: elementClasses,
+  });
+  cardCvc.mount('#stripeform-card-cvc');
+
+  registerElements([cardNumber, cardExpiry, cardCvc], 'stripeform');
+})();
+
+
+
+// Taken from example at https://stripe.dev/elements-examples/
+
+function registerElements(elements, exampleName) {
+    var formClass = '.' + exampleName;
+    var example = document.querySelector(formClass);
+
+    var form = example.querySelector('form');
+    var resetButton = example.querySelector('a.reset');
+    ;var error = form.querySelector('.error')
+    var errorMessage = error.querySelector('.message');
+
+    function enableInputs() {
+        Array.prototype.forEach.call(
+            form.querySelectorAll(
+                "input[type='text'], input[type='email'], input[type='tel']"
+            ),
+            function (input) {
+                input.removeAttribute('disabled');
+            }
+        );
+        $("#scrim, #spinner").hide();
+    }
+
+    function disableInputs() {
+        Array.prototype.forEach.call(
+            form.querySelectorAll(
+                "input[type='text'], input[type='email'], input[type='tel']"
+            ),
+            function (input) {
+                input.setAttribute('disabled', 'true');
+            }
+        );
+        $("#scrim, #spinner").show();
+    }
+
+    function triggerBrowserValidation() {
+        // The only way to trigger HTML5 form validation UI is to fake a user submit
+        // event.
+        var submit = document.createElement('input');
+        submit.type = 'submit';
+        submit.style.display = 'none';
+        form.appendChild(submit);
+        submit.click();
+        submit.remove();
+    }
+
+    // Listen for errors from each Element, and show error messages in the UI.
+    var savedErrors = {};
+    elements.forEach(function (element, idx) {
+        element.on('change', function (event) {
+            if (event.error) {
+                error.classList.add('visible');
+                savedErrors[idx] = event.error.message;
+                errorMessage.innerText = event.error.message;
+            } else {
+                savedErrors[idx] = null;
+
+                // Loop over the saved errors and find the first one, if any.
+                var nextError = Object.keys(savedErrors)
+                    .sort()
+                    .reduce(function (maybeFoundError, key) {
+                        return maybeFoundError || savedErrors[key];
+                    }, null);
+
+                if (nextError) {
+                    // Now that they've fixed the current error, show another one.
+                    errorMessage.innerText = nextError;
+                } else {
+                    // The user fixed the last error; no more errors.
+                    error.classList.remove('visible');
+                }
+            }
+        });
+    });
+
+    // Listen on the form's 'submit' handler...
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Trigger HTML5 validation UI on the form if any of the inputs fail
+        // validation.
+        var plainInputsValid = true;
+        Array.prototype.forEach.call(form.querySelectorAll('input'), function (
+            input
+        ) {
+            if (input.checkValidity && !input.checkValidity()) {
+                plainInputsValid = false;
+                return;
+            }
+        });
+        if (!plainInputsValid) {
+            triggerBrowserValidation();
+            return;
+        }
+
+        // Show a loading screen...
+        example.classList.add('submitting');
+
+        // Disable all inputs.
+        disableInputs();
+
+
+        {#// Gather additional customer data we may have collected in our form.#}
+        {#var name = form.querySelector('#' + exampleName + '-name');#}
+        {#var address1 = form.querySelector('#' + exampleName + '-address');#}
+        {#var city = form.querySelector('#' + exampleName + '-city');#}
+        {#var state = form.querySelector('#' + exampleName + '-state');#}
+        {#var zip = form.querySelector('#' + exampleName + '-zip');#}
+        {#var additionalData = {#}
+        {#    name: name ? name.value : undefined,#}
+        {#    address_line1: address1 ? address1.value : undefined,#}
+        {#    address_city: city ? city.value : undefined,#}
+        {#    address_state: state ? state.value : undefined,#}
+        {#    address_zip: zip ? zip.value : undefined,#}
+        {#};#}
+        {##}
+        var clientSecret = document.querySelector("#clientsecret").innerText.trim();
+        var custName = document.querySelector('#cust-name').innerHTML.trim();
+        var custEmail = document.querySelector('#cust-email').innerHTML.trim();
+        var custPhone = document.querySelector('#cust-phone').innerHTML.trim();
+        stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: cardNumber,
+                billing_details: {
+                    name: custName,
+                    email: custEmail,
+                    phone: custPhone,
+                }
+            }
+        }).then(function(result) {
+            if (result.error) {
+                // Show error to your customer (e.g., insufficient funds)
+                var error = form.querySelector('.error');
+                var errorMessage = error.querySelector('.message');
+                error.classList.add('visible');
+                errorMessage.innerText = result.error.message;
+                enableInputs();
+            } else {
+              // The payment has been processed!
+              if (result.paymentIntent.status === 'succeeded') {
+                // Show a success message to your customer
+ //                 alert('succeeded!');
+                  form.submit();
+                // There's a risk of the customer closing the window before callback
+                // execution. Set up a webhook or plugin to listen for the
+                // payment_intent.succeeded event that handles any business critical
+                // post-payment actions.
+              }
+            }
+
+        });
+    });
+}
+
+    </script>
+
     <script>
     $(function() {
         $("#dopost").click(function () {

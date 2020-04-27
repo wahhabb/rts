@@ -5,4 +5,6 @@ __pycache__
 .idea*
 data/errors.xlsx
 data/logfile
+.env
+stripe-env
 

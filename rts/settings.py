@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'contact',
     'imports',
     'localflavor',
+    'stripe',
 ]
 
 MIDDLEWARE = [
@@ -136,6 +137,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Stripe
+if DEBUG:
+    STRIPE_KEY = os.environ.get('STRIPE_TEST_KEY', 'NO KEY IN ENV')
+else:
+    STRIPE_KEY = os.environ.get('STRIPE_PROD_KEY', 'NO KEY IN ENV')
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
@@ -185,9 +192,17 @@ EMAIL_HOST = 'mail.lbcole.com'
 EMAIL_USE_SSL = True
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'donotreply@lbcole.com'
-EMAIL_HOST_PASSWORD = 'cxQ3&g274sz'
-
+EMAIL_HOST_PASSWORD = '4ZL8j#d{~aI0'
 DEFAULT_FROM_EMAIL = 'donotreply@lbcole.com'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.office365.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'tim@rtscomics.com'
+# EMAIL_HOST_PASSWORD = 'Snilloc365::'
+#
+# DEFAULT_FROM_EMAIL = 'tim@rtscomics.com'
 
 MANAGERS = (
     ('Webmaster', 'wahhab@deepwebworks.com'),

@@ -11,6 +11,7 @@ from email.mime.image import MIMEImage
 from django.utils import timezone
 import logging
 from usps import USPSApi, Address
+import stripe
 
 from orders.cart import *
 from orders.cart import _cart_id
@@ -18,8 +19,33 @@ from orders.forms import ProfileForm
 
 ANONYMOUS_PROFILE = 'anonymous_profile'
 ANONYMOUS_USER = 99999
+stripe_key = settings.STRIPE_KEY
 
 log = logging.getLogger(__name__)
+
+class TestStripe(View):
+    template_name = 'orders/test-stripe.html'
+
+    def show(self, request):
+        stripe.api_key = stripe_key
+        intent = stripe.PaymentIntent.create(
+            amount=1099,
+            currency='usd',
+            # Verify your integration in this guide by including this parameter
+            metadata={'integration_check': 'accept_a_payment'},
+        )
+        context = {'cart_total': 10.99,
+                   'client_secret': intent.client_secret,
+                   }
+        return render(
+            request, self.template_name, context
+        )
+    def get(self, request):
+        return self.show(request)
+
+    def post(self, request):
+
+            return render(request, self.tempate_name, {'message': 'Success!', 'result': 'Success!', })
 
 class ShowCart(View):
     ''' View Shopping Cart '''
@@ -374,6 +400,16 @@ class ReviewOrder(View):
                     profile.user = User.objects.get(pk=ANONYMOUS_USER)
         do_not_ship = (profile.state in ['HI', 'AK', 'PR', 'AS', 'GU', 'MP', 'VI'])
 
+        stripe.api_key = stripe_key
+        intent = stripe.PaymentIntent.create(
+            amount=int((subtotal + shipping) * 100),
+            currency='usd',
+            description=('Purchase from RTSComics.com'),
+            # Verify your integration in this guide by including this parameter
+            metadata={'integration_check': 'accept_a_payment'},
+        )
+
+
         context = {'cart_item_count': cart_item_count,
                            'cart_items': cart_issues,
                            'cart_subtotal': subtotal,
@@ -385,6 +421,9 @@ class ReviewOrder(View):
                             'site_name': settings.SITE_URL,
                             'go_to_paypal': 0,
                             'do_not_ship': do_not_ship,
+                            'stripe_total': (subtotal + shipping) * 100,
+                            'client_secret': intent.client_secret,
+                            'cust_fullname': profile.first_name + ' ' + profile.last_name,
                    }
         return render(
             request, self.template_name, context
@@ -392,7 +431,7 @@ class ReviewOrder(View):
 
     def post(self, request):
         cart_issues = get_cart_items(request)
-        cart_item_count = cart_issues.count()
+        # cart_item_count = cart_issues.count()
         subtotal = cart_subtotal(request)
         shipping = shipping_charge(request)
         if request.user.is_authenticated:
@@ -410,12 +449,13 @@ class ReviewOrder(View):
                     profile = obj.object
                 if not request.user.is_authenticated:
                     profile.user = User.objects.get(pk=ANONYMOUS_USER)
+
         # 1. Create Order record from Profile, 2. Add items to order
         # 3. Delete cart items 4. Reduce item quantity or Mark items as sold
-        # Note that payment_received is set to False
 
         order = Order.create(profile, cart_issues[0].cart_id, shipping_charge(request),
                              cart_subtotal(request) + shipping_charge(request))
+        order.payment_received = True
         order.save()
         for issue in cart_issues:
             product = issue.product
@@ -429,13 +469,14 @@ class ReviewOrder(View):
                 product.sold_date = now()
                 product.status = 'sold'
             product.save()
-        subject = 'RTSComics: Order being placed'
-        from_email = 'donotreply@lbcole.com'
-        to_list = ['info@rtscomics.com']
+
+        subject = 'RTSComics: Thank You for Your Order!'
+        from_email = settings.DEFAULT_FROM_EMAIL
+        to_list = [profile.email.strip(), 'wahhabb@gmail.com']
         text_content = 'Use an email program that reads HTML!'
         msg = EmailMultiAlternatives(subject, text_content, from_email, to_list)
-        html_content = '<!DOCTYPE html><body><h3>Ordered By</h3><p>' + profile.first_name + \
-                       ' ' + profile.last_name + '</p>'
+        html_content = '<!DOCTYPE html><body><p>We appreciate your order! We will notify you when it is ready to ship.</p>'
+        html_content += '<h3>Ordered By</h3><p>' + profile.first_name + ' ' + profile.last_name + '</p>'
         html_content += '<h4>Address:</h4><p>' + profile.address1 + '<br>' + profile.address2 + '</p>'
         html_content += '<p>' + profile.city + ', ' + profile.state + ' ' + profile.zip + '</p>'
         html_content += '<h3>Order Items:</h3>'
@@ -455,81 +496,35 @@ class ReviewOrder(View):
             msg.attach(msg_img)
             html_content += '<p><img src="cid:' + \
                             item.product.images.all()[0].file_name + '" /></p>'
+        html_content += "<p><b>Shipping and handling: </b>" + "${:,.2f}".format(shipping) + "</p>"
+        html_content += "<p><b>Total charged to card: </b>" + \
+                        "${:,.2f}".format(subtotal + shipping) + "</p>"
         html_content += '</body>'
         msg.attach_alternative(html_content, "text/html")
         msg.mixed_subtype = 'related'
         msg.send(fail_silently=False)
-        context = {'cart_item_count': cart_item_count,
-                           'cart_items': cart_issues,
-                           'cart_subtotal': subtotal,
-                            'profile': profile,
-                            'shipping': shipping,
-                            'paypal_url': settings.PAYPAL_URL,
-                            'paypal_email': settings.PAYPAL_EMAIL,
-                            'cart_total': subtotal + shipping,
-                            'site_name': settings.SITE_URL,
-                            'go_to_paypal': 1,
-                   }
-        return render(
-            request, self.template_name, context
-        )
+        return redirect('complete_order')
 
 
 class CompleteOrder(View):
     template_name = 'orders/complete_order.html'
 
     def get(self, request):
-        cart_issues = get_cart_items(request)
-        if len(cart_issues) == 0:   # Don't process if no order to process
-            return render(
-                request, self.template_name, {}
-            )
 
-        if request.user.is_authenticated:
-            try:
-                profile = UserProfile.objects.get(user=request.user)
-            except ObjectDoesNotExist:
-                return redirect(ProfileCreate)
-        else:
-            json_profile = request.session.get(ANONYMOUS_PROFILE, '')
-            if json_profile == ' ':
-                return redirect(ProfileCreate)
-            else:
-                # deserialize into new object
-                for obj in serializers.deserialize("json", json_profile):
-                    profile = obj.object
-                    if  not request.user.is_authenticated:
-                        profile.user = User.objects.get(pk=ANONYMOUS_USER)
+        # subject = 'RTSComics: Thank You for Your Order!'
+        # from_email = settings.DEFAULT_FROM_EMAIL
+        # to_list = ['wahhabb@gmail.com']
+        # text_content = 'Use an email program that reads HTML!'
+        # msg = EmailMultiAlternatives(subject, text_content, from_email, to_list)
+        # html_content = '<!DOCTYPE html><body><p>We appreciate your order! We will notify you when it is ready to ship.</p>'
+        # html_content += '<h3>Ordered By</h3><p>Test Successful</p>'
+        # html_content += '</body>'
+        # msg.attach_alternative(html_content, "text/html")
+        # msg.mixed_subtype = 'related'
+        #
+        # msg.send(fail_silently=False)
+        #
 
-        subject = 'RTSComics: Order was saved'
-        from_email = 'info@rtscomics.com'
-        to_list = ['info@rtscomics.com']
-        text_content = 'Use an email program that reads HTML!'
-        msg = EmailMultiAlternatives(subject, text_content, from_email, to_list)
-        html_content = '<!DOCTYPE html><body><h3>Ordered By</h3><p>' + profile.first_name + \
-                       ' ' + profile.last_name + '</p>'
-        html_content += '<h4>Address:</h4><p>' + profile.address1 + '<br>' + profile.address2 + '</p>'
-        html_content += '<p>' + profile.city + ', ' + profile.state + ' ' + profile.zip + '</p>'
-        html_content += '<h3>Order Items:</h3>'
-
-        for item in cart_issues:
-            html_content += '<p>' + str(item.product) + '<br>Qty: ' + str(item.quantity) + \
-                            ' Unit Price: ' + str(item.price) + '</p>'
-            if settings.DEBUG:
-                f = 'comix/static/thumbnails/' + item.product.images.all()[0].file_name
-            else:
-                f = settings.STATIC_ROOT + '/thumbnails/' + item.product.images.all()[0].file_name
-            fp = open(f, 'rb')
-            msg_img = MIMEImage(fp.read())
-            fp.close()
-            msg_img.add_header('Content-ID', '<{}>'.format(item.product.images.all()[0].file_name))
-            msg.attach(msg_img)
-            html_content += '<p><img src="cid:' + \
-                            item.product.images.all()[0].file_name + '" /></p>'
-        html_content += '</body>'
-        msg.attach_alternative(html_content, "text/html")
-        msg.mixed_subtype = 'related'
-        msg.send(fail_silently=False)
 
         return render(
             request, self.template_name, {}

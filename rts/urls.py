@@ -26,7 +26,7 @@ from django.views.generic import TemplateView
 
 from contact import urls as contact_urls
 from imports.views import ImportExcelView, ShowSalesView
-from orders.views import AccountUpdate
+from orders.views import AccountUpdate, TestStripe
 from comix.views import UnderConstructionPage
 
 # Allow registration to return to page it came from
@@ -40,6 +40,9 @@ class MyRegistrationView(RegistrationView):
 urlpatterns = [
     # TEMPORARY: make site point to Under Construction
     # url(r'^.?', UnderConstructionPage.as_view(), name="under_contruction"),
+
+    # TODO: Temporary test
+    url(r'^stripetest/', TestStripe.as_view(), name="stripetest"),
 
     url(r'^admin/', admin.site.urls),
 

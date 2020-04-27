@@ -1,0 +1,214 @@
+/* From Stripe's base.css */
+
+.example .error {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  /*top: 100%;*/
+  margin-top: 20px;
+  left: 0;
+  padding: 0 15px;
+  font-size: 13px !important;
+  opacity: 0;
+  transform: translateY(10px);
+  transition-property: opacity, transform;
+  transition-duration: 0.35s;
+  transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.example .error.visible {
+  opacity: 1;
+  transform: none;
+  border: none; /* Wahhab */
+}
+
+.example .error .message {
+  font-size: 17px;
+}
+
+.example .error svg {
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  margin-top: -1px;
+  margin-right: 10px;
+}
+
+/* Fiddles to get it to work */
+#cc-form form {
+    padding: 30px 30px 60px 30px;
+    position: relative;
+}
+
+.white-caption {
+    color:white;
+    margin-top:16px;
+}
+
+/* From Stripe's stripeform.css */
+
+.example.stripeform {
+  background-color: #525f7f;
+    background-color: darkblue; /* Wahhab */
+
+}
+
+.example.stripeform * {
+  font-family: Open Sans, Segoe UI, sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.example.stripeform .fieldset {
+  margin: 0 15px 30px;
+  padding: 0;
+  border-style: none;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: row wrap;
+  flex-flow: row wrap;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.example.stripeform .field {
+  padding: 10px 20px 11px;
+  background-color: #7488aa;
+    background-color: #4265b9; /* Wahhab */
+  /*border-radius: 20px;*/
+  width: 100%;
+}
+
+.example.stripeform .field.half-width {
+  width: calc(50% - (5px / 2));
+}
+
+.example.stripeform .field.third-width {
+  width: calc(33% - (5px / 3));
+}
+
+.example.stripeform .third-width { /* Wahhab */
+  width: calc(33% - (5px / 3));
+}
+
+/*.example.stripeform .field + .field {*/
+  /*margin-top: 6px;*/
+/*}*/
+
+.example.stripeform .field.focus,
+.example.stripeform .field:focus {
+  color: #424770;
+  background-color: #f6f9fc;
+}
+
+.example.stripeform .field.invalid {
+  background-color: #fa755a;
+}
+
+.example.stripeform .field.invalid.focus {
+  background-color: #f6f9fc;
+}
+
+.stripeform .field::-webkit-input-placeholder,
+.stripeform .field::-webkit-input-placeholder {
+  color: #9BACC8;
+  color: white;
+}
+
+.stripeform .field::-moz-placeholder,
+.stripeform .field::-moz-placeholder {
+  color: #9BACC8;
+  color: white;
+}
+
+.stripeform .field:-ms-input-placeholder,
+.stripeform .field:-ms-input-placeholder {
+  color: #9BACC8;
+  color: white;
+}
+.stripeform .field.focus::-webkit-input-placeholder,
+.stripeform .field:focus::-webkit-input-placeholder {
+  color: #AAA;
+}
+
+.stripeform .field.focus::-moz-placeholder,
+.stripeform .field:focus::-moz-placeholder {
+  color: #AAA;
+}
+
+.stripeform .field.focus:-ms-input-placeholder,
+.stripeform .field:focus:-ms-input-placeholder {
+  color: #AAA;
+}
+
+.stripeform input, .example.stripeform button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  border-style: none;
+}
+
+.stripeform input::-webkit-input-placeholder {
+  color: #9bacc8;
+}
+
+.stripeform input::-moz-placeholder {
+  color: #9bacc8;
+}
+
+.stripeform input:-ms-input-placeholder {
+  color: #9bacc8;
+}
+
+.example.stripeform button {
+  display: block;
+  width: calc(100% - 30px);
+  height: 40px;
+  margin: 0 15px;
+  background-color: #fcd669;
+  border-radius: 20px;
+  color: #525f7f;
+    color: darkblue; /* Wahhab */
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.example.stripeform button:active {
+  background-color: #f5be58;
+}
+
+.example.stripeform .error svg .base {
+  fill: #fa755a;
+}
+
+.example.stripeform .error svg .glyph {
+  fill: #fff;
+}
+
+.example.stripeform .error .message {
+  color: #fff;
+}
+
+.example.stripeform .success .icon .border {
+  stroke: #fcd669;
+}
+
+.example.stripeform .success .icon .checkmark {
+  stroke: #fff;
+}
+
+.example.stripeform .success .title {
+  color: #fff;
+}
+
+.example.stripeform .success .message {
+  color: #9cabc8;
+}
+
+.example.stripeform .success .reset path {
+  fill: #fff;
+}
