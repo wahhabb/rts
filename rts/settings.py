@@ -140,9 +140,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # Stripe
 if DEBUG:
     STRIPE_KEY = os.environ.get('STRIPE_TEST_KEY', 'NO KEY IN ENV')
+    STRIPE_PUBLIC_KEY = 'pk_test_j7h1qvDbrUjiR69opC6dwHN400zDA9QHur'
 else:
     STRIPE_KEY = os.environ.get('STRIPE_PROD_KEY', 'NO KEY IN ENV')
-
+    STRIPE_PUBLIC_KEY = 'pk_live_53WkMJxPRYEt3g8Y0Qw6UXDX00WHZdtA5f'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
@@ -194,6 +195,7 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'donotreply@lbcole.com'
 EMAIL_HOST_PASSWORD = '4ZL8j#d{~aI0'
 DEFAULT_FROM_EMAIL = 'donotreply@lbcole.com'
+EMAIL_ACCT = 'RTSUnlimitedInc@gmail.com'
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'smtp.office365.com'
@@ -204,9 +206,9 @@ DEFAULT_FROM_EMAIL = 'donotreply@lbcole.com'
 #
 # DEFAULT_FROM_EMAIL = 'tim@rtscomics.com'
 
-MANAGERS = (
-    ('Webmaster', 'wahhab@deepwebworks.com'),
-)
+MANAGERS = [
+    ('RTS Website Message', 'RTSUnlimitedInc@gmail.com'), ('RTS Website Message', 'wahhab@deepwebworks.com'),
+]
 
 AUTH_PROFILE_MODULE = 'orders.userprofile'
 

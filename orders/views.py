@@ -424,6 +424,7 @@ class ReviewOrder(View):
                             'stripe_total': (subtotal + shipping) * 100,
                             'client_secret': intent.client_secret,
                             'cust_fullname': profile.first_name + ' ' + profile.last_name,
+                            'public_key': settings.STRIPE_PUBLIC_KEY,
                    }
         return render(
             request, self.template_name, context
@@ -472,7 +473,7 @@ class ReviewOrder(View):
 
         subject = 'RTSComics: Thank You for Your Order!'
         from_email = settings.DEFAULT_FROM_EMAIL
-        to_list = [profile.email.strip(), 'wahhabb@gmail.com']
+        to_list = [profile.email.strip(), settings.EMAIL_ACCT, 'wahhab@deepwebworks.com']
         text_content = 'Use an email program that reads HTML!'
         msg = EmailMultiAlternatives(subject, text_content, from_email, to_list)
         html_content = '<!DOCTYPE html><body><p>We appreciate your order! We will notify you when it is ready to ship.</p>'

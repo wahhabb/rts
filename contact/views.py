@@ -4,6 +4,8 @@ from django.views.generic import View
 
 from orders.cart import get_cart_items
 from .forms import ContactForm
+from django.conf import settings
+from django.core.mail import send_mail
 
 
 # Create your views here.
@@ -32,7 +34,13 @@ class ContactView(View):
     def post(self, request):
         bound_form = self.form_class(request.POST)
         if bound_form.is_valid():
-            mail_sent = bound_form.send_mail()
+            # mail_sent = bound_form.send_mail()
+            mail_sent = send_mail(
+                bound_form.cleaned_data.get('subject'),
+                'Message from: {}\n\n{}\n'.format(bound_form.cleaned_data.get('email'), bound_form.cleaned_data.get('text')),
+                settings.DEFAULT_FROM_EMAIL,
+                [settings.EMAIL_ACCT, 'wahhab@deepwebworks.com']
+            )
             if mail_sent:
                 # shortcut for add_message
                 success(
