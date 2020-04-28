@@ -473,9 +473,10 @@ class ReviewOrder(View):
 
         subject = 'RTSComics: Thank You for Your Order!'
         from_email = settings.DEFAULT_FROM_EMAIL
-        to_list = [profile.email.strip(), settings.EMAIL_ACCT, 'wahhab@deepwebworks.com']
+        to_list = [profile.email.strip()]
+        bcc_list = [settings.EMAIL_ACCT, 'wahhab@deepwebworks.com']
         text_content = 'Use an email program that reads HTML!'
-        msg = EmailMultiAlternatives(subject, text_content, from_email, to_list)
+        msg = EmailMultiAlternatives(subject, text_content, from_email, to_list, bcc=bcc_list)
         html_content = '<!DOCTYPE html><body><p>We appreciate your order! We will notify you when it is ready to ship.</p>'
         html_content += '<h3>Ordered By</h3><p>' + profile.first_name + ' ' + profile.last_name + '</p>'
         html_content += '<h4>Address:</h4><p>' + profile.address1 + '<br>' + profile.address2 + '</p>'
