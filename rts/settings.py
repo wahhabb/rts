@@ -193,8 +193,9 @@ EMAIL_HOST = 'mail.lbcole.com'
 EMAIL_USE_SSL = True
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'donotreply@lbcole.com'
-EMAIL_HOST_PASSWORD = '4ZL8j#d{~aI0'
+EMAIL_HOST_PASSWORD = 'cxQ3&g274sz'
 DEFAULT_FROM_EMAIL = 'donotreply@lbcole.com'
+# EMAIL_ACCT receives copies of orders
 EMAIL_ACCT = 'RTSUnlimitedInc@gmail.com'
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
