@@ -34,6 +34,35 @@ from comix.views import UnderConstructionPage
 class MyRegistrationView(RegistrationView):
     def get_success_url(self, user):
         success_url = self.request.POST.get('next', '/')
+
+        # subject = 'RTSComics: Thank You for Creating an Account!'
+        # from_email = settings.DEFAULT_FROM_EMAIL
+        # to_list = [profile.email.strip()] #!! FIX !!
+        # bcc_list = [settings.EMAIL_ACCT, 'wahhab@deepwebworks.com']
+        # text_content = 'We look forward to your visits!'
+        # msg = EmailMultiAlternatives(subject, text_content, from_email, to_list, bcc=bcc_list)
+        # html_content = '<!DOCTYPE html><body><p>Welcome! We look forward to your using our site.</p>'
+        # html_content += '<p>' + 'Your username is' + '</p>' # !! FIX !!
+        #
+        # html_content += '</body>'
+        # msg.attach_alternative(html_content, "text/html")
+        # msg.mixed_subtype = 'related'
+        # msg.send(fail_silently=False)
+        # subject = 'RTSComics: Thank You for Creating an Account!'
+        # from_email = settings.DEFAULT_FROM_EMAIL
+        # to_list = [profile.email.strip()] #!! FIX !!
+        # bcc_list = [settings.EMAIL_ACCT, 'wahhab@deepwebworks.com']
+        # text_content = 'We look forward to your visits!'
+        # msg = EmailMultiAlternatives(subject, text_content, from_email, to_list, bcc=bcc_list)
+        # html_content = '<!DOCTYPE html><body><p>Welcome! We look forward to your using our site.</p>'
+        # html_content += '<p>' + 'Your username is' + '</p>' # !! FIX !!
+        #
+        # html_content += '</body>'
+        # msg.attach_alternative(html_content, "text/html")
+        # msg.mixed_subtype = 'related'
+        # msg.send(fail_silently=False)
+
+
         return success_url
 
 
@@ -41,8 +70,8 @@ urlpatterns = [
     # TEMPORARY: make site point to Under Construction
     # url(r'^.?', UnderConstructionPage.as_view(), name="under_contruction"),
 
-    # TODO: Temporary test
-    url(r'^stripetest/', TestStripe.as_view(), name="stripetest"),
+    # # TODO: Temporary test
+    # url(r'^stripetest/', TestStripe.as_view(), name="stripetest"),
 
     url(r'^admin/', admin.site.urls),
 
@@ -78,7 +107,7 @@ urlpatterns = [
         r'-[0-9A-Za-z]{1,20})/$',
         auth_views.PasswordResetConfirmView.as_view(
             template_name='user/password_reset_confirm.html',
-            extra_context={'post_reset_redirect': reverse_lazy('pw_reset_complete')}
+            extra_context={'post_reset_redirect': reverse_lazy('password_reset_complete')}
         ),
         name='pw_reset_confirm'),
     url(r'reset/done/$',
@@ -86,7 +115,7 @@ urlpatterns = [
             template_name='user/password_reset_complete.html',
             extra_context={'form': AuthenticationForm}
         ),
-        name='pw_reset_complete'),
+        name='password_reset_complete'),
 
     url('^accounts/register', MyRegistrationView.as_view(), name='registration_register'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
