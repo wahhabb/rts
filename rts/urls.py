@@ -25,8 +25,11 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.generic import TemplateView
 
 from contact import urls as contact_urls
-from imports.views import ImportExcelView, ShowSalesView
+from imports.views import ImportExcelView, ShowSalesView, ProcessImagesView
 from orders.views import AccountUpdate, TestStripe
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+
 from comix.views import UnderConstructionPage
 
 # Allow registration to return to page it came from
@@ -34,33 +37,24 @@ from comix.views import UnderConstructionPage
 class MyRegistrationView(RegistrationView):
     def get_success_url(self, user):
         success_url = self.request.POST.get('next', '/')
+        if success_url == '':
+            success_url = '/'
 
-        # subject = 'RTSComics: Thank You for Creating an Account!'
-        # from_email = settings.DEFAULT_FROM_EMAIL
-        # to_list = [profile.email.strip()] #!! FIX !!
-        # bcc_list = [settings.EMAIL_ACCT, 'wahhab@deepwebworks.com']
-        # text_content = 'We look forward to your visits!'
-        # msg = EmailMultiAlternatives(subject, text_content, from_email, to_list, bcc=bcc_list)
-        # html_content = '<!DOCTYPE html><body><p>Welcome! We look forward to your using our site.</p>'
-        # html_content += '<p>' + 'Your username is' + '</p>' # !! FIX !!
-        #
-        # html_content += '</body>'
-        # msg.attach_alternative(html_content, "text/html")
-        # msg.mixed_subtype = 'related'
-        # msg.send(fail_silently=False)
-        # subject = 'RTSComics: Thank You for Creating an Account!'
-        # from_email = settings.DEFAULT_FROM_EMAIL
-        # to_list = [profile.email.strip()] #!! FIX !!
-        # bcc_list = [settings.EMAIL_ACCT, 'wahhab@deepwebworks.com']
-        # text_content = 'We look forward to your visits!'
-        # msg = EmailMultiAlternatives(subject, text_content, from_email, to_list, bcc=bcc_list)
-        # html_content = '<!DOCTYPE html><body><p>Welcome! We look forward to your using our site.</p>'
-        # html_content += '<p>' + 'Your username is' + '</p>' # !! FIX !!
-        #
-        # html_content += '</body>'
-        # msg.attach_alternative(html_content, "text/html")
-        # msg.mixed_subtype = 'related'
-        # msg.send(fail_silently=False)
+        subject = 'RTSComics: Thank You for Creating an Account!'
+        from_email = settings.DEFAULT_FROM_EMAIL
+        to_list = [self.request.user.email]
+        bcc_list = [settings.EMAIL_ACCT, 'wahhab@deepwebworks.com']
+
+        text_content = 'We look forward to your visits!'
+        msg = EmailMultiAlternatives(subject, text_content, from_email, to_list, bcc=bcc_list)
+        html_content = '<!DOCTYPE html><body><p>Welcome! We look forward to your using our site.</p>'
+        html_content += '<p>Your username is %s</p>' % self.request.user.username
+        html_content += '<p>As a registered member, we may send you occasional newsletters and ' \
+                        + 'announcements. You may opt out at any time.</p>'
+        html_content += '</body>'
+        msg.attach_alternative(html_content, "text/html")
+        msg.mixed_subtype = 'related'
+        msg.send(fail_silently=False)
 
 
         return success_url
@@ -70,16 +64,12 @@ urlpatterns = [
     # TEMPORARY: make site point to Under Construction
     # url(r'^.?', UnderConstructionPage.as_view(), name="under_contruction"),
 
-    # # TODO: Temporary test
+    # # TODO: Remove this Temporary test
     # url(r'^stripetest/', TestStripe.as_view(), name="stripetest"),
 
     url(r'^admin/', admin.site.urls),
 
     url(r'^', include('comix.urls')),
-
-    # url(r'^login/$', auth_views.login, {'template_name': 'user/login.html'}, name='login'),
-    #
-    # url(r'^logout/$', auth_views.logout, {'template_name': 'user/logout.html'}, name='logout'),
 
     url(r'^login/$', auth_views.LoginView.as_view(template_name='user/login.html'), name='login'),
 
@@ -130,6 +120,7 @@ urlpatterns = [
 
     url(r'^importexcel/$', ImportExcelView.as_view(), name='import_excel'),
     url(r'^showsales/$', ShowSalesView.as_view(), name='show_sales'),
+    url(r'^processimages/$', ProcessImagesView.as_view(), name='process_images'),
 
     url(r'^robots.txt$', TemplateView.as_view(template_name="robots.txt", content_type="text/plain"), name="robots_file"),
     url(r'^sitemap.txt$', TemplateView.as_view(template_name='sitemap.txt', content_type='text/plain'), name="sitemap"),

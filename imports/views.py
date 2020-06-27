@@ -3,13 +3,15 @@ from django.views.generic.list import  View
 import logging
 import os.path
 from openpyxl import load_workbook, Workbook
-from comix.models import Issue
 from decimal import *
 from .forms import UploadFileForm
 from django.http import HttpResponseRedirect
 from rts.settings import MEDIA_ROOT
 from imports.models import SalesReports
 from datetime import datetime
+from PIL import Image as PIL_Image
+from comix.models import Issue, Image
+from django.core.exceptions import ObjectDoesNotExist
 
 logger = logging.getLogger(__name__)
 min_custom = 10000000
@@ -19,7 +21,6 @@ def scrape_image(gcd_issue_id):
     import urllib.request
     from bs4 import BeautifulSoup
     import re
-    from PIL import Image
     from time import sleep
 
     sleep(2)  # Avoid Error 509 Bandwidth limitation
@@ -42,7 +43,7 @@ def scrape_image(gcd_issue_id):
         # Now create thumbnail
         size = (100, 156)
         thumb_filename = 'comix/static/thumbnails/' + filename
-        im = Image.open(saved_filename)
+        im = PIL_Image.open(saved_filename)
         im.thumbnail(size)
         im.save(thumb_filename, "JPEG")
     return filename
@@ -65,6 +66,8 @@ class ShowSalesView(View):
     template_name = 'imports/sales.html'
 
     def get(self, request):
+        if not request.user.is_staff:
+            return HttpResponseRedirect('/login')
         last_report = SalesReports.objects.first()
         return render(request, self.template_name,
                       {'last_report_date': last_report.last_report,}
@@ -217,6 +220,61 @@ class ImportExcelView(View):
                    'display': False,
                    'type_error': False,
                               }
+        return render(
+            request, self.template_name, context
+        )
+
+class ProcessImagesView(View):
+    template_name = 'process_images.html'
+    gcd_series_recs = None
+
+    def get(self, request):
+        if not request.user.is_staff:
+            return HttpResponseRedirect('/login')
+        files_dir = os.path.join(MEDIA_ROOT[0], 'images/')
+        image_list = os.listdir(files_dir)
+        errors = []
+        warnings = []
+        processed = []
+        for image in image_list:
+            if image[0] == '.':
+                continue
+            source = files_dir + image
+            try:
+                seq = image.split('_')[1][0]    # will cause "list index out of range" error if not formatted correctly
+                print("Saving image for", image)
+                issue = Issue.objects.get(catalog_id=image.split('_')[0])
+                # remove any existing image reference
+                issue.images.filter(file_name__startswith=image.split('_')[0] + image.split('_')[1][0]).delete()
+                # also remove any cover images from GCD
+                issue.images.filter(is_scanned=False).delete()
+
+                page_filename = 'comix/static/bigImages/' + image
+                if os.path.exists(page_filename):
+                    os.remove(page_filename)
+                os.rename(source, page_filename)
+                if seq == '1':
+                    # create (or update) thumbnail for cover
+                    size = (100, 156)
+                    thumb_filename = 'comix/static/thumbnails/' + image
+                    im = PIL_Image.open(page_filename)
+                    im.thumbnail(size)
+                    im.save(thumb_filename, "JPEG")
+                new_image = Image(is_scanned=True, file_name=image)
+                new_image.save()
+                issue.images.add(new_image)
+                processed.append(image)
+            except IndexError:
+                errors.append(image)
+            except ObjectDoesNotExist:
+                warnings.append(image)
+
+        context = {
+            'errors': errors,
+            'warnings': warnings,
+            'images': processed,
+            'process_ct': len(processed),
+        }
         return render(
             request, self.template_name, context
         )

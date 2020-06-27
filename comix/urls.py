@@ -1,11 +1,17 @@
 from django.conf.urls import url
 from comix.views import *
+from django.conf import settings
 
-urlpatterns = [
 
 # TODO TEMPORARY: Make home point to PhotoJournals
-    url(r'^$', PhotoJournalPage.as_view(), name='photojournals'),
-    url(r'^issues/$', PhotoJournalPage.as_view(), name='photojournals'),  # delete both to show issues
+# NOTE!! You must also uncomment the TODO in base.html to recover the search feature
+urltemp = []
+if settings.NO_COMIX:
+    urltemp = [
+        url(r'^$', PhotoJournalPage.as_view(), name='photojournals'),
+        url(r'^issues/$', PhotoJournalPage.as_view(), name='photojournals'),  # delete both to show issues
+    ]
+urlpatterns = urltemp + [
 
     url(r'^$', IssueList.as_view(), name='issue_list'),
 

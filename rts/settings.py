@@ -29,8 +29,8 @@ ALLOWED_HOSTS = ['www.rtscomics.com', 'localhost', '127.0.0.1']
 
 # Site and SEO Information
 SITE_NAME = 'RTS Comics'
-META_KEYWORDS = 'Comics, Comix, Comics Books, Buy Comics'
-META_DESCRIPTION = 'Comic collectors helping comic collectors since 1986. Your best source for comics.'
+META_KEYWORDS = 'Comics, Comix, Comic Books, Buy Comics'
+META_DESCRIPTION = 'Comic collectors helping comic collectors since 1986. Your best source for comics and supplies.'
 if DEBUG:
     SITE_URL = 'http://127.0.0.1:8000'
 else:
@@ -38,6 +38,10 @@ else:
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
+
+LOGIN_REDIRECT_URL = '/issues/'
+NO_COMIX = True    # True will make Photo-Journals the home page and hide comic pages.
+                    # Also uncomment TODO in base.html if set to False
 
 # Application definition
 
@@ -58,6 +62,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'djdev_panel.middleware.DebugMiddleware',  # Supports Chrome Django Developer Panel plugin
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -136,6 +141,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+ACCOUNT_ACTIVATION_DAYS = 30
 
 # Stripe
 if DEBUG:
@@ -172,7 +178,6 @@ else:
     STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
     MEDIA_ROOT = (os.path.join(BASE_DIR, "uploads"),)
 
-LOGIN_REDIRECT_URL = '/issues/'
 
 # EMAIL_PORT = 587
 # EMAIL_USE_TLS = True

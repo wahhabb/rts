@@ -16,7 +16,7 @@
                  alt="Cover of {{ issue.title }} #{{ issue.number }}" class="img-responsive rounded">
             {% if issue.images.all.0.file_name != 'coming_soon.jpg' %}
                 <div class="clearfix center-text">
-                {% if issue.image_scanned == False  %}
+                {% if issue.images.all.0.is_scanned == False  %}
                     Stock photo from
                     <a href="http://www.comics.org" target="_blank">Comics.org</a>.
                 {% else %}
