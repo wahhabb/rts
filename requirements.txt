@@ -23,7 +23,7 @@ lxml==4.5.0
 mongoengine==0.15.0
 monotonic==1.5
 mysqlclient==1.4.6
-openpyxl==2.4.0
+openpyxl==2.4.2
 Pillow==7.0.0
 pyexcel==0.2.5
 pyexcel-io==0.2.3
